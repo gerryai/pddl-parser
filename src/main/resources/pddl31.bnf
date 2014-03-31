@@ -1,0 +1,175 @@
+
+<domain> ::= (define (domain <name>)
+[<require-def>]
+[<types-def>]:typing
+[<constants-def>]
+[<predicates-def>]
+[<functions-def>]:fluents
+[<constraints>]
+<structure-def>*)
+<require-def> ::= (:requirements <require-key>+)
+<require-key> ::= See Section 1.3
+<types-def> ::= (:types <typed list (name)>)
+<constants-def> ::= (:constants <typed list (name)>)
+<predicates-def> ::= (:predicates <atomic formula skeleton>+)
+<atomic formula skeleton> ::= (<predicate> <typed list (variable)>)
+<predicate> ::= <name>
+<variable> ::= ?<name>
+<atomic function skeleton> ::= (<function-symbol> <typed list (variable)>)
+<function-symbol> ::= <name>
+<functions-def> ::=
+:fluents (:functions <function typed list (atomic function skeleton)>)
+<function typed list (x)> ::= x
++ - <function type> <function typed list(x)>
+<function typed list (x)> ::=
+<function typed list (x)> ::=
+:numeric-fluents x
++
+ This is deprecated since PDDL 3.1, where the default fluent type is number.
+<function type> ::=
+:numeric-fluents number
+<function type> ::=
+:typing + :object-fluents <type>
+<constraints> ::=
+:constraints (:constraints <con-GD>)
+<structure-def> ::= <action-def>
+<structure-def> ::=
+:durative−actions <durative-action-def>
+<structure-def> ::=
+:derived−predicates <derived-def>
+<typed list (x)> ::= x*
+<typed list (x)> ::=
+:typing x
++ - <type> <typed list(x)>
+<primitive-type> ::= <name>
+<primitive-type> ::= object
+<type> ::= (either <primitive-type>+)
+<type> ::= <primitive-type>
+<emptyOr (x)> ::= ()
+<emptyOr (x)> ::= x
+<action-def> ::= (:action <action-symbol>
+:parameters (<typed list (variable)>)
+<action-def body>)
+<action-symbol> ::= <name>
+<action-def body> ::= [:precondition <emptyOr (pre-GD)>]
+ [:effect <emptyOr (effect)>]
+<pre-GD> ::= <pref-GD>
+<pre-GD> ::= (and <pre-GD>*)
+<pre-GD> ::=
+:universal−preconditions (forall (<typed list(variable)>) <pre-GD>)
+<pref-GD> ::=
+:preferences (preference [<pref-name>] <GD>)
+<pref-GD> ::= <GD>
+<pref-name> ::= <name>
+<GD> ::= <atomic formula(term)>
+<GD> ::=
+:negative−preconditions <literal(term)>
+<GD> ::= (and <GD>*)
+<GD> ::=
+:disjunctive−preconditions (or <GD>*)
+<GD> ::=
+:disjunctive−preconditions (not <GD>)
+<GD> ::=
+:disjunctive−preconditions (imply <GD> <GD>)
+<GD> ::=
+:existential−preconditions (exists (<typed list(variable)>) <GD> )
+<GD> ::=
+:universal−preconditions (forall (<typed list(variable)>) <GD> )
+<GD> ::=
+:numeric-fluents <f-comp>
+<f-comp> ::= (<binary-comp> <f-exp> <f-exp>)
+<literal(t)> ::= <atomic formula(t)>
+<literal(t)> ::= (not <atomic formula(t)>)
+<atomic formula(t)> ::= (<predicate> t*)
+<atomic formula(t)> ::=
+:equality (= t t)
+<term> ::= <name>
+<term> ::= <variable>
+<term> ::=:object-fluents <function-term>
+<function-term> ::=:object-fluents (<function-symbol> <term>*)
+<f-exp> ::=:numeric-fluents <number>
+<f-exp> ::=:numeric-fluents (<binary-op> <f-exp> <f-exp>)
+<f-exp> ::=:numeric-fluents (<multi-op> <f-exp> <f-exp>+)
+<f-exp> ::=:numeric-fluents (- <f-exp>)
+<f-exp> ::=:numeric-fluents <f-head>
+<f-head> ::= (<function-symbol> <term>*)
+<f-head> ::= <function-symbol>
+<binary-op> ::= <multi-op>
+<binary-op> ::= −
+<binary-op> ::= /
+<multi-op> ::= *
+<multi-op> ::= +
+<binary-comp> ::= >
+<binary-comp> ::= <
+<binary-comp> ::= =
+<binary-comp> ::= >=
+<binary-comp> ::= <=
+<name> ::= <letter> <any char>*
+<letter> ::= a..z | A..Z
+<any char> ::= <letter> | <digit> | - | _
+<number> ::= <digit>+ [<decimal>]
+<digit> ::= 0..9
+<decimal> ::= .<digit>+
+<effect> ::= (and <c-effect>*)
+<effect> ::= <c-effect>
+<c-effect> ::=:conditional−effects (forall (<typed list (variable)>) <effect>)
+<c-effect> ::=:conditional−effects (when <GD> <cond-effect>)
+<c-effect> ::= <p-effect>
+<p-effect> ::= (not <atomic formula(term)>)
+<p-effect> ::= <atomic formula(term)>
+<p-effect> ::=:numeric-fluents (<assign-op> <f-head> <f-exp>)
+<p-effect> ::=:object-fluents (assign <function-term> <term>)
+<p-effect> ::=:object-fluents (assign <function-term> undefined)
+<cond-effect> ::= (and <p-effect>*)
+<cond-effect> ::= <p-effect>
+<assign-op> ::= assign
+<assign-op> ::= scale-up
+<assign-op> ::= scale-down
+<assign-op> ::= increase
+<assign-op> ::= decrease
+<durative-action-def> ::= (:durative-action <da-symbol>
+:parameters (<typed list (variable)>)
+<da-def body>)
+<da-symbol> ::= <name>
+<da-def body> ::= :duration <duration-constraint>
+ :condition <emptyOr (da-GD)>
+ :effect <emptyOr (da-effect)>
+<da-GD> ::= <pref-timed-GD>
+<da-GD> ::= (and <da-GD>*)
+<da-GD> ::=:universal−preconditions (forall (<typed-list (variable)>) <da-GD>)
+<pref-timed-GD> ::= <timed-GD>
+<pref-timed-GD> ::=:preferences (preference [<pref-name>] <timed-GD>)
+<timed-GD> ::= (at <time-specifier> <GD>)
+<timed-GD> ::= (over <interval> <GD>)
+<time-specifier> ::= start
+<time-specifier> ::= end
+<interval> ::= all
+<duration-constraint> ::=:duration−inequalities (and <simple-duration-constraint>+)
+<duration-constraint> ::= ()
+<duration-constraint> ::= <simple-duration-constraint>
+<simple-duration-constraint> ::= (<d-op> ?duration <d-value>)
+<simple-duration-constraint> ::= (at <time-specifier> <simple-duration-constraint>)
+<d-op> ::=:duration−inequalities <=
+<d-op> ::=:duration−inequalities >=
+<d-op> ::= =
+<d-value> ::= <number>
+<d-value> ::=:numeric-fluents <f-exp>
+<da-effect> ::= (and <da-effect>*)
+<da-effect> ::= <timed-effect>
+<da-effect> ::=:conditional−effects (forall (<typed list (variable)>) <da-effect>)
+<da-effect> ::=:conditional−effects (when <da-GD> <timed-effect>)
+<timed-effect> ::= (at <time-specifier> <cond-effect>)
+<timed-effect> ::=:numeric-fluents (at <time-specifier> <f-assign-da>)
+<timed-effect> ::=:continuous−effects + :numeric-fluents (<assign-op-t> <f-head> <f-exp-t>)
+<f-assign-da> ::= (<assign-op> <f-head> <f-exp-da>)
+<f-exp-da> ::= (<binary-op> <f-exp-da> <f-exp-da>)
+<f-exp-da> ::= (<multi-op> <f-exp-da> <f-exp-da>+)
+<f-exp-da> ::= (- <f-exp-da>)
+<f-exp-da> ::=:duration−inequalities ?duration
+<f-exp-da> ::= <f-exp>
+<assign-op-t> ::= increase
+<assign-op-t> ::= decrease
+<f-exp-t> ::= (* <f-exp> #t)
+<f-exp-t> ::= (* #t <f-exp>)
+<f-exp-t> ::= #t
+<derived-def> ::= (:derived <atomic formula skeleton> <GD>)
