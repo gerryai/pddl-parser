@@ -6,5 +6,8 @@ package org.gerryai.pddl.model;
 public enum Requirement {
     STRIPS,
     NEGATIVE_PRECONDITIONS,
-    EQUALITY
+    EQUALITY,
+    TYPING,
+    UNIVERSAL_PRECONDITIONS,
+    CONDITIONAL_EFFECTS
 }

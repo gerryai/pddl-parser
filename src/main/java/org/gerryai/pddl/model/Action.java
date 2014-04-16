@@ -2,6 +2,7 @@ package org.gerryai.pddl.model;
 
 import com.google.common.base.Optional;
 import org.gerryai.pddl.model.logic.Formula;
+import org.gerryai.pddl.model.logic.Type;
 import org.gerryai.pddl.model.logic.Variable;
 
 import java.util.ArrayList;
@@ -115,6 +116,17 @@ public class Action {
          */
         public Builder parameter(final String parameter) {
             this.parameters.add(new Variable(parameter));
+            return this;
+        }
+
+        /**
+         * Add a parameter for the action being built.
+         * @param parameter the parameter to add
+         * @param type the type that the parameter must have
+         * @return an updated builder
+         */
+        public Builder parameter(final String parameter, final Type type) {
+            this.parameters.add(new Variable(parameter, type));
             return this;
         }
 

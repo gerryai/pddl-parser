@@ -1,16 +1,19 @@
 package org.gerryai.pddl.model;
 
-import org.gerryai.pddl.model.logic.Constant;
+import org.gerryai.pddl.model.logic.ConstantDefinition;
 import org.gerryai.pddl.model.logic.Predicate;
+import org.gerryai.pddl.model.logic.TypeDefinition;
 
 /**
  * Class defining a PDDL domain.
+ * TODO: Ensure that types are only supported if the :typing requirement is present, etc
  */
 public class Domain {
 
     private String name;
     private Requirements requirements;
-    private Constants constants;
+    private TypeDefinitions types;
+    private ConstantDefinitions constants;
     private Predicates predicates;
     private Actions actions;
 
@@ -21,6 +24,7 @@ public class Domain {
     private Domain(final Builder builder) {
         this.name = builder.name;
         this.requirements = builder.requirementsBuilder.build();
+        this.types = builder.typesBuilder.build();
         this.constants = builder.constantsBuilder.build();
         this.predicates = builder.predicatesBuilder.build();
         this.actions = builder.actionsBuilder.build();
@@ -43,10 +47,18 @@ public class Domain {
     }
 
     /**
+     * Get the types used by this domain.
+     * @return the types
+     */
+    public TypeDefinitions getTypes() {
+        return types;
+    }
+
+    /**
      * Get the domain's constants.
      * @return the constants
      */
-    public Constants getConstants() {
+    public ConstantDefinitions getConstants() {
         return constants;
     }
     /**
@@ -71,7 +83,8 @@ public class Domain {
 
         private String name;
         private Requirements.Builder requirementsBuilder  = new Requirements.Builder();
-        private Constants.Builder constantsBuilder  = new Constants.Builder();
+        private TypeDefinitions.Builder typesBuilder = new TypeDefinitions.Builder();
+        private ConstantDefinitions.Builder constantsBuilder  = new ConstantDefinitions.Builder();
         private Predicates.Builder predicatesBuilder = new Predicates.Builder();
         private Actions.Builder actionsBuilder = new Actions.Builder();
 
@@ -91,16 +104,26 @@ public class Domain {
          * @return an updated builder
          */
         public Builder requirement(final Requirement requirement) {
-            requirementsBuilder = requirementsBuilder.addRequirement(requirement);
+            requirementsBuilder = requirementsBuilder.requirement(requirement);
             return this;
         }
 
         /**
-         * Add a constant.
+         * Add a type definition to the set of types this domain will use.
+         * @param typeDefinition the type
+         * @return an updated builder
+         */
+        public Builder type(final TypeDefinition typeDefinition) {
+            typesBuilder = typesBuilder.type(typeDefinition);
+            return this;
+        }
+
+        /**
+         * Add a constant definition.
          * @param constant the constant to add
          * @return an updated builder
          */
-        public Builder constant(final Constant constant) {
+        public Builder constant(final ConstantDefinition constant) {
             constantsBuilder = constantsBuilder.constant(constant);
             return this;
         }

@@ -6,12 +6,16 @@ grammar PDDL31;
 
 @parser::members {
     public boolean equality = false;
+    public boolean typing = false;
     public boolean negativePreconditions = false;
+    public boolean universalPreconditions = false;
+    public boolean conditionalEffects = false;
 }
 
 domain
     : '(' 'define' domainName
     requireDef?
+    typesDef?
     constantsDef?
     predicatesDef?
     structureDef*
@@ -26,8 +30,43 @@ requireDef
     : '(' ':requirements' requireKey+ ')'
     ;
 
+typesDef
+    : {typing}? '(' ':types' typeDefList ')'
+    ;
+
+typeDefList
+    : typeDefListOfNoType
+    | typeDefListOfType typeDefList
+    ;
+
+typeDefListOfNoType
+    : typeDef*
+    ;
+
+typeDefListOfType
+    : typeDef+ '-' type
+    ;
+
+typeDef
+    : NAME
+    ;
+
+primitiveType
+    : NAME
+    //| 'object' // TODO: Remove this to ensure objects are picked up by the NAME rule.
+    ;
+
+eitherType
+    : '(' 'either' primitiveType+ ')'
+    ;
+
+type
+    : eitherType
+    | primitiveType
+    ;
+
 constantsDef
-    : '(' ':constants' constantDef+ ')'
+    : '(' ':constants' constantDefList ')'
     ;
 
 predicatesDef
@@ -38,15 +77,41 @@ structureDef
     : actionDef
     ;
 
+constantDefList
+    : constantDefListOfNoType
+    | {typing}? constantDefListOfType constantDefList
+    ;
+
+constantDefListOfNoType
+    : constantDef*
+    ;
+
+constantDefListOfType
+    : constantDef+ '-' type
+    ;
+
 constantDef
-    : constant
+    : NAME
     ;
 
 predicateDef
     : ungroundPredicate
     ;
 
-ungroundPredicate: '(' predicateName variable* ')';
+ungroundPredicate: '(' predicateName typedVariableList ')';
+
+typedVariableList
+    : typedVariableListOfNoType
+    | {typing}? typedVariableListOfType typedVariableList
+    ;
+
+typedVariableListOfNoType
+    :variable*
+    ;
+
+typedVariableListOfType
+    : variable+ '-' type
+    ;
 
 predicateName: NAME;
 
@@ -59,7 +124,7 @@ actionDef
 actionSymbol: NAME;
 
 actionParams
-    : ':parameters' '(' variable+ ')'
+    : ':parameters' '(' typedVariableList ')'
     ;
 
 actionDefBody
@@ -67,43 +132,43 @@ actionDefBody
     ;
 
 actionPrecondition
-    : (':precondition' (('(' ')') | preGD))
+    : (':precondition' (('(' ')') | preconditionGoalDescription))
     ;
 
 actionEffect
     : (':effect' (('(' ')') | effect))
     ;
 
-preGD
-    : prefGD
-    | preGDAnd
-    //| {universal−preconditions}? '(' 'forall' '(' variable ')' preGD ')'
+preconditionGoalDescription
+    : preferencesGoalDescription
+    | preconditionGoalDescriptionAnd
+    | {universalPreconditions}? '(' 'forall' '(' variable ')' preconditionGoalDescription ')'
     ;
 
-preGDAnd
-    : '(' 'and' preGD* ')'
+preconditionGoalDescriptionAnd
+    : '(' 'and' preconditionGoalDescription* ')'
     ;
 
-prefGD
+preferencesGoalDescription
     : //:preferences (preference [<pref-name>] <GD>)
     // |
-     goalDesc
+     goalDescription
     ;
 
-goalDesc
+goalDescription
     : atomicFormulaTerm
-    | {negativePreconditions}? literalTerm //:negative−preconditions
-    | goalDescAnd
+    | {negativePreconditions}? literalTerm
+    | goalDescriptionAnd
 //<GD> ::= :disjunctive−preconditions (or <GD>*)
 //<GD> ::= :disjunctive−preconditions (not <GD>)
 //<GD> ::= :disjunctive−preconditions (imply <GD> <GD>)
 //<GD> ::= :existential−preconditions (exists (<typed list(variable)>) <GD> )
-//<GD> ::= :universal−preconditions (forall (<typed list(variable)>) <GD> )
+    | {universalPreconditions}? '(' 'forall' '(' typedVariableList ')' goalDescription ')'
 //<GD> ::= :numeric-fluents <f-comp>
     ;
 
-goalDescAnd
-    : '(' 'and' goalDesc* ')'
+goalDescriptionAnd
+    : '(' 'and' goalDescription* ')'
     ;
 
 effect
@@ -116,10 +181,17 @@ cEffectAnd
     ;
 
 cEffect
-    : //:conditional−effects (forall (<typed list (variable)>) <effect>)
-    // | :conditional−effects (when <GD> <cond-effect>)
-    // |
-    pEffect
+    : {conditionalEffects}? forAllEffect
+    | {conditionalEffects}? whenEffect
+    | pEffect
+    ;
+
+forAllEffect
+    : '(' 'forall' '(' typedVariableList ')' effect ')'
+    ;
+
+whenEffect
+    : '(' 'when' goalDescription condEffect ')'
     ;
 
 pEffect
@@ -128,6 +200,15 @@ pEffect
     //<p-effect> ::=:numeric-fluents (<assign-op> <f-head> <f-exp>)
     //<p-effect> ::=:object-fluents (assign <function-term> <term>)
     //<p-effect> ::=:object-fluents (assign <function-term> undefined)
+    ;
+
+condEffect
+    : condEffectAnd
+    | pEffect
+    ;
+
+condEffectAnd
+    : '(' 'and' pEffect* ')'
     ;
 
 negatedAtomicFormulaTerm
@@ -166,15 +247,15 @@ variable: '?' NAME;
 
 requireKey
     : ':strips'   // Basic STRIPS-style adds and deletes
-//    | ':typing' // Allow type names in declarations of variables
+    | ':typing' {typing = true;} // Allow type names in declarations of variables
     | ':negative-preconditions' {negativePreconditions = true;} // Allow not in goal descriptions
 //    | ':disjunctive-preconditions' // Allow or in goal descriptions
     | ':equality' {equality = true;} // Support = as built-in predicate
 //    | ':existential-preconditions' // Allow exists in goal descriptions
-//    | {universal−preconditions}? ':universal-preconditions' // Allow forall in goal descriptions
+    | ':universal-preconditions' {universalPreconditions = true;} // Allow forall in goal descriptions
 //    | ':quantified-preconditions' = :existential-preconditions
 //+ :universal-preconditions
-//    | ':conditional-effects' // Allow when in action effects
+    | ':conditional-effects' {conditionalEffects = true;} // Allow when in action effects
 //    | ':fluents' = :numeric-fluents
 //+ :object-fluents
 //    | ':numeric-fluents' // Allow numeric function definitions and use of effects using assignment operators and arithmetic preconditions.

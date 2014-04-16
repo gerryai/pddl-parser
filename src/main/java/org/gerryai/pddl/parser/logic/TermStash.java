@@ -1,12 +1,15 @@
 package org.gerryai.pddl.parser.logic;
 
+import com.google.common.base.Optional;
 import org.gerryai.pddl.model.logic.Constant;
 import org.gerryai.pddl.model.logic.Term;
+import org.gerryai.pddl.model.logic.Type;
 import org.gerryai.pddl.model.logic.Variable;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -19,14 +22,38 @@ public class TermStash {
     /**
      * Used to hold any terms we come across.
      */
-    private Deque<Term> termDeque = new ArrayDeque<>();
+    private Deque<TermStashItem> termDeque = new ArrayDeque<>();
 
     /**
-     * Add a term to the queue to be collected.
-     * @param term the term to add
+     * Add a constant to the queue to be collected.
+     * @param name the name of the constant to add
      */
-    public void add(final Term term) {
-        termDeque.add(term);
+    public void addConstant(final String name) {
+        termDeque.add(new TermStashItem(name, TermType.CONSTANT));
+    }
+
+    /**
+     * Add a variable to the queue to be collected.
+     * @param name the name of the variable to add
+     */
+    public void addVariable(final String name) {
+        termDeque.add(new TermStashItem(name, TermType.VARIABLE));
+    }
+
+    /**
+     * Apply the given type to the untyped terms in the stash.
+     * @param type the type
+     */
+    public void apply(final Type type) {
+        Iterator<TermStashItem> itemIterator = termDeque.descendingIterator();
+        while (itemIterator.hasNext()) {
+            TermStashItem item = itemIterator.next();
+            if (item.getType().isPresent()) {
+                break;
+            } else {
+                item.setType(type);
+            }
+        }
     }
 
     /**
@@ -67,7 +94,14 @@ public class TermStash {
      * @return the term
      */
     public Term remove() {
-        return termDeque.removeFirst();
+        switch (termDeque.peekFirst().getTermType()) {
+            case CONSTANT:
+                return dequeueConstant();
+            case VARIABLE:
+                return dequeueVariable();
+            default:
+                throw new IllegalStateException("Unexpected term type");
+        }
     }
 
     /**
@@ -94,8 +128,9 @@ public class TermStash {
         if (termDeque.isEmpty()) {
             throw new NoSuchElementException();
         } else {
-            if (termDeque.peekFirst() instanceof Constant) {
-                return (Constant) termDeque.removeFirst();
+            if (TermType.CONSTANT.equals(termDeque.peekFirst().getTermType())) {
+                TermStashItem item = termDeque.removeFirst();
+                return new Constant(item.getName());
             } else {
                 throw new IllegalStateException("First element of the queue was not a variable");
             }
@@ -110,11 +145,76 @@ public class TermStash {
         if (termDeque.isEmpty()) {
             throw new NoSuchElementException();
         } else {
-            if (termDeque.peekFirst() instanceof Variable) {
-                return (Variable) termDeque.removeFirst();
+            if (TermType.VARIABLE.equals(termDeque.peekFirst().getTermType())) {
+                TermStashItem item = termDeque.removeFirst();
+                if (item.getType().isPresent()) {
+                    return new Variable(item.getName(), item.getType().get());
+                } else {
+                    return new Variable(item.getName());
+                }
             } else {
                 throw new IllegalStateException("First element of the queue was not a variable");
             }
+        }
+    }
+
+    /**
+     * Used to record whether a term in the stash will be a constant or a variable when it is built.
+     */
+    private enum TermType {
+        CONSTANT,
+        VARIABLE
+    }
+
+    /**
+     * An item in the term stash.
+     */
+    private class TermStashItem {
+
+        private TermType termType;
+        private String name;
+        private Optional<Type> type = Optional.absent();
+
+        /**
+         * Constuctor.
+         * @param name the name of the term
+         * @param termType the type of the term
+         */
+        public TermStashItem(final String name, final TermType termType) {
+            this.name = name;
+            this.termType = termType;
+        }
+
+        /**
+         * Get the {@link org.gerryai.pddl.parser.logic.TermStash.TermType} - whether it is a constant or a variable.
+         * @return the type of term
+         */
+        public TermType getTermType() {
+            return termType;
+        }
+
+        /**
+         * Get the name of the term.
+         * @return the name
+         */
+        public String getName() {
+            return name;
+        }
+
+        /**
+         * Get the term type.
+         * @return the term type
+         */
+        public Optional<Type> getType() {
+            return type;
+        }
+
+        /**
+         * Set the term type.
+         * @param type the type
+         */
+        public void setType(final Type type) {
+            this.type = Optional.fromNullable(type);
         }
     }
 }

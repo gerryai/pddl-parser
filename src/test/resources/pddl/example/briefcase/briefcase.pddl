@@ -1,5 +1,5 @@
 (define (domain briefcase)
-(:requirements :strips :typing :conditional-effects :universal-preconditions)
+(:requirements :strips :typing :negative-preconditions :conditional-effects)
 (:types portable location - object)
 (:predicates (at ?y - portable ?x - location)
              (in ?x - portable)
@@ -17,7 +17,7 @@
       :parameters (?x - portable)
       :precondition (in ?x)
       :effect (not (in ?x)))
-      
+
   (:action put-in
       :parameters (?x - portable ?l - location)
       :precondition (and (not (in ?x)) (at ?x ?l) (is-at ?l))

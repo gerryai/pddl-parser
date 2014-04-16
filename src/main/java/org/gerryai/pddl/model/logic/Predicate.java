@@ -93,6 +93,17 @@ public class Predicate implements AtomicFormula {
 
         /**
          * Add a new variable to the list of terms to be used by this predicate.
+         * @param name the name of the variable
+         * @param type the type of the variable
+         * @return an updated builder
+         */
+        public Builder variable(final String name, final Type type) {
+            terms.add(new Variable(name, type));
+            return this;
+        }
+
+        /**
+         * Add a new variable to the list of terms to be used by this predicate.
          * @param variable the variable to add
          * @return an updated builder
          */

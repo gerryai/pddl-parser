@@ -4,11 +4,13 @@ import com.google.common.base.Optional;
 import org.gerryai.pddl.model.logic.Constant;
 import org.gerryai.pddl.model.logic.Formula;
 import org.gerryai.pddl.model.logic.Predicate;
-import org.gerryai.pddl.model.logic.Term;
+import org.gerryai.pddl.model.logic.Type;
 import org.gerryai.pddl.model.logic.Variable;
 import org.gerryai.pddl.parser.logic.builders.AndBuilder;
 import org.gerryai.pddl.parser.logic.builders.EqualsBuilder;
+import org.gerryai.pddl.parser.logic.builders.ForAllBuilder;
 import org.gerryai.pddl.parser.logic.builders.FormulaBuilder;
+import org.gerryai.pddl.parser.logic.builders.IfThenBuilder;
 import org.gerryai.pddl.parser.logic.builders.NotBuilder;
 import org.gerryai.pddl.parser.logic.builders.PredicateBuilder;
 
@@ -33,6 +35,11 @@ public class LogicStackHandler {
     private TermStash termStash = new TermStash();
 
     /**
+     * The stash of type names awaiting collection.
+     */
+    private TypeStash typeNameStash = new TypeStash();
+
+    /**
      * The stack of formulas being built.
      */
     private FormulaStack formulaStack = new FormulaStack();
@@ -43,11 +50,49 @@ public class LogicStackHandler {
     private FormulaStash formulaStash = new FormulaStash();
 
     /**
-     * Add a term to the stash to be collected.
-     * @param term the term to add
+     * Add a type name to the stash.
+     * @param name the name of the type
      */
-    public void term(final Term term) {
-        termStash.add(term);
+    public void type(final String name) {
+        typeNameStash.add(name);
+    }
+
+    /**
+     * Start collecting a list of types for an (either XXX YYY) list.
+     */
+    public void beginEitherTypeList() {
+        typeNameStash.beginEither();
+    }
+
+    /**
+     * Stop collecting a list of types for an (either XXX YYY) list.
+     */
+    public void endEitherTypeList() {
+        typeNameStash.endEither();
+    }
+
+    /**
+     * Apply the given type to the untyped terms in the term stash.
+     * @param type the type to apply
+     */
+    public void applyType(final Type type) {
+        termStash.apply(type);
+    }
+
+    /**
+     * Add a constant to the stash to be collected.
+     * @param name the name of the constant to add
+     */
+    public void addConstant(final String name) {
+        termStash.addConstant(name);
+    }
+
+    /**
+     * Add a variable to the stash to be collected.
+     * @param name the name of the variable to add
+     */
+    public void addVariable(final String name) {
+        termStash.addVariable(name);
     }
 
     /**
@@ -115,6 +160,34 @@ public class LogicStackHandler {
     }
 
     /**
+     * Begin an if... then... formula.
+     */
+    public void beginIfThen() {
+        beginFormula(FormulaType.IF_THEN);
+    }
+
+    /**
+     * End an if... then... formula.
+     */
+    public void endIfThen() {
+        endFormula(FormulaType.IF_THEN);
+    }
+
+    /**
+     * Begin a for all formula.
+     */
+    public void beginForAll() {
+        beginFormula(FormulaType.FOR_ALL);
+    }
+
+    /**
+     * End a for all formula.
+     */
+    public void endForAll() {
+        endFormula(FormulaType.FOR_ALL);
+    }
+
+    /**
      * Pop the latest formula from the stack.
      * @return the completed formula
      */
@@ -126,6 +199,8 @@ public class LogicStackHandler {
                 return getPredicate();
             case NOT:
             case AND:
+            case IF_THEN:
+            case FOR_ALL:
                 return formulaStash.remove();
             default:
                 throw new IllegalStateException(format("Unimplemented formula type found on stack %s",
@@ -144,6 +219,14 @@ public class LogicStackHandler {
         } else {
             return Optional.absent();
         }
+    }
+
+    /**
+     * Get a completed types.
+     * @return the list of types
+     */
+    public Type getType() {
+        return typeNameStash.remove();
     }
 
     /**
@@ -196,8 +279,9 @@ public class LogicStackHandler {
 //            default:
 //                throw new IllegalStateException(format("Unimplemented formula type %s", type));
 //        }
-        formulaStack.push(type, formulaStash);
+        formulaStack.push(type, formulaStash, termStash);
         formulaStash = new FormulaStash();
+        termStash = new TermStash();
     }
 
     /**
@@ -211,7 +295,9 @@ public class LogicStackHandler {
         checkState(symbolStash.isEmpty(), "Expected symbol stash to be empty after building current formula");
         checkState(termStash.isEmpty(), "Expected term stash to be empty after building current formula");
         checkState(formulaStash.isEmpty(), "Expected formula stash to be empty after building current formula");
-        formulaStash = formulaStack.pop(type);
+        FormulaStack.FormulaStackItem previousStackItem = formulaStack.pop(type);
+        formulaStash = previousStackItem.getFormulaStash();
+        termStash = previousStackItem.getTermStash();
         formulaStash.add(type, formula);
     }
 
@@ -230,6 +316,10 @@ public class LogicStackHandler {
                 return new AndBuilder();
             case EQUALS:
                 return new EqualsBuilder();
+            case IF_THEN:
+                return new IfThenBuilder();
+            case FOR_ALL:
+                return new ForAllBuilder();
             default:
                 throw new IllegalStateException(format("Unimplemented formula type %s", type));
         }

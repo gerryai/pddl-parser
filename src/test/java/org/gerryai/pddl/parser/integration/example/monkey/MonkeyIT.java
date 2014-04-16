@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static org.gerryai.pddl.model.logic.FormulaBuilder.and;
 import static org.gerryai.pddl.model.logic.FormulaBuilder.constant;
-import static org.gerryai.pddl.model.logic.FormulaBuilder.equality;
+import static org.gerryai.pddl.model.logic.FormulaBuilder.constantDefinition;
 import static org.gerryai.pddl.model.logic.FormulaBuilder.not;
 import static org.gerryai.pddl.model.logic.FormulaBuilder.predicate;
 import static org.gerryai.pddl.model.logic.FormulaBuilder.variable;
@@ -37,6 +37,41 @@ public class MonkeyIT extends SuccessTester {
     @Test
     public void monkeyDomainHasStripsRequirement() {
         assertTrue(domain.getRequirements().asSet().contains(Requirement.STRIPS));
+    }
+
+    @Test
+    public void monkeyDomainHasSixConstants() {
+        assertEquals(6, domain.getConstants().asSet().size());
+    }
+
+    @Test
+    public void monkeyDomainHasConstantMonkey() {
+        assertTrue(domain.getConstants().asSet().contains(constantDefinition("monkey")));
+    }
+
+    @Test
+    public void monkeyDomainHasConstantBox() {
+        assertTrue(domain.getConstants().asSet().contains(constantDefinition("box")));
+    }
+
+    @Test
+    public void monkeyDomainHasConstantKnife() {
+        assertTrue(domain.getConstants().asSet().contains(constantDefinition("knife")));
+    }
+
+    @Test
+    public void monkeyDomainHasConstantBananas() {
+        assertTrue(domain.getConstants().asSet().contains(constantDefinition("bananas")));
+    }
+
+    @Test
+    public void monkeyDomainHasConstantGlass() {
+        assertTrue(domain.getConstants().asSet().contains(constantDefinition("glass")));
+    }
+
+    @Test
+    public void monkeyDomainHasConstantWaterFountain() {
+        assertTrue(domain.getConstants().asSet().contains(constantDefinition("waterfountain")));
     }
 
     @Test

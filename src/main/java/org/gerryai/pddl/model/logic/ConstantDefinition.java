@@ -5,9 +5,9 @@ import com.google.common.base.Optional;
 import java.util.Objects;
 
 /**
- * Class representing a logical variable.
+ * Defines a constant used by the domain being described.
  */
-public class Variable implements Term {
+public class ConstantDefinition {
 
     private String name;
 
@@ -15,24 +15,24 @@ public class Variable implements Term {
 
     /**
      * Constructor.
-     * @param name the name of the variable
+     * @param name the type's name.
      */
-    public Variable(final String name) {
+    public ConstantDefinition(final String name) {
         this.name = name;
     }
 
     /**
      * Constructor.
-     * @param name the name of the variable
-     * @param type the type of the variable
+     * @param name the constant's name.
+     * @param type the constant's type.
      */
-    public Variable(final String name, final Type type) {
+    public ConstantDefinition(final String name, final Type type) {
         this.name = name;
         this.type = Optional.fromNullable(type);
     }
 
     /**
-     * Get the name of the variable.
+     * Get the name of the type.
      * @return the name
      */
     public String getName() {
@@ -40,7 +40,7 @@ public class Variable implements Term {
     }
 
     /**
-     * Get the type of the variable.
+     * Get the type of the constant.
      * @return the optional type of this variable
      */
     public Optional<Type> getType() {
@@ -60,7 +60,7 @@ public class Variable implements Term {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        final Variable other = (Variable) obj;
+        final ConstantDefinition other = (ConstantDefinition) obj;
         return Objects.equals(this.name, other.name) && Objects.equals(this.type, other.type);
     }
 }

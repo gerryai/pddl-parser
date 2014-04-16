@@ -1,6 +1,6 @@
 package org.gerryai.pddl.model;
 
-import org.gerryai.pddl.model.logic.Constant;
+import org.gerryai.pddl.model.logic.ConstantDefinition;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -9,15 +9,15 @@ import java.util.Set;
 /**
  * Class encapsulating the constants defined by the domain.
  */
-public class Constants {
+public class ConstantDefinitions {
 
-    private Set<Constant> constants;
+    private Set<ConstantDefinition> constants;
 
     /**
      * Constructor.
      * @param builder the builder to build from
      */
-    private Constants(final Builder builder) {
+    private ConstantDefinitions(final Builder builder) {
         this.constants = builder.constants;
     }
 
@@ -25,16 +25,16 @@ public class Constants {
      * Get the constants as a set.
      * @return the constants
      */
-    public Set<Constant> asSet() {
+    public Set<ConstantDefinition> asSet() {
         return Collections.unmodifiableSet(constants);
     }
 
     /**
-     * Builder class for {@link org.gerryai.pddl.model.Constants}.
+     * Builder class for {@link ConstantDefinitions}.
      */
     public static class Builder {
 
-        private Set<Constant> constants;
+        private Set<ConstantDefinition> constants;
 
         /**
          * Constructor.
@@ -48,7 +48,7 @@ public class Constants {
          * @param constant the constant
          * @return an updated builder
          */
-        public Builder constant(final Constant constant) {
+        public Builder constant(final ConstantDefinition constant) {
             constants.add(constant);
             return this;
         }
@@ -57,8 +57,8 @@ public class Constants {
          * Build the finished set of constants.
          * @return the constants
          */
-        public Constants build() {
-            return new Constants(this);
+        public ConstantDefinitions build() {
+            return new ConstantDefinitions(this);
         }
     }
 }

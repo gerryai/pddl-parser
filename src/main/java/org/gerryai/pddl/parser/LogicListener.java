@@ -5,15 +5,13 @@ import org.antlr.v4.runtime.misc.NotNull;
 import org.gerryai.pddl.model.logic.Constant;
 import org.gerryai.pddl.model.logic.Formula;
 import org.gerryai.pddl.model.logic.Predicate;
+import org.gerryai.pddl.model.logic.Type;
 import org.gerryai.pddl.model.logic.Variable;
 import org.gerryai.pddl.parser.antlr.PDDL31BaseListener;
 import org.gerryai.pddl.parser.antlr.PDDL31Parser;
 import org.gerryai.pddl.parser.logic.LogicStackHandler;
 
 import java.util.List;
-
-import static org.gerryai.pddl.model.logic.FormulaBuilder.constant;
-import static org.gerryai.pddl.model.logic.FormulaBuilder.variable;
 
 /**
  * Listener for extracting the {@link org.gerryai.pddl.model.Domain} when walking the parse tree of a PDDL domain.
@@ -31,13 +29,34 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     @Override
+    public void exitPrimitiveType(@NotNull final PDDL31Parser.PrimitiveTypeContext ctx) {
+        stackHandler.type(ctx.NAME().getSymbol().getText());
+    }
+
+    @Override
+    public void enterEitherType(@NotNull final PDDL31Parser.EitherTypeContext ctx) {
+        stackHandler.beginEitherTypeList();
+    }
+
+    @Override
+    public void exitEitherType(@NotNull final PDDL31Parser.EitherTypeContext ctx) {
+        stackHandler.endEitherTypeList();
+    }
+
+
+    @Override
     public void exitConstant(@NotNull final PDDL31Parser.ConstantContext ctx) {
-        stackHandler.term(constant(ctx.NAME().getSymbol().getText()));
+        stackHandler.addConstant(ctx.NAME().getSymbol().getText());
     }
 
     @Override
     public void exitVariable(@NotNull final PDDL31Parser.VariableContext ctx) {
-        stackHandler.term(variable(ctx.NAME().getSymbol().getText()));
+        stackHandler.addVariable(ctx.NAME().getSymbol().getText());
+    }
+
+    @Override
+    public void exitTypedVariableListOfType(@NotNull final PDDL31Parser.TypedVariableListOfTypeContext ctx) {
+        stackHandler.applyType(getType());
     }
 
     @Override public void enterUngroundPredicate(@NotNull final PDDL31Parser.UngroundPredicateContext ctx) {
@@ -74,22 +93,34 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     @Override
-    public void enterPreGDAnd(@NotNull final PDDL31Parser.PreGDAndContext ctx) {
+    public void enterPreconditionGoalDescriptionAnd(
+            @NotNull final PDDL31Parser.PreconditionGoalDescriptionAndContext ctx) {
         stackHandler.beginAnd();
     }
 
     @Override
-    public void exitPreGDAnd(@NotNull final PDDL31Parser.PreGDAndContext ctx) {
+    public void exitPreconditionGoalDescriptionAnd(
+            @NotNull final PDDL31Parser.PreconditionGoalDescriptionAndContext ctx) {
         stackHandler.endAnd();
     }
 
     @Override
-    public void enterGoalDescAnd(@NotNull final PDDL31Parser.GoalDescAndContext ctx) {
+    public void enterGoalDescriptionAnd(@NotNull final PDDL31Parser.GoalDescriptionAndContext ctx) {
         stackHandler.beginAnd();
     }
 
     @Override
-    public void exitGoalDescAnd(@NotNull final PDDL31Parser.GoalDescAndContext ctx) {
+    public void exitGoalDescriptionAnd(@NotNull final PDDL31Parser.GoalDescriptionAndContext ctx) {
+        stackHandler.endAnd();
+    }
+
+    @Override
+    public void enterCondEffectAnd(@NotNull final PDDL31Parser.CondEffectAndContext ctx) {
+        stackHandler.beginAnd();
+    }
+
+    @Override
+    public void exitCondEffectAnd(@NotNull final PDDL31Parser.CondEffectAndContext ctx) {
         stackHandler.endAnd();
     }
 
@@ -111,6 +142,34 @@ public class LogicListener extends PDDL31BaseListener {
     @Override
     public void exitEquality(@NotNull final PDDL31Parser.EqualityContext ctx) {
         stackHandler.endEquals();
+    }
+
+    @Override
+    public void enterWhenEffect(@NotNull final PDDL31Parser.WhenEffectContext ctx) {
+        stackHandler.beginIfThen();
+    }
+
+    @Override
+    public void exitWhenEffect(@NotNull final PDDL31Parser.WhenEffectContext ctx) {
+        stackHandler.endIfThen();
+    }
+
+    @Override
+    public void enterForAllEffect(@NotNull final PDDL31Parser.ForAllEffectContext ctx) {
+        stackHandler.beginForAll();
+    }
+
+    @Override
+    public void exitForAllEffect(@NotNull final PDDL31Parser.ForAllEffectContext ctx) {
+        stackHandler.endForAll();
+    }
+
+    /**
+     * Get a completed type.
+     * @return the type
+     */
+    protected Type getType() {
+        return stackHandler.getType();
     }
 
     /**

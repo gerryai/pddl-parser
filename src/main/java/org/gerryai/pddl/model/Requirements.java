@@ -46,7 +46,7 @@ public class Requirements {
          * @param requirement the requirement
          * @return an updated builder
          */
-        public Builder addRequirement(final Requirement requirement) {
+        public Builder requirement(final Requirement requirement) {
             requirements.add(requirement);
             return this;
         }

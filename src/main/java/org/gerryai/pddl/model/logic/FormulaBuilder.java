@@ -11,6 +11,61 @@ public class FormulaBuilder {
     private FormulaBuilder() { }
 
     /**
+     * Construct a type definition given a type name.
+     * @param name the name
+     * @return the type definition
+     */
+    public static TypeDefinition typeDefinition(final String name) {
+        return new TypeDefinition(name);
+    }
+
+    /**
+     * Construct a type definition from a name and a parent type.
+     * @param name the name
+     * @param parent the parent type
+     * @return the type definition
+     */
+    public static TypeDefinition typeDefinition(final String name, final Type parent) {
+        return new TypeDefinition(name, parent);
+    }
+
+    /**
+     * Construct a constant definition given a name.
+     * @param name the name
+     * @return the constant definition
+     */
+    public static ConstantDefinition constantDefinition(final String name) {
+        return new ConstantDefinition(name);
+    }
+
+    /**
+     * Construct a constant definition from a name and a type.
+     * @param name the name
+     * @param parent the type
+     * @return the constant definition
+     */
+    public static ConstantDefinition constantDefinition(final String name, final Type parent) {
+        return new ConstantDefinition(name, parent);
+    }
+
+    /**
+     * Construct a primitive type given a name.
+     * @param name the name of the type
+     * @return the type
+     */
+    public static PrimitiveType type(final String name) {
+        return new PrimitiveType(name);
+    }
+
+    /**
+     * Construct a list of possible types given an array of names.
+     * @param names the type names
+     * @return the wrapped list of names
+     */
+    public static EitherType type(final String... names) {
+        return new EitherType(names);
+    }
+    /**
      * Construct a constant given a name.
      * @param name the name
      * @return the constant
@@ -26,6 +81,16 @@ public class FormulaBuilder {
      */
     public static Variable variable(final String name) {
         return new Variable(name);
+    }
+
+    /**
+     * Construct a variable given a name and type.
+     * @param name the name
+     * @param type the type
+     * @return the variable
+     */
+    public static Variable variable(final String name, final Type type) {
+        return new Variable(name, type);
     }
 
     /**
@@ -88,5 +153,28 @@ public class FormulaBuilder {
                 .left(left)
                 .right(right)
                 .build();
+    }
+
+    /**
+     * Begin constructing a condition formula.
+     * @param condition the condition
+     * @return a builder to complete the conditional
+     */
+    public static IfThen.If when(final Formula condition) {
+        return new IfThen.If(condition);
+    }
+
+    /**
+     * Construct a universal quantifier.
+     * @param formula the formula
+     * @param variables the list of variables
+     * @return the "for all" formula
+     */
+    public static ForAll forAll(final Formula formula, final Variable... variables) {
+        ForAll.Builder builder = new ForAll.Builder();
+        for (Variable variable: variables) {
+            builder = builder.variable(variable);
+        }
+        return builder.formula(formula).build();
     }
 }

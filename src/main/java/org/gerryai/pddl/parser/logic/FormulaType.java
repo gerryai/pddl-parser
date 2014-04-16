@@ -8,5 +8,7 @@ enum FormulaType {
     NOT,
     AND,
     OR,
-    EQUALS
+    EQUALS,
+    IF_THEN,
+    FOR_ALL
 }
