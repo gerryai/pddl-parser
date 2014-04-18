@@ -89,62 +89,156 @@ public class LogisticsIT extends SuccessTester {
         assertEquals(3, domain.getPredicates().asSet().size());
     }
 
-//    @Test
-//    public void logisticsDomainHasPredicateClear() {
-//        Predicate clear = new Predicate.Builder()
-//                .name("clear")
-//                .variable("x")
-//                .build();
-//        assertTrue("Domain contains the (clear ?x) predicate", domain.getPredicates().asSet().contains(clear));
-//    }
-//
-//    @Test
-//    public void logisticsDomainHasPredicateOn() {
-//        Predicate on = new Predicate.Builder()
-//                .name("on")
-//                .variable("x")
-//                .variable("y")
-//                .build();
-//        assertTrue("Domain contains the (on ?x ?y) predicate", domain.getPredicates().asSet().contains(on));
-//    }
-//
-//    @Test
-//    public void logisticsDomainHasPredicateSmaller() {
-//        Predicate smaller = new Predicate.Builder()
-//                .name("smaller")
-//                .variable("x")
-//                .variable("y")
-//                .build();
-//        assertTrue("Domain contains the (smaller ?x ?y) predicate", domain.getPredicates().asSet().contains(smaller));
-//    }
-//
-//    @Test
-//    public void logisticsDomainHasOneAction() {
-//        assertEquals(1, domain.getActions().asSet().size());
-//    }
-//
-//    @Test
-//    public void logisticsDomainHasActionMove() {
-//        Action move = new Action.Builder()
-//                .name("move")
-//                .parameter("disc")
-//                .parameter("from")
-//                .parameter("to")
-//                .precondition(
-//                        and(
-//                                predicate("smaller", variable("to"), variable("disc")),
-//                                predicate("on", variable("disc"), variable("from")),
-//                                predicate("clear", variable("disc")),
-//                                predicate("clear", variable("to")))
-//                )
-//                .effect(
-//                        and(
-//                                predicate("clear", variable("from")),
-//                                predicate("on", variable("disc"), variable("to")),
-//                                not(predicate("on", variable("disc"), variable("from"))),
-//                                not(predicate("clear", variable("to"))))
-//                )
-//                .build();
-//        assertTrue("Domain contains the move action", domain.getActions().asSet().contains(move));
-//    }
+    @Test
+    public void logisticsDomainHasPredicateAt() {
+        Predicate at = new Predicate.Builder()
+                .name("at")
+                .variable("vehicle-or-package", type("vehicle", "package"))
+                .variable("location", type("location"))
+                .build();
+        assertTrue("Domain contains the (at ?vehicle-or-package - (either vehicle package)  ?location - location) "
+                + "predicate", domain.getPredicates().asSet().contains(at));
+    }
+
+    @Test
+    public void logisticsDomainHasPredicateIn() {
+        Predicate in = new Predicate.Builder()
+                .name("in")
+                .variable("package", type("package"))
+                .variable("vehicle", type("vehicle"))
+                .build();
+        assertTrue("Domain contains the (in ?package - package ?vehicle - vehicle) predicate",
+                domain.getPredicates().asSet().contains(in));
+    }
+
+    @Test
+    public void logisticsDomainHasPredicateInCity() {
+        Predicate inCity = new Predicate.Builder()
+                .name("in-city")
+                .variable("loc-or-truck", type("location", "truck"))
+                .variable("citys", type("city"))
+                .build();
+        assertTrue("Domain contains the (in-city ?loc-or-truck - (either location truck) ?citys - city) predicate",
+                domain.getPredicates().asSet().contains(inCity));
+    }
+
+
+    @Test
+    public void logisticsDomainHasSixActions() {
+        assertEquals(6, domain.getActions().asSet().size());
+    }
+
+    @Test
+    public void logisticsDomainHasActionLoadTruck() {
+        Action loadTruck = new Action.Builder()
+                .name("load-truck")
+                .parameter("obj", type("package"))
+                .parameter("truck", type("truck"))
+                .parameter("loc", type("location"))
+                .precondition(
+                        and(
+                                predicate("at", variable("truck"), variable("loc")),
+                                predicate("at", variable("obj"), variable("loc"))))
+                .effect(
+                        and(
+                                not(predicate("at", variable("obj"), variable("loc"))),
+                                predicate("in", variable("obj"), variable("truck"))))
+                .build();
+        assertTrue("Domain contains the load-truck action", domain.getActions().asSet().contains(loadTruck));
+    }
+
+    @Test
+    public void logisticsDomainHasActionLoadAirplane() {
+        Action loadAirplane = new Action.Builder()
+                .name("load-airplane")
+                .parameter("obj", type("package"))
+                .parameter("airplane", type("airplane"))
+                .parameter("loc", type("airport"))
+                .precondition(
+                        and(
+                                predicate("at", variable("obj"), variable("loc")),
+                                predicate("at", variable("airplane"), variable("loc"))))
+                .effect(
+                        and(
+                                not(predicate("at", variable("obj"), variable("loc"))),
+                                predicate("in", variable("obj"), variable("airplane"))))
+                .build();
+        assertTrue("Domain contains the load-airplane action", domain.getActions().asSet().contains(loadAirplane));
+    }
+
+    @Test
+    public void logisticsDomainHasActionUnloadTruck() {
+        Action unloadTruck = new Action.Builder()
+                .name("unload-truck")
+                .parameter("obj", type("package"))
+                .parameter("truck", type("truck"))
+                .parameter("loc", type("location"))
+                .precondition(
+                        and(
+                                predicate("at", variable("truck"), variable("loc")),
+                                predicate("in", variable("obj"), variable("truck"))))
+                .effect(
+                        and(
+                                not(predicate("in", variable("obj"), variable("truck"))),
+                                predicate("at", variable("obj"), variable("loc"))))
+                .build();
+        assertTrue("Domain contains the unload-truck action", domain.getActions().asSet().contains(unloadTruck));
+    }
+
+    @Test
+    public void logisticsDomainHasActionUnloadAirplane() {
+        Action unloadAirplane = new Action.Builder()
+                .name("unload-airplane")
+                .parameter("obj", type("package"))
+                .parameter("airplane", type("airplane"))
+                .parameter("loc", type("airport"))
+                .precondition(
+                        and(
+                                predicate("in", variable("obj"), variable("airplane")),
+                                predicate("at", variable("airplane"), variable("loc"))))
+                .effect(
+                        and(
+                                not(predicate("in", variable("obj"), variable("airplane"))),
+                                predicate("at", variable("obj"), variable("loc"))))
+                .build();
+        assertTrue("Domain contains the unload-airplane action", domain.getActions().asSet().contains(unloadAirplane));
+    }
+
+    @Test
+    public void logisticsDomainHasActionDriveTruck() {
+        Action driveTruck = new Action.Builder()
+                .name("drive-truck")
+                .parameter("truck", type("truck"))
+                .parameter("loc-from", type("location"))
+                .parameter("loc-to", type("location"))
+                .parameter("city", type("city"))
+                .precondition(
+                        and(
+                                predicate("at", variable("truck"), variable("loc-from")),
+                                predicate("in-city", variable("loc-from"), variable("city")),
+                                predicate("in-city", variable("loc-to"), variable("city"))))
+                .effect(
+                        and(
+                                not(predicate("at", variable("truck"), variable("loc-from"))),
+                                predicate("at", variable("truck"), variable("loc-to"))))
+                .build();
+        assertTrue("Domain contains the drive-truck action", domain.getActions().asSet().contains(driveTruck));
+    }
+
+    @Test
+    public void logisticsDomainHasActionFryAirplane() {
+        Action flyAirplane = new Action.Builder()
+                .name("fly-airplane")
+                .parameter("airplane", type("airplane"))
+                .parameter("loc-from", type("airport"))
+                .parameter("loc-to", type("airport"))
+                .precondition(
+                        predicate("at", variable("airplane"), variable("loc-from")))
+                .effect(
+                        and(
+                                not(predicate("at", variable("airplane"), variable("loc-from"))),
+                                predicate("at", variable("airplane"), variable("loc-to"))))
+                .build();
+        assertTrue("Domain contains the fly-airplane action", domain.getActions().asSet().contains(flyAirplane));
+    }
 }
