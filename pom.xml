@@ -85,7 +85,7 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>org/gerryai/pddl/parser/antlr/*.java</exclude>
+                        <exclude>org/gerryai/pddl/parser/antlr/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
