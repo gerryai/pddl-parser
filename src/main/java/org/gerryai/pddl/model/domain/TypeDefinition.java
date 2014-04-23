@@ -1,4 +1,7 @@
-package org.gerryai.pddl.model.logic;
+package org.gerryai.pddl.model.domain;
+
+import org.gerryai.pddl.model.logic.PrimitiveType;
+import org.gerryai.pddl.model.logic.Type;
 
 import java.util.Objects;
 

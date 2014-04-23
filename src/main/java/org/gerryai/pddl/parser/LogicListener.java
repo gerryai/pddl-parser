@@ -14,7 +14,7 @@ import org.gerryai.pddl.parser.logic.LogicStackHandler;
 import java.util.List;
 
 /**
- * Listener for extracting the {@link org.gerryai.pddl.model.Domain} when walking the parse tree of a PDDL domain.
+ * Listener for extracting a {@link org.gerryai.pddl.model.domain.Domain} when walking the parse tree of a PDDL domain.
  */
 public class LogicListener extends PDDL31BaseListener {
 
@@ -73,12 +73,21 @@ public class LogicListener extends PDDL31BaseListener {
         stackHandler.endPredicate();
     }
 
-    @Override public void enterPredicate(@NotNull final PDDL31Parser.PredicateContext ctx) {
+    @Override public void enterPredicateTerm(@NotNull final PDDL31Parser.PredicateTermContext ctx) {
         stackHandler.beginPredicate();
     }
 
     @Override
-    public void exitPredicate(@NotNull final PDDL31Parser.PredicateContext ctx) {
+    public void exitPredicateTerm(@NotNull final PDDL31Parser.PredicateTermContext ctx) {
+        stackHandler.endPredicate();
+    }
+
+    @Override public void enterPredicateConstant(@NotNull final PDDL31Parser.PredicateConstantContext ctx) {
+        stackHandler.beginPredicate();
+    }
+
+    @Override
+    public void exitPredicateConstant(@NotNull final PDDL31Parser.PredicateConstantContext ctx) {
         stackHandler.endPredicate();
     }
 
@@ -135,12 +144,22 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     @Override
-    public void enterEquality(@NotNull final PDDL31Parser.EqualityContext ctx) {
+    public void enterEqualityTerm(@NotNull final PDDL31Parser.EqualityTermContext ctx) {
         stackHandler.beginEquals();
     }
 
     @Override
-    public void exitEquality(@NotNull final PDDL31Parser.EqualityContext ctx) {
+    public void exitEqualityTerm(@NotNull final PDDL31Parser.EqualityTermContext ctx) {
+        stackHandler.endEquals();
+    }
+
+    @Override
+    public void enterEqualityConstant(@NotNull final PDDL31Parser.EqualityConstantContext ctx) {
+        stackHandler.beginEquals();
+    }
+
+    @Override
+    public void exitEqualityConstant(@NotNull final PDDL31Parser.EqualityConstantContext ctx) {
         stackHandler.endEquals();
     }
 

@@ -1,4 +1,4 @@
-package org.gerryai.pddl.model;
+package org.gerryai.pddl.model.domain;
 
 import com.google.common.base.Optional;
 import org.gerryai.pddl.model.logic.Formula;
@@ -15,8 +15,8 @@ public class Precondition {
     private static final Precondition EMPTY = new Precondition();
 
     /**
-     * Returns an empty {@link org.gerryai.pddl.model.Precondition}.
-     * @return an empty {@link org.gerryai.pddl.model.Precondition}
+     * Returns an empty {@link Precondition}.
+     * @return an empty {@link Precondition}
      */
     public static Precondition empty() {
         return EMPTY;

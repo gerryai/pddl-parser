@@ -1,26 +1,23 @@
 package org.gerryai.pddl.parser.integration;
 
-import org.gerryai.pddl.model.Domain;
 import org.gerryai.pddl.parser.ParseException;
 import org.gerryai.pddl.parser.ParserService;
 import org.gerryai.pddl.parser.ParserServiceUtils;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Abstract base class for PDDL parser integration tests. Subclasses must implement the getFilePath method to
  * indicate which PDDL file to load for parsing.
  */
-public abstract class PDDLLoader {
+public abstract class PDDLLoader<T> {
 
-    protected Domain domain;
+    private T result;
 
-    protected int errors;
+    private int errors;
 
     protected abstract String getFilePath();
 
@@ -34,7 +31,7 @@ public abstract class PDDLLoader {
         ParserService parserService = new ParserService(parserServiceUtils);
 
         try {
-            domain = parserService.parse(inputStream);
+            result = parse(parserService, inputStream);
         } catch (ParseException ex) {
             errors = ex.getParser().getNumberOfSyntaxErrors();
         } catch (IOException ex) {
@@ -42,4 +39,13 @@ public abstract class PDDLLoader {
         }
     }
 
+    public T result() {
+        return result;
+    }
+
+    public int errors() {
+        return errors;
+    }
+
+    protected abstract T parse(ParserService parserService, InputStream inputStream) throws IOException, ParseException;
 }

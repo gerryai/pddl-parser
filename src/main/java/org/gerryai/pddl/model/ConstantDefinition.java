@@ -1,6 +1,7 @@
-package org.gerryai.pddl.model.logic;
+package org.gerryai.pddl.model;
 
 import com.google.common.base.Optional;
+import org.gerryai.pddl.model.logic.Type;
 
 import java.util.Objects;
 

@@ -1,9 +1,9 @@
 package org.gerryai.pddl.parser.integration.example.travel;
 
-import org.gerryai.pddl.model.Action;
+import org.gerryai.pddl.model.domain.Action;
 import org.gerryai.pddl.model.Requirement;
 import org.gerryai.pddl.model.logic.Predicate;
-import org.gerryai.pddl.parser.integration.SuccessTester;
+import org.gerryai.pddl.parser.integration.DomainSuccessTester;
 import org.junit.Test;
 
 import static org.gerryai.pddl.model.logic.FormulaBuilder.and;
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Integration test to check that the Travel example files are parsed correctly.
  */
-public class TravelIT extends SuccessTester {
+public class TravelIT extends DomainSuccessTester {
 
     protected String getFilePath() {
         return "pddl/example/travel/travel.pddl";

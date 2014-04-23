@@ -1,4 +1,4 @@
-package org.gerryai.pddl.model;
+package org.gerryai.pddl.model.domain;
 
 import com.google.common.base.Optional;
 import org.gerryai.pddl.model.logic.Formula;

@@ -1,4 +1,4 @@
-package org.gerryai.pddl.model;
+package org.gerryai.pddl.model.domain;
 
 import org.gerryai.pddl.model.logic.Predicate;
 
@@ -30,7 +30,7 @@ public class Predicates {
     }
 
     /**
-     * Builder class for {@link org.gerryai.pddl.model.Predicates}.
+     * Builder class for {@link Predicates}.
      */
     public static class Builder {
 

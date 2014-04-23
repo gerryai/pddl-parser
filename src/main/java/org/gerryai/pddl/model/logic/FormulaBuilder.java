@@ -1,5 +1,8 @@
 package org.gerryai.pddl.model.logic;
 
+import org.gerryai.pddl.model.ConstantDefinition;
+import org.gerryai.pddl.model.domain.TypeDefinition;
+
 /**
  * Utility class containing methods for building formulas.
  */

@@ -1,5 +1,7 @@
 package org.gerryai.pddl.model.logic;
 
+import com.google.common.base.Optional;
+
 import java.util.Objects;
 
 /**
@@ -8,13 +10,24 @@ import java.util.Objects;
 public class Constant extends Function {
 
     private String name;
+    private Optional<Type> type = Optional.absent();
 
     /**
      * Constructor.
-     * @param name the constant's name.
+     * @param name the name of the constant
      */
     public Constant(final String name) {
         this.name = name;
+    }
+
+    /**
+     * Constructor.
+     * @param name the name of the constant
+     * @param type the type of the constant
+     */
+    public Constant(final String name, final Type type) {
+        this.name = name;
+        this.type = Optional.fromNullable(type);
     }
 
     /**
@@ -25,9 +38,17 @@ public class Constant extends Function {
         return name;
     }
 
+    /**
+     * Get the type of the constant.
+     * @return the optional type of this constant
+     */
+    public Optional<Type> getType() {
+        return type;
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(name, type);
     }
 
     @Override
@@ -39,6 +60,6 @@ public class Constant extends Function {
             return false;
         }
         final Constant other = (Constant) obj;
-        return Objects.equals(this.name, other.name);
+        return Objects.equals(this.name, other.name) && Objects.equals(this.type, other.type);
     }
 }

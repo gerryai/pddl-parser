@@ -1,13 +1,13 @@
 package org.gerryai.pddl.parser;
 
 import org.antlr.v4.runtime.misc.NotNull;
-import org.gerryai.pddl.model.Action;
-import org.gerryai.pddl.model.Domain;
+import org.gerryai.pddl.model.domain.Action;
+import org.gerryai.pddl.model.domain.Domain;
 import org.gerryai.pddl.model.Requirement;
 
-import org.gerryai.pddl.model.logic.ConstantDefinition;
+import org.gerryai.pddl.model.ConstantDefinition;
 import org.gerryai.pddl.model.logic.Type;
-import org.gerryai.pddl.model.logic.TypeDefinition;
+import org.gerryai.pddl.model.domain.TypeDefinition;
 import org.gerryai.pddl.model.logic.Variable;
 import org.gerryai.pddl.parser.antlr.PDDL31Parser;
 import org.gerryai.pddl.parser.logic.ConstantDefinitionStash;
@@ -19,9 +19,9 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkState;
 
 /**
- * Listener for extracting the {@link org.gerryai.pddl.model.Domain} when walking the parse tree of a PDDL domain.
+ * Listener for extracting a {@link org.gerryai.pddl.model.domain.Domain} when walking the parse tree of a PDDL file.
  */
-public class ExtractDomainListener extends LogicListener {
+public class ExtractDomainListener extends LogicListener implements ExtractingListener<Domain> {
 
     private Domain.Builder domainBuilder;
 
@@ -37,48 +37,6 @@ public class ExtractDomainListener extends LogicListener {
      */
     private ConstantDefinitionStash constantDefinitionStash = new ConstantDefinitionStash();
 
-    @Override
-    public void exitTypeDef(@NotNull final PDDL31Parser.TypeDefContext ctx) {
-        typeDefinitionStash.add(new TypeDefinition(ctx.NAME().getSymbol().getText()));
-    }
-
-    @Override public void exitTypeDefListOfNoType(@NotNull final PDDL31Parser.TypeDefListOfNoTypeContext ctx) {
-        List<TypeDefinition> types = typeDefinitionStash.removeAll();
-        for (TypeDefinition type: types) {
-            domainBuilder.type(type);
-        }
-    }
-
-    @Override
-    public void exitTypeDefListOfType(@NotNull final PDDL31Parser.TypeDefListOfTypeContext ctx) {
-        Type parentType = getType();
-        List<TypeDefinition> types = typeDefinitionStash.removeAll();
-        for (TypeDefinition type: types) {
-            domainBuilder.type(new TypeDefinition(type.getName(), parentType));
-        }
-    }
-
-    @Override
-    public void exitConstantDef(@NotNull final PDDL31Parser.ConstantDefContext ctx) {
-        constantDefinitionStash.add(new ConstantDefinition(ctx.NAME().getSymbol().getText()));
-    }
-
-    @Override public void exitConstantDefListOfNoType(@NotNull final PDDL31Parser.ConstantDefListOfNoTypeContext ctx) {
-        List<ConstantDefinition> constants = constantDefinitionStash.removeAll();
-        for (ConstantDefinition constant: constants) {
-            domainBuilder.constant(constant);
-        }
-    }
-
-    @Override
-    public void exitConstantDefListOfType(@NotNull final PDDL31Parser.ConstantDefListOfTypeContext ctx) {
-        Type type = getType();
-        List<ConstantDefinition> constants = constantDefinitionStash.removeAll();
-        for (ConstantDefinition constant: constants) {
-            domainBuilder.constant(new ConstantDefinition(constant.getName(), type));
-        }
-    }
-
     /**
      * Constructor.
      * @param stackHandler the logical stack handler to use
@@ -88,8 +46,52 @@ public class ExtractDomainListener extends LogicListener {
     }
 
     @Override
+    public void exitTypeDef(@NotNull final PDDL31Parser.TypeDefContext ctx) {
+        typeDefinitionStash.add(new TypeDefinition(ctx.NAME().getSymbol().getText()));
+    }
+
+    @Override
+    public void exitTypeDefListOfNoType(@NotNull final PDDL31Parser.TypeDefListOfNoTypeContext ctx) {
+        List<TypeDefinition> types = typeDefinitionStash.removeAll();
+        for (TypeDefinition type: types) {
+            domainBuilder = domainBuilder.type(type);
+        }
+    }
+
+    @Override
+    public void exitTypeDefListOfType(@NotNull final PDDL31Parser.TypeDefListOfTypeContext ctx) {
+        Type parentType = getType();
+        List<TypeDefinition> types = typeDefinitionStash.removeAll();
+        for (TypeDefinition type: types) {
+            domainBuilder = domainBuilder.type(new TypeDefinition(type.getName(), parentType));
+        }
+    }
+
+    @Override
+    public void exitConstantDef(@NotNull final PDDL31Parser.ConstantDefContext ctx) {
+        constantDefinitionStash.add(new ConstantDefinition(ctx.NAME().getSymbol().getText()));
+    }
+
+    @Override
+    public void exitConstantDefListOfNoType(@NotNull final PDDL31Parser.ConstantDefListOfNoTypeContext ctx) {
+        List<ConstantDefinition> constants = constantDefinitionStash.removeAll();
+        for (ConstantDefinition constant: constants) {
+            domainBuilder = domainBuilder.constant(constant);
+        }
+    }
+
+    @Override
+    public void exitConstantDefListOfType(@NotNull final PDDL31Parser.ConstantDefListOfTypeContext ctx) {
+        Type type = getType();
+        List<ConstantDefinition> constants = constantDefinitionStash.removeAll();
+        for (ConstantDefinition constant: constants) {
+            domainBuilder = domainBuilder.constant(new ConstantDefinition(constant.getName(), type));
+        }
+    }
+
+    @Override
     public void enterDomain(@NotNull final PDDL31Parser.DomainContext ctx) {
-        this.domainBuilder = new Domain.Builder();
+        domainBuilder = new Domain.Builder();
     }
 
     @Override
@@ -157,10 +159,7 @@ public class ExtractDomainListener extends LogicListener {
         domainBuilder = domainBuilder.action(actionBuilder.build());
     }
 
-    /**
-     * Build the {@link org.gerryai.pddl.model.Domain} from the information collected whilst walking the parse tree.
-     * @return the domain
-     */
+    @Override
     public Domain extract() {
         return domainBuilder.build();
     }

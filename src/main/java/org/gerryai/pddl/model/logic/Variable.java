@@ -10,7 +10,6 @@ import java.util.Objects;
 public class Variable implements Term {
 
     private String name;
-
     private Optional<Type> type = Optional.absent();
 
     /**

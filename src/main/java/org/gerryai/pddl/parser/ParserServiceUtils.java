@@ -47,8 +47,8 @@ public class ParserServiceUtils {
     }
 
     /**
-     * Create a Parser from the given token stream.
-     * @param tokenStream the toek stream to process
+     * Create a PDDL parser from the given token stream.
+     * @param tokenStream the token stream to process
      * @return the parser
      */
     public PDDL31Parser createParser(final TokenStream tokenStream) {
@@ -65,6 +65,15 @@ public class ParserServiceUtils {
     }
 
     /**
+     * Get the problem context from the given parser.
+     * @param parser the parser to use
+     * @return the domain context
+     */
+    public PDDL31Parser.ProblemContext getProblemContext(final PDDL31Parser parser) {
+        return parser.problem();
+    }
+
+    /**
      * Create a parse tree walker.
      * This is primarily to facilitate unit testing.
      * @return a new parse tree walker
@@ -74,10 +83,18 @@ public class ParserServiceUtils {
     }
 
     /**
-     * Create the listener for extracting the {@link org.gerryai.pddl.model.Domain} from the parser.
+     * Create the listener for extracting the {@link org.gerryai.pddl.model.domain.Domain} from the parser.
      * @return the listener to apply when walking the parse tree
      */
     public ExtractDomainListener createExtractDomainListener() {
         return new ExtractDomainListener(new LogicStackHandler());
+    }
+
+    /**
+     * Create the listener for extracting the {@link org.gerryai.pddl.model.problem.Problem} from the parser.
+     * @return the listener to apply when walking the parse tree
+     */
+    public ExtractProblemListener createExtractProblemListener() {
+        return new ExtractProblemListener(new LogicStackHandler());
     }
 }

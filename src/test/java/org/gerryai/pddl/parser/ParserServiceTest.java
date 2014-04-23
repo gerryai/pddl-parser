@@ -4,7 +4,8 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.gerryai.pddl.model.Domain;
+import org.gerryai.pddl.model.domain.Domain;
+import org.gerryai.pddl.model.problem.Problem;
 import org.gerryai.pddl.parser.antlr.PDDL31Parser;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,10 +48,19 @@ public class ParserServiceTest {
     private ExtractDomainListener mockExtractDomainListener;
 
     @Mock
-    private PDDL31Parser.DomainContext mockParseTree;
+    private ExtractProblemListener mockExtractProblemListener;
+
+    @Mock
+    private PDDL31Parser.DomainContext mockDomainParseTree;
+
+    @Mock
+    private PDDL31Parser.ProblemContext mockProblemParseTree;
 
     @Mock
     private Domain mockDomain;
+
+    @Mock
+    private Problem mockProblem;
 
     private ParserService parserService;
 
@@ -63,16 +73,25 @@ public class ParserServiceTest {
         when(mockUtils.createParser(mockTokenStream)).thenReturn(mockParser);
         when(mockUtils.createParseTreeWalker()).thenReturn(mockParseTreeWalker);
         when(mockUtils.createExtractDomainListener()).thenReturn(mockExtractDomainListener);
-        when(mockUtils.getDomainContext(mockParser)).thenReturn(mockParseTree);
+        when(mockUtils.createExtractProblemListener()).thenReturn(mockExtractProblemListener);
+        when(mockUtils.getDomainContext(mockParser)).thenReturn(mockDomainParseTree);
+        when(mockUtils.getProblemContext(mockParser)).thenReturn(mockProblemParseTree);
 
         when(mockExtractDomainListener.extract()).thenReturn(mockDomain);
+        when(mockExtractProblemListener.extract()).thenReturn(mockProblem);
 
         parserService = new ParserService(mockUtils);
     }
 
     @Test
-    public void parse() throws Exception {
-        assertEquals(parserService.parse(mockInputStream), mockDomain);
-        verify(mockParseTreeWalker).walk(mockExtractDomainListener, mockParseTree);
+    public void parseDomain() throws Exception {
+        assertEquals(mockDomain, parserService.parseDomain(mockInputStream));
+        verify(mockParseTreeWalker).walk(mockExtractDomainListener, mockDomainParseTree);
+    }
+
+    @Test
+    public void parseProblem() throws Exception {
+        assertEquals(mockProblem, parserService.parseProblem(mockInputStream));
+        verify(mockParseTreeWalker).walk(mockExtractProblemListener, mockProblemParseTree);
     }
 }

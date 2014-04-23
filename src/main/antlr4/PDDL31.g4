@@ -1,15 +1,8 @@
 grammar PDDL31;
+import PDDL31Logic;
 
 @header {
     package org.gerryai.pddl.parser.antlr;
-}
-
-@parser::members {
-    public boolean equality = false;
-    public boolean typing = false;
-    public boolean negativePreconditions = false;
-    public boolean universalPreconditions = false;
-    public boolean conditionalEffects = false;
 }
 
 domain
@@ -49,20 +42,6 @@ typeDefListOfType
 
 typeDef
     : NAME
-    ;
-
-primitiveType
-    : NAME
-    //| 'object' // TODO: Remove this to ensure objects are picked up by the NAME rule.
-    ;
-
-eitherType
-    : '(' 'either' primitiveType+ ')'
-    ;
-
-type
-    : eitherType
-    | primitiveType
     ;
 
 constantsDef
@@ -112,8 +91,6 @@ typedVariableListOfNoType
 typedVariableListOfType
     : variable+ '-' type
     ;
-
-predicateName: NAME;
 
 actionDef
     : '(' ':action' actionSymbol
@@ -211,76 +188,64 @@ condEffectAnd
     : '(' 'and' pEffect* ')'
     ;
 
-negatedAtomicFormulaTerm
-    : '(' 'not' atomicFormulaTerm ')'
+
+// PROBLEM
+
+problem
+    : '(' 'define' problemName
+    problemDomain
+    requireDef?
+    objectDeclaration?
+    init
+    goal
+    //[<constraints>]:constraints
+    //[<metric-spec>]:numeric-fluents
+    //[<length-spec>]
+    ')'
     ;
 
-literalTerm
-    : atomicFormulaTerm
-    | negatedAtomicFormulaTerm
+problemName
+    : '(' 'problem' NAME ')'
     ;
 
-atomicFormulaTerm
-    : predicate
-    | {equality}? equality
+problemDomain
+    : '(' ':domain' NAME ')'
     ;
 
-predicate
-    : '(' predicateName term* ')'
+objectDeclaration
+    : '(' ':objects' objectDecList ')'
     ;
 
-equality
-    : '(' '=' term term ')'
+init
+    : '(' ':init' initEl* ')'
     ;
 
-term
-    : constant
-    | variable
+initEl
+    : literalConstant
+//<init-el> ::=:timed−initial−literals (at <number> <literal(name)>)
+//<init-el> ::=:numeric-fluents (= <basic-function-term> <number>)
+//<init-el> ::=:object-fluents (= <basic-function-term> <name>)
+//<basic-function-term> ::= <function-symbol>
+//<basic-function-term> ::= (<function-symbol> <name>*)
     ;
 
-constant
+goal
+    : '(' ':goal' preconditionGoalDescription ')'
+    ;
+
+objectDecList
+    : objectDecListOfNoType
+    | {typing}? objectDecListOfType objectDecList
+    ;
+
+objectDecListOfNoType
+    : objectDec*
+    ;
+
+objectDecListOfType
+    : objectDec+ '-' type
+    ;
+
+objectDec
     : NAME
     ;
-
-variable: '?' NAME;
-
-
-requireKey
-    : ':strips'   // Basic STRIPS-style adds and deletes
-    | ':typing' {typing = true;} // Allow type names in declarations of variables
-    | ':negative-preconditions' {negativePreconditions = true;} // Allow not in goal descriptions
-//    | ':disjunctive-preconditions' // Allow or in goal descriptions
-    | ':equality' {equality = true;} // Support = as built-in predicate
-//    | ':existential-preconditions' // Allow exists in goal descriptions
-    | ':universal-preconditions' {universalPreconditions = true;} // Allow forall in goal descriptions
-//    | ':quantified-preconditions' = :existential-preconditions
-//+ :universal-preconditions
-    | ':conditional-effects' {conditionalEffects = true;} // Allow when in action effects
-//    | ':fluents' = :numeric-fluents
-//+ :object-fluents
-//    | ':numeric-fluents' // Allow numeric function definitions and use of effects using assignment operators and arithmetic preconditions.
-//:adl = :strips + :typing
-//+ :negative-preconditions
-//+ :disjunctive-preconditions
-//+ :equality
-//+ :quantified-preconditions
-//+ :conditional-effects
-//    | ':durative-actions' // Allows durative actions. Note that this does not imply :numeric-fluents.
-//   | ':duration-inequalities' // Allows duration constraints in durative actions using inequalities.
-//    | ':continuous-effects' // Allows durative actions to affect fluents continuously over the duration of the actions.
-//    | ':derived-predicates' // Allows predicates whose truth value is defined by a formula
-//    | ':timed-initial-literals' // Allows the initial state to specify literals that will become true at a specified time point. Implies :durative-actions
-//    | ':preferences' // Allows use of preferences in action preconditions and goals.
-//    | ':constraints' // Allows use of constraints fields in domain and problem files. These may contain modal operators supporting trajectory constraints.
-//    | ':action-costs'
-    ;
-
-NAME: LETTER ANYCHAR*;
-fragment LETTER: [a-zA-Z];
-fragment ANYCHAR: LETTER | DIGIT | '-' | '_';
-fragment NUMBER: DIGIT+ DECIMAL?;
-fragment DIGIT:  [0-9];
-fragment DECIMAL: '.' DIGIT+;
-
-LINECOMMENT: (';'|'//') ~('\n'|'\r')* '\r'? '\n' -> skip;
-WS: [ \n\t\r]+ -> skip;

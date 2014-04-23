@@ -1,11 +1,13 @@
-package org.gerryai.pddl.model;
+package org.gerryai.pddl.model.domain;
 
-import org.gerryai.pddl.model.logic.ConstantDefinition;
+import org.gerryai.pddl.model.ConstantDefinition;
+import org.gerryai.pddl.model.ConstantDefinitions;
+import org.gerryai.pddl.model.Requirement;
+import org.gerryai.pddl.model.Requirements;
 import org.gerryai.pddl.model.logic.Predicate;
-import org.gerryai.pddl.model.logic.TypeDefinition;
 
 /**
- * Class defining a PDDL domain.
+ * Defines a planning domain.
  * TODO: Ensure that types are only supported if the :typing requirement is present, etc
  */
 public class Domain {
@@ -22,12 +24,12 @@ public class Domain {
      * @param builder the builder to build from
      */
     private Domain(final Builder builder) {
-        this.name = builder.name;
-        this.requirements = builder.requirementsBuilder.build();
-        this.types = builder.typesBuilder.build();
-        this.constants = builder.constantsBuilder.build();
-        this.predicates = builder.predicatesBuilder.build();
-        this.actions = builder.actionsBuilder.build();
+        name = builder.name;
+        requirements = builder.requirementsBuilder.build();
+        types = builder.typesBuilder.build();
+        constants = builder.constantsBuilder.build();
+        predicates = builder.predicatesBuilder.build();
+        actions = builder.actionsBuilder.build();
     }
 
     /**
@@ -77,7 +79,7 @@ public class Domain {
         return actions;
     }
     /**
-     * Builder class for {@link org.gerryai.pddl.model.Domain} objects.
+     * Builder class for {@link Domain} objects.
      */
     public static class Builder {
 
@@ -149,7 +151,7 @@ public class Domain {
         }
 
         /**
-         * Build the completed {@link org.gerryai.pddl.model.Domain}.
+         * Build the completed {@link Domain}.
          * @return the domain
          */
         public Domain build() {

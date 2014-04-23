@@ -1,9 +1,9 @@
 package org.gerryai.pddl.parser.integration.example.briefcase;
 
-import org.gerryai.pddl.model.Action;
+import org.gerryai.pddl.model.domain.Action;
 import org.gerryai.pddl.model.Requirement;
 import org.gerryai.pddl.model.logic.Predicate;
-import org.gerryai.pddl.parser.integration.SuccessTester;
+import org.gerryai.pddl.parser.integration.DomainSuccessTester;
 import org.junit.Test;
 
 import static org.gerryai.pddl.model.logic.FormulaBuilder.and;
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Integration test to check that the Briefcase example files are parsed correctly.
  */
-public class BriefcaseIT extends SuccessTester {
+public class BriefcaseIT extends DomainSuccessTester {
 
     protected String getFilePath() {
         return "pddl/example/briefcase/briefcase.pddl";

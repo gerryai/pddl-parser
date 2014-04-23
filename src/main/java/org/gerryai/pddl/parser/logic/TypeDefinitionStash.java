@@ -1,6 +1,6 @@
 package org.gerryai.pddl.parser.logic;
 
-import org.gerryai.pddl.model.logic.TypeDefinition;
+import org.gerryai.pddl.model.domain.TypeDefinition;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

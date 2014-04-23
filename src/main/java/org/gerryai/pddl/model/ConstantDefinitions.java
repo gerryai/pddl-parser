@@ -1,7 +1,5 @@
 package org.gerryai.pddl.model;
 
-import org.gerryai.pddl.model.logic.ConstantDefinition;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;

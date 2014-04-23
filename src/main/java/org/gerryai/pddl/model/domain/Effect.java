@@ -1,4 +1,4 @@
-package org.gerryai.pddl.model;
+package org.gerryai.pddl.model.domain;
 
 import com.google.common.base.Optional;
 import org.gerryai.pddl.model.logic.Formula;
@@ -15,8 +15,8 @@ public class Effect {
     private static final Effect EMPTY = new Effect();
 
     /**
-     * Returns an empty {@link org.gerryai.pddl.model.Effect}.
-     * @return an empty {@link org.gerryai.pddl.model.Effect}
+     * Returns an empty {@link Effect}.
+     * @return an empty {@link Effect}
      */
     public static Effect empty() {
         return EMPTY;

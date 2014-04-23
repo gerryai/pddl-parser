@@ -1,6 +1,6 @@
 package org.gerryai.pddl.parser.integration.general.failure;
 
-import org.gerryai.pddl.parser.integration.PDDLLoader;
+import org.gerryai.pddl.parser.integration.PDDLDomainLoader;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Integration test to check that the Blocksworld example files are parsed correctly.
  */
-public class MissingNegativePreconditionsIT extends PDDLLoader {
+public class MissingNegativePreconditionsIT extends PDDLDomainLoader {
 
     protected String getFilePath() {
         return "pddl/general/failure/missing-negative-preconditions.pddl";

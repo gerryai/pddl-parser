@@ -1,4 +1,4 @@
-package org.gerryai.pddl.model;
+package org.gerryai.pddl.model.domain;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -29,7 +29,7 @@ public class Actions {
     }
 
     /**
-     * Builder class for {@link org.gerryai.pddl.model.Actions}.
+     * Builder class for {@link Actions}.
      */
     public static class Builder {
 

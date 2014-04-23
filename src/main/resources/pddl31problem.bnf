@@ -1,0 +1,49 @@
+
+<problem> ::= (define (problem <name>)
+(:domain <name>)
+[<require-def>]
+[<object declaration>]
+<init>
+<goal>
+[<constraints>]:constraints
+[<metric-spec>]:numeric-fluents
+[<length-spec>])
+<object declaration> ::= (:objects <typed list (name)>)
+<init> ::= (:init <init-el>*)
+<init-el> ::= <literal(name)>
+<init-el> ::=:timed−initial−literals (at <number> <literal(name)>)
+<init-el> ::=:numeric-fluents (= <basic-function-term> <number>)
+<init-el> ::=:object-fluents (= <basic-function-term> <name>)
+<basic-function-term> ::= <function-symbol>
+<basic-function-term> ::= (<function-symbol> <name>*)
+<goal> ::= (:goal <pre-GD>)
+<constraints> ::=:constraints (:constraints <pref-con-GD>)
+<pref-con-GD> ::= (and <pref-con-GD>*)
+<pref-con-GD> ::=:universal−preconditions (forall (<typed list (variable)>) <pref-con-GD>)
+<pref-con-GD> ::=:preferences (preference [<pref-name>] <con-GD>)
+<pref-con-GD> ::= <con-GD>
+<con-GD> ::= (and <con-GD>*)
+<con-GD> ::= (forall (<typed list (variable)>) <con-GD>)
+<con-GD> ::= (at end <GD>)
+<con-GD> ::= (always <GD>)
+<con-GD> ::= (sometime <GD>)
+<con-GD> ::= (within <number> <GD>)
+<con-GD> ::= (at-most-once <GD>)
+<con-GD> ::= (sometime-after <GD> <GD>)
+<con-GD> ::= (sometime-before <GD> <GD>)
+<con-GD> ::= (always-within <number> <GD> <GD>)
+<con-GD> ::= (hold-during <number> <number> <GD>)
+<con-GD> ::= (hold-after <number> <GD>)
+<metric-spec> ::=:numeric-fluents (:metric <optimization> <metric-f-exp>)
+<optimization> ::= minimize
+<optimization> ::= maximize
+<metric-f-exp> ::= (<binary-op> <metric-f-exp> <metric-f-exp>)
+<metric-f-exp> ::= (<multi-op> <metric-f-exp> <metric-f-exp>+)
+<metric-f-exp> ::= (- <metric-f-exp>)
+<metric-f-exp> ::= <number>
+<metric-f-exp> ::= (<function-symbol> <name>*)
+<metric-f-exp> ::= <function-symbol>
+<metric-f-exp> ::= total-time
+<metric-f-exp> ::=:preferences (is-violated <pref-name>)
+<length-spec> ::= (:length [(:serial <integer>)] [(:parallel <integer>)])
+ The length-spec is deprecated since PDDL 2.1.

@@ -1,6 +1,6 @@
 package org.gerryai.pddl.parser.logic;
 
-import org.gerryai.pddl.model.logic.ConstantDefinition;
+import org.gerryai.pddl.model.ConstantDefinition;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

@@ -1,6 +1,4 @@
-package org.gerryai.pddl.model;
-
-import org.gerryai.pddl.model.logic.TypeDefinition;
+package org.gerryai.pddl.model.domain;
 
 import java.util.Collections;
 import java.util.HashSet;

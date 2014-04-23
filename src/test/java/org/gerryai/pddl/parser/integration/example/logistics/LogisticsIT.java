@@ -1,9 +1,9 @@
 package org.gerryai.pddl.parser.integration.example.logistics;
 
-import org.gerryai.pddl.model.Action;
+import org.gerryai.pddl.model.domain.Action;
 import org.gerryai.pddl.model.Requirement;
 import org.gerryai.pddl.model.logic.Predicate;
-import org.gerryai.pddl.parser.integration.SuccessTester;
+import org.gerryai.pddl.parser.integration.DomainSuccessTester;
 import org.junit.Test;
 
 import static org.gerryai.pddl.model.logic.FormulaBuilder.type;
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Integration test to check that the Logistics example files are parsed correctly.
  */
-public class LogisticsIT extends SuccessTester {
+public class LogisticsIT extends DomainSuccessTester {
 
     protected String getFilePath() {
         return "pddl/example/logistics/logistics.pddl";
@@ -237,7 +237,8 @@ public class LogisticsIT extends SuccessTester {
                 .effect(
                         and(
                                 not(predicate("at", variable("airplane"), variable("loc-from"))),
-                                predicate("at", variable("airplane"), variable("loc-to"))))
+                                predicate("at", variable("airplane"), variable("loc-to")))
+                )
                 .build();
         assertTrue("Domain contains the fly-airplane action", domain.getActions().asSet().contains(flyAirplane));
     }
