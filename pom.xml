@@ -83,6 +83,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>**/org/gerryai/pddl/parser/antlr/*.java</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.eluder.coveralls</groupId>
