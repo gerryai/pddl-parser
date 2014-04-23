@@ -3,7 +3,7 @@
 A Java library for parsing Planning Domain Definition Language and turning it into simple Java objects that can be used
 by planning algorithms. It provides a fresh, clean approach to parsing PDDL using Antlr.
 
-[![Build Status](https://travis-ci.org/gerryai/pddl-parser.svg?branch=master)](https://travis-ci.org/gerryai/pddl-parser)
+[![Build Status](https://travis-ci.org/gerryai/pddl-parser.svg?branch=master)](https://travis-ci.org/gerryai/pddl-parser) [![Coverage Status](https://coveralls.io/repos/gerryai/pddl-parser/badge.png?branch=master)](https://coveralls.io/r/gerryai/pddl-parser?branch=master)
 
 *This is a work in progress project, not yet ready for prime time - please contact David Edwards
 <david@more.fool.me.uk> if you're interested in using it.*
