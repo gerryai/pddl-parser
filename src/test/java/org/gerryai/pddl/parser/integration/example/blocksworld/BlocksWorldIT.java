@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue;
 public class BlocksWorldIT extends DomainSuccessTester {
 
     protected String getFilePath() {
-        return "pddl/example/blockworld/blocksworld.pddl";
+        return "pddl/example/blocksworld/blocksworld.pddl";
     }
 
     @Test

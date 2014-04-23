@@ -2,6 +2,7 @@ package org.gerryai.pddl.parser;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.gerryai.pddl.model.ConstantDefinition;
+import org.gerryai.pddl.model.Requirement;
 import org.gerryai.pddl.model.logic.Type;
 import org.gerryai.pddl.model.problem.Problem;
 import org.gerryai.pddl.parser.antlr.PDDL31Parser;
@@ -43,6 +44,14 @@ public class ExtractProblemListener extends LogicListener implements ExtractingL
     @Override
     public void exitProblemDomain(@NotNull final PDDL31Parser.ProblemDomainContext ctx) {
         problemBuilder = problemBuilder.domain(ctx.NAME().getSymbol().getText());
+    }
+
+    @Override
+    public void exitRequireKey(@NotNull final PDDL31Parser.RequireKeyContext ctx) {
+        String text = ctx.getText();
+        String requirementName = text.substring(1);
+        Requirement requirement = Requirement.valueOf(requirementName.toUpperCase().replace('-', '_'));
+        problemBuilder = problemBuilder.requirement(requirement);
     }
 
     @Override

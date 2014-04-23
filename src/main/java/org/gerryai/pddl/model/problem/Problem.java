@@ -2,6 +2,8 @@ package org.gerryai.pddl.model.problem;
 
 import org.gerryai.pddl.model.ConstantDefinition;
 import org.gerryai.pddl.model.ConstantDefinitions;
+import org.gerryai.pddl.model.Requirement;
+import org.gerryai.pddl.model.Requirements;
 import org.gerryai.pddl.model.logic.Formula;
 
 /**
@@ -11,6 +13,7 @@ public class Problem {
 
     private String name;
     private String domainName;
+    private Requirements requirements;
     private ConstantDefinitions objects;
     private InitialState initialState;
     private Goal goal;
@@ -22,6 +25,7 @@ public class Problem {
     private Problem(final Builder builder) {
         name = builder.name;
         domainName = builder.domainName;
+        requirements = builder.requirementsBuilder.build();
         objects = builder.objects.build();
         initialState = builder.initialState.build();
         goal = new Goal(builder.goal);
@@ -41,6 +45,14 @@ public class Problem {
      */
     public String getDomainName() {
         return domainName;
+    }
+
+    /**
+     * Get the planner feature requirements.
+     * @return the requirements
+     */
+    public Requirements getRequirements() {
+        return requirements;
     }
 
     /**
@@ -74,6 +86,7 @@ public class Problem {
 
         private String name;
         private String domainName;
+        private Requirements.Builder requirementsBuilder  = new Requirements.Builder();
         private ConstantDefinitions.Builder objects  = new ConstantDefinitions.Builder();
         private InitialState.Builder initialState = new InitialState.Builder();
         private Formula goal;
@@ -95,6 +108,16 @@ public class Problem {
          */
         public Builder domain(final String name) {
             this.domainName = name;
+            return this;
+        }
+
+        /**
+         * Add a planner feature requirement.
+         * @param requirement the requirement to add
+         * @return an updated builder
+         */
+        public Builder requirement(final Requirement requirement) {
+            requirementsBuilder = requirementsBuilder.requirement(requirement);
             return this;
         }
 

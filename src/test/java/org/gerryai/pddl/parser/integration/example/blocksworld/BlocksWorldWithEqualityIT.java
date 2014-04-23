@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 public class BlocksWorldWithEqualityIT extends DomainSuccessTester {
 
     protected String getFilePath() {
-        return "pddl/example/blockworld/blocksworld-with-equality.pddl";
+        return "pddl/example/blocksworld/blocksworld-with-equality.pddl";
     }
 
     @Test

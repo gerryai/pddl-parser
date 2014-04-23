@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 public class BlocksWorldPb2IT extends ProblemSuccessTester {
 
     protected String getFilePath() {
-        return "pddl/example/blockworld/pb2.pddl";
+        return "pddl/example/blocksworld/pb2.pddl";
     }
 
     @Test
