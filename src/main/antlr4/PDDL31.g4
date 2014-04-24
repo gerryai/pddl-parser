@@ -1,10 +1,6 @@
 grammar PDDL31;
 import PDDL31Logic;
 
-@header {
-    package org.gerryai.pddl.parser.antlr;
-}
-
 domain
     : '(' 'define' domainName
     requireDef?
