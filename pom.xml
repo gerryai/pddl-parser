@@ -93,9 +93,6 @@
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>2.2.0</version>
-                <configuration>
-                    <dryRun>true</dryRun>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.antlr</groupId>
