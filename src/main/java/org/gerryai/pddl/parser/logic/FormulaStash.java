@@ -1,9 +1,7 @@
 package org.gerryai.pddl.parser.logic;
 
 import com.google.common.base.Optional;
-import org.gerryai.pddl.model.logic.And;
 import org.gerryai.pddl.model.logic.Formula;
-import org.gerryai.pddl.model.logic.Not;
 import org.gerryai.pddl.model.logic.Predicate;
 
 import java.util.ArrayDeque;
@@ -15,35 +13,12 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.lang.String.format;
 
 /**
- * Wrapper class for handling a stash of completed formulas.
+ * Provides a mechanism for stashing a list of formulas. It is a first-in first-out queue, allowing formulas to be
+ * retrieved in the order they were added.
  */
 public class FormulaStash {
 
     private Deque<StashItem> formulas = new ArrayDeque<>();
-
-    /**
-     * Add a completed predicate.
-     * @param predicate the predicate
-     */
-    public void add(final Predicate predicate) {
-        formulas.add(new StashItem(FormulaType.PREDICATE, predicate));
-    }
-
-    /**
-     * Add a completed negated formula.
-     * @param not the formula
-     */
-    public void add(final Not not) {
-        formulas.add(new StashItem(FormulaType.NOT, not));
-    }
-
-    /**
-     * Add a completed conjuntive formula.
-     * @param and the formula
-     */
-    public void add(final And and) {
-        formulas.add(new StashItem(FormulaType.AND, and));
-    }
 
     /**
      * Add a completed formula to the stash.
@@ -65,14 +40,15 @@ public class FormulaStash {
 
     /**
      * Remove the oldest formula from the stash.
-     * @return the predicate
+     * @return the formula
      */
     public Formula remove() {
         return formulas.removeFirst().getFormula();
     }
 
     /**
-     * Remove all formulas from the stash and return them as a list.
+     * Remove all formulas from the stash and return them as a list. The order of the formulas in the list will be the
+     * same as the order they were added to the stash.
      * @return the list of formulas
      */
     public List<Formula> removeAll() {
@@ -92,8 +68,8 @@ public class FormulaStash {
     }
 
     /**
-     * Get the size of the queue.
-     * @return the number of items in the queue
+     * Get the size of the stash.
+     * @return the number of items in the stash
      */
     public int size() {
         return formulas.size();
