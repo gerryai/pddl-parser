@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * A serice that can be used for parsing PDDL files into planning problems or domains.
+ * A service that can be used for parsing PDDL files into planning problems or domains.
  */
 public class PDDLParserService implements ParserService {
 
