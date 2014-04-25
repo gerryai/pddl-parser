@@ -19,7 +19,39 @@ Everything else.
 
 ## Usage
 
-*TBD*
+### Maven
+
+Add the following to you your `pom.xml` dependencies:
+
+    <dependency>
+        <groupId>org.gerryai</groupId>
+        <artifactId>pddl-parser</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+### Java
+
+The parser is called on an input stream. There are two basic calls for extracting either a problem or a domain:
+
+    import org.gerryai.planning.model.problem.Problem;
+    import org.gerryai.planning.model.domain.Domain;
+    import org.gerryai.planning.parser.ParseException;
+    import org.gerryai.planning.parser.pddl.PDDLParserService;
+
+    ...
+
+    InputStream problemInputStream = classLoader.getResourceAsStream(getFilePath());
+    InputStream domainInputStream = classLoader.getResourceAsStream(getFilePath());
+
+    PDDLParserService parserService = new PDDLParserService();
+    try {
+        Problem problem = parserService.parseProblem(inputStream);
+        Domain domain = parserService.parseDomain(inputStream);
+    } catch (ParseException ex) {
+        throw new IllegalStateException("Could not parse PDDL file", ex);
+    } catch (IOException ex) {
+        throw new IllegalStateException("Could not read PDDL file for parsing", ex);
+    }
 
 ## Contribute
 
