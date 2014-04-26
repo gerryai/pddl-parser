@@ -5,7 +5,7 @@ import org.gerryai.planning.model.ConstantDefinition;
 import org.gerryai.planning.model.Requirement;
 import org.gerryai.planning.model.logic.Type;
 import org.gerryai.planning.model.problem.Problem;
-import org.gerryai.planning.pddl.parser.antlr.PDDL31Parser;
+import org.gerryai.planning.parser.pddl.antlr.PDDL31Parser;
 import org.gerryai.planning.parser.pddl.internal.logic.ConstantDefinitionStash;
 import org.gerryai.planning.parser.pddl.internal.logic.LogicStackHandler;
 

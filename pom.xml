@@ -99,7 +99,7 @@
                 <artifactId>antlr4-maven-plugin</artifactId>
                 <version>4.2.2</version>
                 <configuration>
-                    <outputDirectory>target/generated-sources/antlr4/org/gerryai/pddl/parser/antlr</outputDirectory>
+                    <outputDirectory>target/generated-sources/antlr4/org/gerryai/planning/parser/pddl/antlr</outputDirectory>
                 </configuration>
                 <executions>
                     <execution>

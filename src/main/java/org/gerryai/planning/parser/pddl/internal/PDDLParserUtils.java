@@ -5,8 +5,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.gerryai.planning.pddl.parser.antlr.PDDL31Lexer;
-import org.gerryai.planning.pddl.parser.antlr.PDDL31Parser;
+import org.gerryai.planning.parser.pddl.antlr.PDDL31Lexer;
+import org.gerryai.planning.parser.pddl.antlr.PDDL31Parser;
 import org.gerryai.planning.parser.pddl.internal.logic.LogicStackHandler;
 
 import java.io.IOException;

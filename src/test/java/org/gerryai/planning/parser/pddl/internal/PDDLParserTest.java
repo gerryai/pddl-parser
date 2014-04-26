@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.gerryai.planning.model.domain.Domain;
 import org.gerryai.planning.model.problem.Problem;
-import org.gerryai.planning.pddl.parser.antlr.PDDL31Parser;
+import org.gerryai.planning.parser.pddl.antlr.PDDL31Parser;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

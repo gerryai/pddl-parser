@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.gerryai.planning.model.domain.Domain;
 import org.gerryai.planning.model.problem.Problem;
 import org.gerryai.planning.parser.ParseException;
-import org.gerryai.planning.pddl.parser.antlr.PDDL31Parser;
+import org.gerryai.planning.parser.pddl.antlr.PDDL31Parser;
 
 import java.io.IOException;
 import java.io.InputStream;

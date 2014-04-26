@@ -7,8 +7,8 @@ import org.gerryai.planning.model.logic.Formula;
 import org.gerryai.planning.model.logic.Predicate;
 import org.gerryai.planning.model.logic.Type;
 import org.gerryai.planning.model.logic.Variable;
-import org.gerryai.planning.pddl.parser.antlr.PDDL31BaseListener;
-import org.gerryai.planning.pddl.parser.antlr.PDDL31Parser;
+import org.gerryai.planning.parser.pddl.antlr.PDDL31BaseListener;
+import org.gerryai.planning.parser.pddl.antlr.PDDL31Parser;
 import org.gerryai.planning.parser.pddl.internal.logic.LogicStackHandler;
 
 import java.util.List;

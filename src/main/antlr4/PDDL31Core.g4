@@ -1,7 +1,7 @@
 lexer grammar PDDL31Core;
 
 @header {
-    package org.gerryai.planning.pddl.parser.antlr;
+    package org.gerryai.planning.parser.pddl.antlr;
 }
 
 NAME: LETTER ANYCHAR*;
