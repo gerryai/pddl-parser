@@ -1,6 +1,5 @@
 package org.gerryai.planning.parser.pddl.internal;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
@@ -19,13 +18,13 @@ import java.io.InputStream;
 public class PDDLParserUtils {
 
     /**
-     * Create an {@link ANTLRInputStream} from a file.
+     * Create a {@link CaseInsensitiveInputStream} from a file.
      * @param inputStream the InputStream to read
      * @return the ANTLR input stream
      * @throws java.io.IOException if there was a problem reading the input stream
      */
     public CharStream createInputStream(final InputStream inputStream) throws IOException {
-        return new ANTLRInputStream(inputStream);
+        return new CaseInsensitiveInputStream(inputStream);
     }
 
     /**

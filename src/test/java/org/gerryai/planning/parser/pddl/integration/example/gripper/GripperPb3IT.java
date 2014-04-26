@@ -42,42 +42,42 @@ public class GripperPb3IT extends ProblemSuccessTester {
 
     @Test
     public void gripperProblem1HasObjectRoomA() {
-        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("roomA")));
+        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("rooma")));
     }
 
     @Test
     public void gripperProblem1HasObjectRoomB() {
-        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("roomB")));
+        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("roomb")));
     }
 
     @Test
     public void gripperProblem1HasObjectBall1() {
-        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("Ball1")));
+        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("ball1")));
     }
 
     @Test
     public void gripperProblem1HasObjectBall2() {
-        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("Ball2")));
+        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("ball2")));
     }
 
     @Test
     public void gripperProblem1HasObjectBall3() {
-        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("Ball3")));
+        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("ball3")));
     }
 
     @Test
     public void gripperProblem1HasObjectBall4() {
-        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("Ball4")));
+        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("ball4")));
     }
 
     @Test
     public void gripperProblem1HasObjectBall5() {
-        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("Ball5")));
+        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("ball5")));
     }
 
     @Test
     public void gripperProblem1HasObjectBall6() {
-        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("Ball6")));
+        assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("ball6")));
     }
 
     @Test
@@ -97,42 +97,42 @@ public class GripperPb3IT extends ProblemSuccessTester {
 
     @Test
     public void gripperProblem1InitialStateHasRoomA() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("room", constant("roomA"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("room", constant("rooma"))));
     }
 
     @Test
     public void gripperProblem1InitialStateHasRoomB() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("room", constant("roomB"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("room", constant("roomb"))));
     }
 
     @Test
     public void gripperProblem1InitialStateHasBall1() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("ball", constant("Ball1"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("ball", constant("ball1"))));
     }
 
     @Test
     public void gripperProblem1InitialStateHasBall2() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("ball", constant("Ball2"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("ball", constant("ball2"))));
     }
 
     @Test
     public void gripperProblem1InitialStateHasBall3() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("ball", constant("Ball3"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("ball", constant("ball3"))));
     }
 
     @Test
     public void gripperProblem1InitialStateHasBall4() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("ball", constant("Ball4"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("ball", constant("ball4"))));
     }
 
     @Test
     public void gripperProblem1InitialStateHasBall5() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("ball", constant("Ball5"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("ball", constant("ball5"))));
     }
 
     @Test
     public void gripperProblem1InitialStateHasBall6() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("ball", constant("Ball6"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("ball", constant("ball6"))));
     }
 
     @Test
@@ -147,7 +147,7 @@ public class GripperPb3IT extends ProblemSuccessTester {
 
     @Test
     public void gripperProblem1InitialStateHasArRobby() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("at-robby", constant("roomA"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("at-robby", constant("rooma"))));
     }
 
     @Test
@@ -162,44 +162,44 @@ public class GripperPb3IT extends ProblemSuccessTester {
 
     @Test
     public void gripperProblem1InitialStateHasAtBall1() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("Ball1"), constant("roomA"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("ball1"), constant("rooma"))));
     }
 
     @Test
     public void gripperProblem1InitialStateHasAtBall2() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("Ball2"), constant("roomA"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("ball2"), constant("rooma"))));
     }
 
     @Test
     public void gripperProblem1InitialStateHasAtBall3() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("Ball3"), constant("roomA"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("ball3"), constant("rooma"))));
     }
 
     @Test
     public void gripperProblem1InitialStateHasAtBall4() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("Ball4"), constant("roomA"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("ball4"), constant("rooma"))));
     }
 
     @Test
     public void gripperProblem1InitialStateHasAtBall5() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("Ball5"), constant("roomA"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("ball5"), constant("rooma"))));
     }
 
     @Test
     public void gripperProblem1InitialStateHasAtBall6() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("Ball6"), constant("roomA"))));
+        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("ball6"), constant("rooma"))));
     }
 
     @Test
     public void gripperProblem1HasGoal() {
         Goal goal = new Goal(
                 and(
-                        predicate("at", constant("Ball1"), constant("roomB")),
-                        predicate("at", constant("Ball2"), constant("roomB")),
-                        predicate("at", constant("Ball3"), constant("roomB")),
-                        predicate("at", constant("Ball4"), constant("roomB")),
-                        predicate("at", constant("Ball5"), constant("roomB")),
-                        predicate("at", constant("Ball6"), constant("roomB"))));
+                        predicate("at", constant("ball1"), constant("roomb")),
+                        predicate("at", constant("ball2"), constant("roomb")),
+                        predicate("at", constant("ball3"), constant("roomb")),
+                        predicate("at", constant("ball4"), constant("roomb")),
+                        predicate("at", constant("ball5"), constant("roomb")),
+                        predicate("at", constant("ball6"), constant("roomb"))));
         assertEquals(goal, problem.getGoal());
     }
 }

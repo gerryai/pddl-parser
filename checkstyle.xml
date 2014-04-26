@@ -149,8 +149,10 @@
             <property name="severity" value="warning"/>
         </module>
         <module name="UpperEll"/>
-
+        <module name="FileContentsHolder"/>
     </module>
+
+    <module name="SuppressionCommentFilter"/>
 
     <module name="SuppressionFilter">
         <property name="file" value="checkstyle-suppressions.xml"/>

@@ -48,7 +48,7 @@ public class ExtractDomainListener extends LogicListener implements ExtractingLi
 
     @Override
     public void exitTypeDef(@NotNull final PDDL31Parser.TypeDefContext ctx) {
-        typeDefinitionStash.add(new TypeDefinition(ctx.NAME().getSymbol().getText()));
+        typeDefinitionStash.add(new TypeDefinition(ctx.NAME().getSymbol().getText().toLowerCase()));
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ExtractDomainListener extends LogicListener implements ExtractingLi
 
     @Override
     public void exitConstantDef(@NotNull final PDDL31Parser.ConstantDefContext ctx) {
-        constantDefinitionStash.add(new ConstantDefinition(ctx.NAME().getSymbol().getText()));
+        constantDefinitionStash.add(new ConstantDefinition(ctx.NAME().getSymbol().getText().toLowerCase()));
     }
 
     @Override
@@ -97,7 +97,7 @@ public class ExtractDomainListener extends LogicListener implements ExtractingLi
 
     @Override
     public void exitDomainName(@NotNull final PDDL31Parser.DomainNameContext ctx) {
-        domainBuilder = domainBuilder.name(ctx.NAME().getSymbol().getText());
+        domainBuilder = domainBuilder.name(ctx.NAME().getSymbol().getText().toLowerCase());
     }
 
     @Override
@@ -120,7 +120,7 @@ public class ExtractDomainListener extends LogicListener implements ExtractingLi
 
     @Override
     public void exitActionSymbol(@NotNull final PDDL31Parser.ActionSymbolContext ctx) {
-        actionBuilder.name(ctx.NAME().getSymbol().getText());
+        actionBuilder.name(ctx.NAME().getSymbol().getText().toLowerCase());
     }
 
     /**

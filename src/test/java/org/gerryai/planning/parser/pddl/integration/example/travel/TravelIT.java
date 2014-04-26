@@ -128,7 +128,7 @@ public class TravelIT extends DomainSuccessTester {
     @Test
     public void travelDomainHasActionDrive() {
         Action drive = new Action.Builder()
-                .name("Drive")
+                .name("drive")
                 .parameter("thing")
                 .parameter("from")
                 .parameter("to")
@@ -151,7 +151,7 @@ public class TravelIT extends DomainSuccessTester {
     @Test
     public void travelDomainHasActionCross() {
         Action cross = new Action.Builder()
-                .name("Cross")
+                .name("cross")
                 .parameter("thing")
                 .parameter("from")
                 .parameter("to")
@@ -174,7 +174,7 @@ public class TravelIT extends DomainSuccessTester {
     @Test
     public void travelDomainHasActionBoard() {
         Action board = new Action.Builder()
-                .name("Board")
+                .name("board")
                 .parameter("person")
                 .parameter("place")
                 .parameter("vehicle")
@@ -199,7 +199,7 @@ public class TravelIT extends DomainSuccessTester {
     @Test
     public void travelDomainHasActionDisembark() {
         Action disembark = new Action.Builder()
-                .name("Disembark")
+                .name("disembark")
                 .parameter("person")
                 .parameter("place")
                 .parameter("vehicle")

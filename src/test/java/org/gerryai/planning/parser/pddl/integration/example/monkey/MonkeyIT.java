@@ -155,7 +155,7 @@ public class MonkeyIT extends DomainSuccessTester {
     @Test
     public void monkeyDomainHasActionGoTo() {
         Action goTo = new Action.Builder()
-                .name("GO-TO")
+                .name("go-to")
                 .parameter("x")
                 .parameter("y")
                 .precondition(
@@ -177,7 +177,7 @@ public class MonkeyIT extends DomainSuccessTester {
     @Test
     public void monkeyDomainHasActionClimb() {
         Action climb = new Action.Builder()
-                .name("CLIMB")
+                .name("climb")
                 .parameter("x")
                 .precondition(
                         and(
@@ -197,7 +197,7 @@ public class MonkeyIT extends DomainSuccessTester {
     @Test
     public void monkeyDomainHasActionPushBox() {
         Action pushBox = new Action.Builder()
-                .name("PUSH-BOX")
+                .name("push-box")
                 .parameter("x")
                 .parameter("y")
                 .precondition(
@@ -222,7 +222,7 @@ public class MonkeyIT extends DomainSuccessTester {
     @Test
     public void monkeyDomainHasActionGetKnife() {
         Action getKnife = new Action.Builder()
-                .name("GET-KNIFE")
+                .name("get-knife")
                 .parameter("y")
                 .precondition(
                         and(
@@ -242,7 +242,7 @@ public class MonkeyIT extends DomainSuccessTester {
     @Test
     public void monkeyDomainHasActionGrabBananas() {
         Action grabBananas = new Action.Builder()
-                .name("GRAB-BANANAS")
+                .name("grab-bananas")
                 .parameter("y")
                 .precondition(
                         and(
@@ -261,7 +261,7 @@ public class MonkeyIT extends DomainSuccessTester {
     @Test
     public void monkeyDomainHasActionPickGlass() {
         Action pickGlass = new Action.Builder()
-                .name("PICKGLASS")
+                .name("pickglass")
                 .parameter("y")
                 .precondition(
                         and(
@@ -281,7 +281,7 @@ public class MonkeyIT extends DomainSuccessTester {
     @Test
     public void monkeyDomainHasActionGetWater() {
         Action getWater = new Action.Builder()
-                .name("GETWATER")
+                .name("getwater")
                 .parameter("y")
                 .precondition(
                         and(

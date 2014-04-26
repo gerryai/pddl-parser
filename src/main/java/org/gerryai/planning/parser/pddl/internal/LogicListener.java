@@ -31,7 +31,7 @@ public class LogicListener extends PDDL31BaseListener {
 
     @Override
     public void exitPrimitiveType(@NotNull final PDDL31Parser.PrimitiveTypeContext ctx) {
-        stackHandler.type(ctx.NAME().getSymbol().getText());
+        stackHandler.type(ctx.NAME().getSymbol().getText().toLowerCase());
     }
 
     @Override
@@ -47,12 +47,12 @@ public class LogicListener extends PDDL31BaseListener {
 
     @Override
     public void exitConstant(@NotNull final PDDL31Parser.ConstantContext ctx) {
-        stackHandler.addConstant(ctx.NAME().getSymbol().getText());
+        stackHandler.addConstant(ctx.NAME().getSymbol().getText().toLowerCase());
     }
 
     @Override
     public void exitVariable(@NotNull final PDDL31Parser.VariableContext ctx) {
-        stackHandler.addVariable(ctx.NAME().getSymbol().getText());
+        stackHandler.addVariable(ctx.NAME().getSymbol().getText().toLowerCase());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class LogicListener extends PDDL31BaseListener {
 
     @Override
     public void exitPredicateName(@NotNull final PDDL31Parser.PredicateNameContext ctx) {
-        stackHandler.symbol(ctx.NAME().getSymbol().getText());
+        stackHandler.symbol(ctx.NAME().getSymbol().getText().toLowerCase());
     }
 
     @Override

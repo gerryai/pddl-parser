@@ -6,7 +6,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Integration test to check that the Blocksworld example files are parsed correctly.
+ * Integration test to check that the paser copes with missing requirements.
+ * TODO: Make this parse but fail while building the domain
  */
 public class MissingNegativePreconditionsIT extends PDDLDomainLoader {
 
