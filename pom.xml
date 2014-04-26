@@ -85,7 +85,7 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>org/gerryai/pddl/parser/antlr/**</exclude>
+                        <exclude>org/gerryai/planning/parser/pddl/antlr/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
