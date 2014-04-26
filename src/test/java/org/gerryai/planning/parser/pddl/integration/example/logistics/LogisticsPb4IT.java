@@ -16,189 +16,189 @@ import static org.junit.Assert.assertTrue;
 /**
  * Integration test to check that the Logistics example files are parsed correctly.
  */
-public class LogisticsPb1IT extends ProblemSuccessTester {
+public class LogisticsPb4IT extends ProblemSuccessTester {
 
     protected String getFilePath() {
-        return "pddl/example/logistics/pb1.pddl";
+        return "pddl/example/logistics/pb4.pddl";
     }
 
     @Test
-    public void logisticsProblem1HasCorrectName() {
-        assertEquals("pb1", problem.getName());
+    public void logisticsProblem4HasCorrectName() {
+        assertEquals("pb4", problem.getName());
     }
 
     @Test
-    public void logisticsProblem1HasCorrectDomain() {
+    public void logisticsProblem4HasCorrectDomain() {
         assertEquals("logistics", problem.getDomainName());
     }
 
     @Test
-    public void logisticsProblem1Has2Requirements() {
+    public void logisticsProblem4Has2Requirements() {
         assertEquals(2, problem.getRequirements().asSet().size());
     }
 
     @Test
-    public void logisticsProblem1HasStripsRequirement() {
+    public void logisticsProblem4HasStripsRequirement() {
         assertTrue(problem.getRequirements().asSet().contains(Requirement.STRIPS));
     }
 
     @Test
-    public void logisticsProblem1HasTypingRequirement() {
+    public void logisticsProblem4HasTypingRequirement() {
         assertTrue(problem.getRequirements().asSet().contains(Requirement.TYPING));
     }
 
     @Test
-    public void logisticsProblem1Has16Objects() {
+    public void logisticsProblem4Has16Objects() {
         assertEquals(16, problem.getObjects().asSet().size());
     }
 
     @Test
-    public void logisticsProblem1HasObjectMxf() {
+    public void logisticsProblem4HasObjectMxf() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("mxf", type("package"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectAvrim() {
+    public void logisticsProblem4HasObjectAvrim() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("avrim", type("package"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectAlex() {
+    public void logisticsProblem4HasObjectAlex() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("alex", type("package"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectJason() {
+    public void logisticsProblem4HasObjectJason() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("jason", type("package"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectPencil() {
+    public void logisticsProblem4HasObjectPencil() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("pencil", type("package"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectPaper() {
+    public void logisticsProblem4HasObjectPaper() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("paper", type("package"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectApril() {
+    public void logisticsProblem4HasObjectApril() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("april", type("package"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectMichelle() {
+    public void logisticsProblem4HasObjectMichelle() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("michelle", type("package"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectBetty() {
+    public void logisticsProblem4HasObjectBetty() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("betty", type("package"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectLisa() {
+    public void logisticsProblem4HasObjectLisa() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("lisa", type("package"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectAirplane1() {
+    public void logisticsProblem4HasObjectAirplane1() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("airplane1", type("airplane"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectAirplane2() {
+    public void logisticsProblem4HasObjectAirplane2() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("airplane2", type("airplane"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectLonAirport() {
+    public void logisticsProblem4HasObjectLonAirport() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("lon-airport", type("airport"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectParAirport() {
+    public void logisticsProblem4HasObjectParAirport() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("par-airport", type("airport"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectJFKAirport() {
+    public void logisticsProblem4HasObjectJFKAirport() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("jfk-airport", type("airport"))));
     }
 
     @Test
-    public void logisticsProblem1HasObjectBosAirport() {
+    public void logisticsProblem4HasObjectBosAirport() {
         assertTrue(problem.getObjects().asSet().contains(new ConstantDefinition("bos-airport", type("airport"))));
     }
 
     @Test
-    public void logisticsProblem1Has12StateTerms() {
+    public void logisticsProblem4Has12StateTerms() {
         assertEquals(12, problem.getInitialState().asSet().size());
     }
 
     @Test
-    public void logisticsProblem1InitialStateHasAtAirplane1JFKAirport() {
+    public void logisticsProblem4InitialStateHasAtAirplane1() {
         assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("airplane1"), constant("jfk-airport"))));
     }
 
     @Test
-    public void logisticsProblem1InitialStateHasAtAirplane2BosAirport() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("airplane2"), constant("bos-airport"))));
+    public void logisticsProblem4InitialStateHasAtAirplane2() {
+        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("airplane2"), constant("par-airport"))));
     }
 
     @Test
-    public void logisticsProblem1InitialStateHasAtMxfBosAirport() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("mxf"), constant("par-airport"))));
+    public void logisticsProblem4InitialStateHasAtMxfBosAirport() {
+        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("mxf"), constant("jfk-airport"))));
     }
 
     @Test
-    public void logisticsProblem1InitialStateHasAtAvrimBosAirport() {
+    public void logisticsProblem4InitialStateHasAtAvrimBosAirport() {
         assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("avrim"), constant("par-airport"))));
     }
 
     @Test
-    public void logisticsProblem1InitialStateHasAtAlexBosAirport() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("alex"), constant("par-airport"))));
+    public void logisticsProblem4InitialStateHasAtAlexBosAirport() {
+        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("alex"), constant("bos-airport"))));
     }
 
     @Test
-    public void logisticsProblem1InitialStateHasAtJasonJFKAirport() {
+    public void logisticsProblem4InitialStateHasAtJasonJFKAirport() {
         assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("jason"), constant("jfk-airport"))));
     }
 
     @Test
-    public void logisticsProblem1InitialStateHasAtPencilLonAirport() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("pencil"), constant("lon-airport"))));
+    public void logisticsProblem4InitialStateHasAtPencilLonAirport() {
+        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("pencil"), constant("par-airport"))));
     }
 
     @Test
-    public void logisticsProblem1InitialStateHasAtPaperLonAirport() {
+    public void logisticsProblem4InitialStateHasAtPaperLonAirport() {
         assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("paper"), constant("lon-airport"))));
     }
 
     @Test
-    public void logisticsProblem1InitialStateHasAtMichelleLonAirport() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("michelle"), constant("lon-airport"))));
+    public void logisticsProblem4InitialStateHasAtMichelleLonAirport() {
+        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("michelle"), constant("bos-airport"))));
     }
 
     @Test
-    public void logisticsProblem1InitialStateHasAtAprilLonAirport() {
-        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("april"), constant("lon-airport"))));
+    public void logisticsProblem4InitialStateHasAtAprilLonAirport() {
+        assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("april"), constant("par-airport"))));
     }
 
     @Test
-    public void logisticsProblem1InitialStateHasAtBettyLonAirport() {
+    public void logisticsProblem4InitialStateHasAtBettyLonAirport() {
         assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("betty"), constant("lon-airport"))));
     }
 
     @Test
-    public void logisticsProblem1InitialStateHasAtLisaLonAirport() {
+    public void logisticsProblem4InitialStateHasAtLisaLonAirport() {
         assertTrue(problem.getInitialState().asSet().contains(predicate("at", constant("lisa"), constant("lon-airport"))));
     }
 
     @Test
-    public void logisticsProblem1HasGoal() {
+    public void logisticsProblem4HasGoal() {
         Goal goal = new Goal(
                 and(
                         predicate("at", constant("mxf"), constant("bos-airport")),
