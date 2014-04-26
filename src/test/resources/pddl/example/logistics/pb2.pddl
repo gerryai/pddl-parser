@@ -12,7 +12,7 @@
 
 (define (problem pb2)
     (:domain logistics)
- 
+    (:requirements :strips :typing)
     (:objects
         package1 - package
         package2 - package
@@ -63,7 +63,7 @@
 
         (at airplane1 pgh-airport)
         (at airplane2 pgh-airport)
-       
+
         (at bos-truck bos-po)
         (at pgh-truck pgh-po)
         (at la-truck la-po)
