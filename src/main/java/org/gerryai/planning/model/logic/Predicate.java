@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Class representing a domain predicate.
+ *Represents a logical predicate.
  */
 public class Predicate implements AtomicFormula {
 
