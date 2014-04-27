@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Class representing a conjunctive formula.
+ * Represents a conjunctive formula.
+ * Note that {@link #equals(Object)} is not implemented as a logical equality check; the order of the formulas matters.
  */
 public class And implements Formula {
 

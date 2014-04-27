@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.gerryai.planning.model.domain.Domain;
 import org.gerryai.planning.model.problem.Problem;
 import org.gerryai.planning.parser.pddl.antlr.PDDL31Parser;
+import org.gerryai.planning.parser.pddl.internal.error.SyntaxErrorCollector;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -37,6 +38,10 @@ public class PDDLParserTest {
 
     @Mock
     private TokenStream mockTokenStream;
+
+
+    @Mock
+    private SyntaxErrorCollector mockSyntaxErrorCollector;
 
     @Mock
     private PDDL31Parser mockParser;
@@ -70,7 +75,8 @@ public class PDDLParserTest {
         when(mockUtils.createInputStream(mockInputStream)).thenReturn(mockCharStream);
         when(mockUtils.createLexer(mockCharStream)).thenReturn(mockLexer);
         when(mockUtils.createTokenStream(mockLexer)).thenReturn(mockTokenStream);
-        when(mockUtils.createParser(mockTokenStream)).thenReturn(mockParser);
+        when(mockUtils.createSyntaxErrorCollector()).thenReturn(mockSyntaxErrorCollector);
+        when(mockUtils.createParser(mockTokenStream, mockSyntaxErrorCollector)).thenReturn(mockParser);
         when(mockUtils.createParseTreeWalker()).thenReturn(mockParseTreeWalker);
         when(mockUtils.createExtractDomainListener()).thenReturn(mockExtractDomainListener);
         when(mockUtils.createExtractProblemListener()).thenReturn(mockExtractProblemListener);

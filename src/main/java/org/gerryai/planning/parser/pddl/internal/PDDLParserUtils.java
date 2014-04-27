@@ -7,6 +7,8 @@ import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.gerryai.planning.parser.pddl.antlr.PDDL31Lexer;
 import org.gerryai.planning.parser.pddl.antlr.PDDL31Parser;
+import org.gerryai.planning.parser.pddl.internal.error.ErrorListener;
+import org.gerryai.planning.parser.pddl.internal.error.SyntaxErrorCollector;
 import org.gerryai.planning.parser.pddl.internal.logic.LogicStackHandler;
 
 import java.io.IOException;
@@ -46,12 +48,24 @@ public class PDDLParserUtils {
     }
 
     /**
+     * Create a collector for syntax errors.
+     * @return the syntax error collector
+     */
+    public SyntaxErrorCollector createSyntaxErrorCollector() {
+        return new SyntaxErrorCollector();
+    }
+
+    /**
      * Create a PDDL parser from the given token stream.
      * @param tokenStream the token stream to process
+     * @param syntaxErrorCollector the collector to put syntax errors in
      * @return the parser
      */
-    public PDDL31Parser createParser(final TokenStream tokenStream) {
-        return new PDDL31Parser(tokenStream);
+    public PDDL31Parser createParser(final TokenStream tokenStream, final SyntaxErrorCollector syntaxErrorCollector) {
+        PDDL31Parser parser = new PDDL31Parser(tokenStream);
+        parser.removeErrorListeners(); // remove ConsoleErrorListener
+        parser.addErrorListener(new ErrorListener(syntaxErrorCollector));
+        return parser;
     }
 
     /**

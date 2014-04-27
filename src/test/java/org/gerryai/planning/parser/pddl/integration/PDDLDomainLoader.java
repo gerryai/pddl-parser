@@ -1,7 +1,7 @@
 package org.gerryai.planning.parser.pddl.integration;
 
 import org.gerryai.planning.model.domain.Domain;
-import org.gerryai.planning.parser.ParseException;
+import org.gerryai.planning.parser.error.ParseException;
 import org.gerryai.planning.parser.pddl.PDDLParserService;
 
 import java.io.IOException;

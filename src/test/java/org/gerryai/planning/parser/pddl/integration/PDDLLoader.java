@@ -1,6 +1,6 @@
 package org.gerryai.planning.parser.pddl.integration;
 
-import org.gerryai.planning.parser.ParseException;
+import org.gerryai.planning.parser.error.ParseException;
 import org.gerryai.planning.parser.pddl.PDDLParserService;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public abstract class PDDLLoader<T> {
         try {
             result = parse(parserService, inputStream);
         } catch (ParseException ex) {
-            errors = ex.getParser().getNumberOfSyntaxErrors();
+            errors = ex.getSyntaxErrors().size();
         } catch (IOException ex) {
             throw new IllegalStateException("Could not read PDDL file for parsing", ex);
         }

@@ -2,6 +2,7 @@ package org.gerryai.planning.parser;
 
 import org.gerryai.planning.model.domain.Domain;
 import org.gerryai.planning.model.problem.Problem;
+import org.gerryai.planning.parser.error.ParseException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +17,7 @@ public interface ParserService {
      * @param inputStream the input stream to parse
      * @return the result of parsing the file
      * @throws java.io.IOException if the input could not be read correctly
-     * @throws ParseException if there was a syntax error parsing the input
+     * @throws org.gerryai.planning.parser.error.ParseException if there was a syntax error parsing the input
      */
     Domain parseDomain(final InputStream inputStream) throws IOException, ParseException;
 
