@@ -17,12 +17,15 @@
  */
 package org.gerryai.planning.parser.pddl.integration;
 
+import org.gerryai.planning.model.Requirement;
 import org.gerryai.planning.model.problem.Problem;
+import org.gerryai.planning.parser.error.MissingRequirementsException;
 import org.gerryai.planning.parser.error.ParseException;
 import org.gerryai.planning.parser.pddl.PDDLParserService;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Set;
 
 /**
  * Abstract base class for PDDL problem parser integration tests.
@@ -31,12 +34,16 @@ public abstract class PDDLProblemLoader extends PDDLLoader<Problem> {
 
     protected Problem problem;
 
-    protected int errors;
+    protected int syntaxErrorCount;
+
+    protected Set<Requirement> missingRequirements;
 
     public PDDLProblemLoader() {
         super();
-        problem = result();
-        errors = errors();
+
+        problem = getResult().orNull();
+        syntaxErrorCount = getSyntaxErrorCount();
+        missingRequirements = getMissingRequirements();
     }
 
     @Override

@@ -22,11 +22,15 @@ import org.gerryai.planning.model.ConstantDefinition;
 import org.gerryai.planning.model.Requirement;
 import org.gerryai.planning.model.logic.Type;
 import org.gerryai.planning.model.problem.Problem;
+import org.gerryai.planning.parser.error.MissingRequirementsException;
+import org.gerryai.planning.parser.error.ParseException;
 import org.gerryai.planning.parser.pddl.antlr.PDDL31Parser;
 import org.gerryai.planning.parser.pddl.internal.logic.ConstantDefinitionStash;
 import org.gerryai.planning.parser.pddl.internal.logic.LogicStackHandler;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Listener for extracting a {@link org.gerryai.planning.model.problem.Problem} when walking the parse tree of a PDDL
@@ -108,5 +112,21 @@ public class ExtractProblemListener extends LogicListener implements ExtractingL
     @Override
     public Problem extract() {
         return problemBuilder.build();
+    }
+
+    @Override
+    public Problem extract(final Set<Requirement> requirementsNeeded) throws ParseException {
+        Problem problem = extract();
+        Set<Requirement> requirementsDeclared = problem.getRequirements().asSet();
+        Set<Requirement> requirementsMissing = new HashSet<>();
+        for (Requirement requirement: requirementsNeeded) {
+            if (!requirementsDeclared.contains(requirement)) {
+                requirementsMissing.add(requirement);
+            }
+        }
+        if (!requirementsMissing.isEmpty()) {
+            throw new MissingRequirementsException(requirementsMissing);
+        }
+        return problem;
     }
 }

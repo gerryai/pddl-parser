@@ -15,25 +15,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.gerryai.planning.parser.pddl.integration;
+package org.gerryai.planning.parser.error;
 
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
+import java.util.List;
 
 /**
- * Base class for PDDL problem parser integration tests expecting a successful parse.
+ * Parse exception encapsulation one or more syntax errors.
  */
-public abstract class ProblemSuccessTester extends PDDLProblemLoader {
+public class SyntaxErrorException extends ParseException {
 
-    @Test
-    public void parsedWithNoSyntaxErrors() {
-        assertEquals("Parsed with no syntax errors", 0, syntaxErrorCount);
+    private List<SyntaxError> syntaxErrors;
+
+    /**
+     * Constructor.
+     * @param syntaxErrors a list of syntax errors causing the problem
+     */
+    public SyntaxErrorException(final List<SyntaxError> syntaxErrors) {
+        super();
+        this.syntaxErrors = syntaxErrors;
     }
 
-    @Test
-    public void parsedWithNoMissingRequirements() {
-        assertEquals("Parsed with no missing requirements", 0, missingRequirements.size());
+    /**
+     * Get the syntax errors that caused the problem.
+     * @return the errors
+     */
+    public List<SyntaxError> getSyntaxErrors() {
+        return syntaxErrors;
     }
-
 }

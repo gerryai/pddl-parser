@@ -15,25 +15,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.gerryai.planning.parser.pddl.integration;
+package org.gerryai.planning.parser.error;
 
-import org.junit.Test;
+import org.gerryai.planning.model.Requirement;
 
-import static org.junit.Assert.assertEquals;
+import java.util.Set;
 
 /**
- * Base class for PDDL problem parser integration tests expecting a successful parse.
+ * Parsing exception thrown when a domain or problem do not declare all the requirements that they use.
  */
-public abstract class ProblemSuccessTester extends PDDLProblemLoader {
+public class MissingRequirementsException extends ParseException {
 
-    @Test
-    public void parsedWithNoSyntaxErrors() {
-        assertEquals("Parsed with no syntax errors", 0, syntaxErrorCount);
+    private Set<Requirement> missingRequirements;
+
+    /**
+     * Constructor.
+     * @param missingRequirements the set of requirements that are missing
+     */
+    public MissingRequirementsException(final Set<Requirement> missingRequirements) {
+        this.missingRequirements = missingRequirements;
     }
 
-    @Test
-    public void parsedWithNoMissingRequirements() {
-        assertEquals("Parsed with no missing requirements", 0, missingRequirements.size());
+    /**
+     * Get the set of requirements that are missing.
+     * @return the requirements
+     */
+    public Set<Requirement> getMissingRequirements() {
+        return missingRequirements;
     }
-
 }

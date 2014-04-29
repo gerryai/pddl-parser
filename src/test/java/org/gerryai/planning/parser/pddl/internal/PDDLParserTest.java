@@ -100,6 +100,7 @@ public class PDDLParserTest {
         when(mockUtils.getDomainContext(mockParser)).thenReturn(mockDomainParseTree);
         when(mockUtils.getProblemContext(mockParser)).thenReturn(mockProblemParseTree);
 
+        when(mockParser.getEnforceRequirments()).thenReturn(true);
         when(mockExtractDomainListener.extract()).thenReturn(mockDomain);
         when(mockExtractProblemListener.extract()).thenReturn(mockProblem);
 

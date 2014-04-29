@@ -19,13 +19,13 @@ package org.gerryai.planning.parser.pddl.internal;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Lexer;
-import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.gerryai.planning.model.domain.Domain;
 import org.gerryai.planning.model.problem.Problem;
 import org.gerryai.planning.parser.error.ParseException;
+import org.gerryai.planning.parser.error.SyntaxErrorException;
 import org.gerryai.planning.parser.pddl.antlr.PDDL31Parser;
 import org.gerryai.planning.parser.pddl.internal.error.SyntaxErrorCollector;
 
@@ -107,18 +107,22 @@ public class PDDLParser {
      * @return the extracted entity
      * @throws ParseException if there were errors encountered whilst parsing
      */
-    private <T>  T extract(final Parser parser, final ParseTree tree, final ExtractingListener<T> listener,
+    private <T>  T extract(final PDDL31Parser parser, final ParseTree tree, final ExtractingListener<T> listener,
                            final SyntaxErrorCollector syntaxErrorCollector)
             throws ParseException {
 
         if (parser.getNumberOfSyntaxErrors() > 0) {
-            throw new ParseException(syntaxErrorCollector.getErrors());
+            throw new SyntaxErrorException(syntaxErrorCollector.getErrors());
         }
 
         ParseTreeWalker parseTreeWalker = parserServiceUtils.createParseTreeWalker();
         parseTreeWalker.walk(listener, tree);
 
-        return listener.extract();
+        if (!parser.getEnforceRequirments()) {
+            return listener.extract(parser.getRequirementsNeeded());
+        } else {
+            return listener.extract();
+        }
     }
 
 }

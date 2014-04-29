@@ -80,6 +80,7 @@ public class PDDLParserUtils {
      */
     public PDDL31Parser createParser(final TokenStream tokenStream, final SyntaxErrorCollector syntaxErrorCollector) {
         PDDL31Parser parser = new PDDL31Parser(tokenStream);
+        parser.setEnforceRequirments(false);
         parser.removeErrorListeners(); // remove ConsoleErrorListener
         parser.addErrorListener(new ErrorListener(syntaxErrorCollector));
         return parser;

@@ -20,7 +20,7 @@ requireDef
     ;
 
 typesDef
-    : {typing}? '(' ':types' typeDefList ')'
+    : {isAllowed(Requirement.TYPING)}? '(' ':types' typeDefList ')' {needed(Requirement.TYPING);}
     ;
 
 typeDefList
@@ -54,7 +54,7 @@ structureDef
 
 constantDefList
     : constantDefListOfNoType
-    | {typing}? constantDefListOfType constantDefList
+    | {isAllowed(Requirement.TYPING)}? constantDefListOfType constantDefList {needed(Requirement.TYPING);}
     ;
 
 constantDefListOfNoType
@@ -77,7 +77,7 @@ ungroundPredicate: '(' predicateName typedVariableList ')';
 
 typedVariableList
     : typedVariableListOfNoType
-    | {typing}? typedVariableListOfType typedVariableList
+    | {isAllowed(Requirement.TYPING)}? typedVariableListOfType typedVariableList {needed(Requirement.TYPING);}
     ;
 
 typedVariableListOfNoType
@@ -115,7 +115,7 @@ actionEffect
 preconditionGoalDescription
     : preferencesGoalDescription
     | preconditionGoalDescriptionAnd
-    | {universalPreconditions}? '(' 'forall' '(' variable ')' preconditionGoalDescription ')'
+    | {isAllowed(Requirement.UNIVERSAL_PRECONDITIONS)}? '(' 'forall' '(' variable ')' preconditionGoalDescription ')' {needed(Requirement.UNIVERSAL_PRECONDITIONS);}
     ;
 
 preconditionGoalDescriptionAnd
@@ -130,13 +130,13 @@ preferencesGoalDescription
 
 goalDescription
     : atomicFormulaTerm
-    | {negativePreconditions}? literalTerm
+    | {isAllowed(Requirement.NEGATIVE_PRECONDITIONS)}? literalTerm {needed(Requirement.NEGATIVE_PRECONDITIONS);}
     | goalDescriptionAnd
 //<GD> ::= :disjunctive−preconditions (or <GD>*)
 //<GD> ::= :disjunctive−preconditions (not <GD>)
 //<GD> ::= :disjunctive−preconditions (imply <GD> <GD>)
 //<GD> ::= :existential−preconditions (exists (<typed list(variable)>) <GD> )
-    | {universalPreconditions}? '(' 'forall' '(' typedVariableList ')' goalDescription ')'
+    | {isAllowed(Requirement.UNIVERSAL_PRECONDITIONS)}? '(' 'forall' '(' typedVariableList ')' goalDescription ')' {needed(Requirement.UNIVERSAL_PRECONDITIONS);}
 //<GD> ::= :numeric-fluents <f-comp>
     ;
 
@@ -154,8 +154,8 @@ cEffectAnd
     ;
 
 cEffect
-    : {conditionalEffects}? forAllEffect
-    | {conditionalEffects}? whenEffect
+    : {isAllowed(Requirement.CONDITIONAL_EFFECTS)}? forAllEffect {needed(Requirement.CONDITIONAL_EFFECTS);}
+    | {isAllowed(Requirement.CONDITIONAL_EFFECTS)}? whenEffect {needed(Requirement.CONDITIONAL_EFFECTS);}
     | pEffect
     ;
 
@@ -231,7 +231,7 @@ goal
 
 objectDecList
     : objectDecListOfNoType
-    | {typing}? objectDecListOfType objectDecList
+    | {isAllowed(Requirement.TYPING)}? objectDecListOfType objectDecList {needed(Requirement.TYPING);}
     ;
 
 objectDecListOfNoType

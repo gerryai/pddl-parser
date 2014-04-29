@@ -17,12 +17,14 @@
  */
 package org.gerryai.planning.parser.pddl.integration;
 
+import org.gerryai.planning.model.Requirement;
 import org.gerryai.planning.model.domain.Domain;
 import org.gerryai.planning.parser.error.ParseException;
 import org.gerryai.planning.parser.pddl.PDDLParserService;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Set;
 
 /**
  * Abstract base class for PDDL parser integration tests. Subclasses must implement the getFilePath method to
@@ -32,13 +34,16 @@ public abstract class PDDLDomainLoader extends PDDLLoader<Domain> {
 
     protected Domain domain;
 
-    protected int errors;
+    protected int syntaxErrorCount;
+
+    protected Set<Requirement> missingRequirements;
 
     public PDDLDomainLoader() {
         super();
 
-        domain = result();
-        errors = errors();
+        domain = getResult().orNull();
+        syntaxErrorCount = getSyntaxErrorCount();
+        missingRequirements = getMissingRequirements();
     }
 
     protected Domain parse(PDDLParserService parserService, InputStream inputStream) throws IOException, ParseException {

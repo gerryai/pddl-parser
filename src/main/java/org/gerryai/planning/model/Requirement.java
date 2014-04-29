@@ -18,7 +18,7 @@
 package org.gerryai.planning.model;
 
 /**
- * Class encapsulating an individual planner feature required by a domain specification.
+ * Class encapsulating an individual planner feature required by a domain or problem specification.
  */
 public enum Requirement {
     STRIPS,

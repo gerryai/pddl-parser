@@ -26,12 +26,16 @@ import org.gerryai.planning.model.ConstantDefinition;
 import org.gerryai.planning.model.logic.Type;
 import org.gerryai.planning.model.domain.TypeDefinition;
 import org.gerryai.planning.model.logic.Variable;
+import org.gerryai.planning.parser.error.MissingRequirementsException;
+import org.gerryai.planning.parser.error.ParseException;
 import org.gerryai.planning.parser.pddl.antlr.PDDL31Parser;
 import org.gerryai.planning.parser.pddl.internal.logic.ConstantDefinitionStash;
 import org.gerryai.planning.parser.pddl.internal.logic.LogicStackHandler;
 import org.gerryai.planning.parser.pddl.internal.logic.TypeDefinitionStash;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -180,5 +184,21 @@ public class ExtractDomainListener extends LogicListener implements ExtractingLi
     @Override
     public Domain extract() {
         return domainBuilder.build();
+    }
+
+    @Override
+    public Domain extract(final Set<Requirement> requirementsNeeded) throws ParseException {
+        Domain domain = extract();
+        Set<Requirement> requirementsDeclared = domain.getRequirements().asSet();
+        Set<Requirement> requirementsMissing = new HashSet<>();
+        for (Requirement requirement: requirementsNeeded) {
+            if (!requirementsDeclared.contains(requirement)) {
+                requirementsMissing.add(requirement);
+            }
+        }
+        if (!requirementsMissing.isEmpty()) {
+            throw new MissingRequirementsException(requirementsMissing);
+        }
+        return domain;
     }
 }

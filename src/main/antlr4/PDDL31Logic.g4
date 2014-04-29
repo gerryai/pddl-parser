@@ -63,12 +63,12 @@ literalConstant
 
 atomicFormulaTerm
     : predicateTerm
-    | {equality}? equalityTerm
+    | {isAllowed(Requirement.EQUALITY)}? equalityTerm {needed(Requirement.EQUALITY);}
     ;
 
 atomicFormulaConstant
     : predicateConstant
-    | {equality}? equalityConstant
+    | {isAllowed(Requirement.EQUALITY)}? equalityConstant {needed(Requirement.EQUALITY);}
     ;
 
 equalityTerm

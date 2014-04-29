@@ -17,9 +17,11 @@
  */
 package org.gerryai.planning.parser.pddl.integration.general.failure;
 
+import org.gerryai.planning.model.Requirement;
 import org.gerryai.planning.parser.pddl.integration.PDDLDomainLoader;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -33,7 +35,8 @@ public class MissingEqualityIT extends PDDLDomainLoader {
     }
 
     @Test
-    public void parseFailsWithSyntaxErrors() {
-        assertTrue("Should have syntax error(s) when parsing", errors > 0);
+    public void parseFailsWithMissingEqualityRequirement() {
+        assertEquals(1, missingRequirements.size());
+        assertTrue(missingRequirements.contains(Requirement.EQUALITY));
     }
 }

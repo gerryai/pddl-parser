@@ -2,24 +2,42 @@ grammar PDDL31Requirements;
 import PDDL31Core;
 
 @parser::members {
-    public boolean equality = false;
-    public boolean typing = false;
-    public boolean negativePreconditions = false;
-    public boolean universalPreconditions = false;
-    public boolean conditionalEffects = false;
+    private boolean enforceRequirements = true;
+    private Set<Requirement> requirementsDeclared = new HashSet<Requirement>();
+    private Set<Requirement> requirementsNeeded = new HashSet<Requirement>();
+
+    private boolean isAllowed(Requirement requirement) {
+        return requirementsDeclared.contains(requirement) || !enforceRequirements;
+    }
+
+    private void needed(Requirement requirement) {
+        requirementsNeeded.add(requirement);
+    }
+
+    public Set<Requirement> getRequirementsNeeded() {
+        return requirementsNeeded;
+    }
+
+    public boolean getEnforceRequirments() {
+        return enforceRequirements;
+    }
+
+    public void setEnforceRequirments(boolean enforceRequirements) {
+        this.enforceRequirements = enforceRequirements;
+    }
 }
 
 requireKey
     : ':strips'   // Basic STRIPS-style adds and deletes
-    | ':typing' {typing = true;} // Allow type names in declarations of variables
-    | ':negative-preconditions' {negativePreconditions = true;} // Allow not in goal descriptions
+    | ':typing' {requirementsDeclared.add(Requirement.TYPING);} // Allow type names in declarations of variables
+    | ':negative-preconditions' {requirementsDeclared.add(Requirement.NEGATIVE_PRECONDITIONS);} // Allow not in goal descriptions
 //    | ':disjunctive-preconditions' // Allow or in goal descriptions
-    | ':equality' {equality = true;} // Support = as built-in predicate
+    | ':equality' {requirementsDeclared.add(Requirement.EQUALITY);} // Support = as built-in predicate
 //    | ':existential-preconditions' // Allow exists in goal descriptions
-    | ':universal-preconditions' {universalPreconditions = true;} // Allow forall in goal descriptions
+    | ':universal-preconditions' {requirementsDeclared.add(Requirement.UNIVERSAL_PRECONDITIONS);} // Allow forall in goal descriptions
 //    | ':quantified-preconditions' = :existential-preconditions
 //+ :universal-preconditions
-    | ':conditional-effects' {conditionalEffects = true;} // Allow when in action effects
+    | ':conditional-effects' {requirementsDeclared.add(Requirement.CONDITIONAL_EFFECTS);} // Allow when in action effects
 //    | ':fluents' = :numeric-fluents
 //+ :object-fluents
 //    | ':numeric-fluents' // Allow numeric function definitions and use of effects using assignment operators and arithmetic preconditions.

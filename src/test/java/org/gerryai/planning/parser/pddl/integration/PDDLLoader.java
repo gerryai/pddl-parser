@@ -17,11 +17,18 @@
  */
 package org.gerryai.planning.parser.pddl.integration;
 
+import com.google.common.base.Optional;
+import org.gerryai.planning.model.Requirement;
+import org.gerryai.planning.parser.error.MissingRequirementsException;
 import org.gerryai.planning.parser.error.ParseException;
+import org.gerryai.planning.parser.error.SyntaxErrorException;
 import org.gerryai.planning.parser.pddl.PDDLParserService;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -31,9 +38,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public abstract class PDDLLoader<T> {
 
-    private T result;
+    private Optional<T> result = Optional.absent();
 
-    private int errors;
+    private int syntaxErrors = 0;
+
+    private Set<Requirement> missingRequirements = Collections.emptySet();
 
     protected abstract String getFilePath();
 
@@ -46,20 +55,28 @@ public abstract class PDDLLoader<T> {
         PDDLParserService parserService = new PDDLParserService();
 
         try {
-            result = parse(parserService, inputStream);
+            result = Optional.fromNullable(parse(parserService, inputStream));
+        } catch (SyntaxErrorException ex) {
+            syntaxErrors = ex.getSyntaxErrors().size();
+        } catch (MissingRequirementsException ex) {
+            missingRequirements = ex.getMissingRequirements();
         } catch (ParseException ex) {
-            errors = ex.getSyntaxErrors().size();
+            throw new IllegalStateException("Unhandled parsing exception thrown", ex);
         } catch (IOException ex) {
             throw new IllegalStateException("Could not read PDDL file for parsing", ex);
         }
     }
 
-    public T result() {
+    public Optional<T> getResult() {
         return result;
     }
 
-    public int errors() {
-        return errors;
+    public int getSyntaxErrorCount() {
+        return syntaxErrors;
+    }
+
+    public Set<Requirement> getMissingRequirements() {
+        return missingRequirements;
     }
 
     protected abstract T parse(PDDLParserService parserService, InputStream inputStream) throws IOException, ParseException;

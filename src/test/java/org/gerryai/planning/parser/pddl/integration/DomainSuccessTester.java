@@ -30,7 +30,11 @@ public abstract class DomainSuccessTester extends PDDLDomainLoader {
 
     @Test
     public void parsedWithNoSyntaxErrors() {
-        assertEquals("Parsed with no syntax errors", 0, errors);
+        assertEquals("Parsed with no syntax errors", 0, syntaxErrorCount);
     }
 
+    @Test
+    public void parsedWithNoMissingRequirements() {
+        assertEquals("Parsed with no missing requirements", 0, missingRequirements.size());
+    }
 }

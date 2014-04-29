@@ -2,6 +2,10 @@ lexer grammar PDDL31Core;
 
 @header {
     package org.gerryai.planning.parser.pddl.antlr;
+
+    import java.util.HashSet;
+    import java.util.Set;
+    import org.gerryai.planning.model.Requirement;
 }
 
 NAME: LETTER ANYCHAR*;

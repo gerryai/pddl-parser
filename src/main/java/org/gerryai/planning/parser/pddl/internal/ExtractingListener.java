@@ -18,6 +18,10 @@
 package org.gerryai.planning.parser.pddl.internal;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
+import org.gerryai.planning.model.Requirement;
+import org.gerryai.planning.parser.error.ParseException;
+
+import java.util.Set;
 
 /**
  * Interface for a parse tree listener that can extract an entity of type T after parsing.
@@ -30,4 +34,13 @@ public interface ExtractingListener<T>  extends ParseTreeListener {
      * @return the extracted entity
      */
     T extract();
+
+    /**
+     * Extract an entity of type T, checking that it has declared the requirements that it needs.
+     * @param requirementsNeeded the set of requirements that the entity actually needs
+     * @return the extracted entity
+     * @throws ParseException if the extraction failed the requirements check
+     */
+    T extract(final Set<Requirement> requirementsNeeded) throws ParseException;
+
 }
