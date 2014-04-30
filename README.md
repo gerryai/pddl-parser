@@ -1,9 +1,21 @@
 # PDDL Parser
 
-A Java library for parsing Planning Domain Definition Language and turning it into simple Java objects that can be used
-by planning algorithms. It provides a fresh, clean and reusable approach to parsing PDDL.
+A Java library for parsing Planning Domain Definition Language (PDDL) and turning it into simple Java objects that can
+be used by planning algorithms. It provides a fresh, clean and reusable approach to parsing PDDL.
 
 [![Build Status](https://travis-ci.org/gerryai/pddl-parser.svg?branch=master)](https://travis-ci.org/gerryai/pddl-parser) [![Coverage Status](https://coveralls.io/repos/gerryai/pddl-parser/badge.png?branch=master)](https://coveralls.io/r/gerryai/pddl-parser?branch=master)
+
+## Why?
+
+This project was created to help people implementing planning algorithms skip the dull stuff and get to the
+interesting part quicker. After all, who wants to write a parser?
+
+The aim of this project is to provide a parser that:
+
+* Can be integrated quickly into a planning project to add PDDL parsing support
+* Generates a simple set of Java objects that represent the domain or problem
+* Does not require further compilation steps or use domain-specific classes
+* Uses code that is clear to understand, reusable, extensible and fully tested
 
 ## Status
 *This is a work in progress project, not yet ready for prime time - please contact David Edwards
@@ -52,6 +64,13 @@ try {
     throw new IllegalStateException("Could not read PDDL file for parsing", ex);
 }
 ```
+
+The `Domain` or `Problem` object returned has methods to access the model as immutable collections of simple objects
+representing the various parts of the domain or problem that was defined in the PDDL file.
+
+## Under the hood
+
+The parser uses an Antlr 4 grammar to parse input.
 
 ## Contribute
 
