@@ -129,7 +129,7 @@ public class FormulaStash {
          * @param type the formula type
          * @param formula the formula
          */
-        public StashItem(final FormulaType type, final Formula formula) {
+        StashItem(final FormulaType type, final Formula formula) {
             this.formula = formula;
             this.formulaType = type;
         }

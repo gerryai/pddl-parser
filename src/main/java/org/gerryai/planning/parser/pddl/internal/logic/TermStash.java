@@ -197,7 +197,7 @@ public class TermStash {
          * @param name the name of the term
          * @param termType the type of the term
          */
-        public TermStashItem(final String name, final TermType termType) {
+        TermStashItem(final String name, final TermType termType) {
             this.name = name;
             this.termType = termType;
         }
