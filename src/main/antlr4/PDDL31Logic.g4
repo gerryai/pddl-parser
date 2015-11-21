@@ -29,6 +29,10 @@ constant
 
 variable: '?' NAME;
 
+// Rules for functions
+
+functionName: NAME;
+
 // Rules for predicates
 
 predicateName: NAME;
@@ -69,6 +73,26 @@ atomicFormulaTerm
 atomicFormulaConstant
     : predicateConstant
     | {isAllowed(Requirement.EQUALITY)}? equalityConstant {needed(Requirement.EQUALITY);}
+    ;
+
+assignmentFormulaTerm
+    : '(' operator assignmentDestination assignmentValue')'
+    ;
+
+operator
+    : NAME
+    ;
+
+assignmentDestination
+    : '(' functionName ')'
+    ;
+
+assignmentValue
+    : '(' functionReference ')'
+    ;
+
+functionReference
+    : functionName variable
     ;
 
 equalityTerm

@@ -6,6 +6,7 @@ domain
     requireDef?
     typesDef?
     constantsDef?
+    functionsDef?
     predicatesDef?
     structureDef*
     ')'
@@ -42,6 +43,14 @@ typeDef
 
 constantsDef
     : '(' ':constants' constantDefList ')'
+    ;
+
+functionsDef
+    : {isAllowed(Requirement.NUMERIC_FLUENTS)}? '(' ':functions' functionDef+ ')' {needed(Requirement.NUMERIC_FLUENTS);}
+    ;
+
+functionDef
+    : '(' functionName typedVariableList ')' '-' 'number'
     ;
 
 predicatesDef
@@ -170,7 +179,7 @@ whenEffect
 pEffect
     : negatedAtomicFormulaTerm
     | atomicFormulaTerm
-    //<p-effect> ::=:numeric-fluents (<assign-op> <f-head> <f-exp>)
+    | {isAllowed(Requirement.NUMERIC_FLUENTS)}? assignmentFormulaTerm {needed(Requirement.NUMERIC_FLUENTS);} //<p-effect> ::=:numeric-fluents (<assign-op> <f-head> <f-exp>)
     //<p-effect> ::=:object-fluents (assign <function-term> <term>)
     //<p-effect> ::=:object-fluents (assign <function-term> undefined)
     ;

@@ -40,7 +40,7 @@ requireKey
     | ':conditional-effects' {requirementsDeclared.add(Requirement.CONDITIONAL_EFFECTS);} // Allow when in action effects
 //    | ':fluents' = :numeric-fluents
 //+ :object-fluents
-//    | ':numeric-fluents' // Allow numeric function definitions and use of effects using assignment operators and arithmetic preconditions.
+    | ':numeric-fluents' {requirementsDeclared.add(Requirement.NUMERIC_FLUENTS);} // Allow numeric function definitions and use of effects using assignment operators and arithmetic preconditions.
 //:adl = :strips + :typing
 //+ :negative-preconditions
 //+ :disjunctive-preconditions
