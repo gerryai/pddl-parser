@@ -58,6 +58,14 @@ public class TermStash {
     }
 
     /**
+     * Add a number to the queue to be collected
+     * @param number
+     */
+    public void addNumber(final String number) {
+        termDeque.add(new TermStashItem(number, TermType.NUMBER));
+    }
+
+    /**
      * Apply the given type to the untyped terms in the stash.
      * @param type the type
      */
@@ -180,7 +188,7 @@ public class TermStash {
      */
     private enum TermType {
         CONSTANT,
-        VARIABLE
+        NUMBER, VARIABLE
     }
 
     /**

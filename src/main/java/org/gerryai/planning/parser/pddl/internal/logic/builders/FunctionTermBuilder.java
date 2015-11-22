@@ -23,8 +23,6 @@ import org.gerryai.planning.parser.pddl.internal.logic.FormulaStash;
 import org.gerryai.planning.parser.pddl.internal.logic.SymbolStash;
 import org.gerryai.planning.parser.pddl.internal.logic.TermStash;
 
-import static com.google.common.base.Preconditions.checkState;
-
 /**
  * Formula builder for functions.
  */
@@ -32,8 +30,6 @@ public class FunctionTermBuilder implements FormulaBuilder<FunctionTerm> {
 
     @Override
     public FunctionTerm build(final SymbolStash symbolStash, final SymbolStash operatorStash, final TermStash termStash, final FormulaStash formulaStash) {
-        checkState(!symbolStash.isEmpty(), "Expecting function name");
-
         FunctionTerm.Builder functionTermBuilder = new FunctionTerm.Builder().name(symbolStash.pop());
         for (Term term: termStash.terms()) {
             functionTermBuilder = functionTermBuilder.term(term);

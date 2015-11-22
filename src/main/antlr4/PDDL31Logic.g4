@@ -21,10 +21,15 @@ type
 term
     : constant
     | variable
+    | number
     ;
 
 constant
     : NAME
+    ;
+
+number
+    : NUMBER
     ;
 
 variable: '?' NAME;
@@ -35,6 +40,7 @@ functionName: NAME;
 
 functionTerm
   : '(' functionName term* ')'
+  | number
   ;
 
 // Rules for predicates

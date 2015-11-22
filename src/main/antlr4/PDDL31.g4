@@ -227,7 +227,7 @@ init
 
 initEl
     : literalConstant
-    | operation //<init-el> ::=:numeric-fluents (= <basic-function-term> <number>)
+    | {isAllowed(Requirement.NUMERIC_FLUENTS)}? operation {needed(Requirement.NUMERIC_FLUENTS);} //<init-el> ::=:numeric-fluents (= <basic-function-term> <number>)
 //<init-el> ::=:timed−initial−literals (at <number> <literal(name)>)
 //<init-el> ::=:object-fluents (= <basic-function-term> <name>)
 //<basic-function-term> ::= <function-symbol>

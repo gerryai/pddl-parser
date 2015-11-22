@@ -69,6 +69,11 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     @Override
+    public void exitNumber(@NotNull PDDL31Parser.NumberContext ctx) {
+        stackHandler.addNumber(ctx.NUMBER().getSymbol().getText());
+    }
+
+    @Override
     public void exitVariable(@NotNull final PDDL31Parser.VariableContext ctx) {
         stackHandler.addVariable(ctx.NAME().getSymbol().getText().toLowerCase());
     }

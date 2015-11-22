@@ -9,12 +9,12 @@ lexer grammar PDDL31Core;
 }
 
 NAME: LETTER ANYCHAR*;
+BASICOPERATOR: '=';
+NUMBER: DIGIT+ DECIMAL?;
 fragment LETTER: [a-zA-Z];
 fragment ANYCHAR: LETTER | DIGIT | '-' | '_';
-fragment NUMBER: DIGIT+ DECIMAL?;
 fragment DIGIT:  [0-9];
 fragment DECIMAL: '.' DIGIT+;
-fragment BASICOPERATOR: '='|'-'|'+';
 
 LINECOMMENT: (';'|'//') ~('\n'|'\r')* '\r'? '\n' -> skip;
 WS: [ \n\t\r]+ -> skip;

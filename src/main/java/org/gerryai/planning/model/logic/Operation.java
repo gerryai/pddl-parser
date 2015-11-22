@@ -2,9 +2,9 @@ package org.gerryai.planning.model.logic;
 
 public class Operation implements Formula {
 
-    private final String operator; // TODO this is not a constant, is an operator
-    private final FunctionTerm consequent; // TODO this is a function term, consequent
-    private final FunctionTerm antecedent; // TODO this is a function term, antecedent
+    private final String operator;
+    private final FunctionTerm consequent;
+    private final FunctionTerm antecedent;
 
     public Operation(String operator, FunctionTerm consequent, FunctionTerm antecedent) {
         this.operator = operator;

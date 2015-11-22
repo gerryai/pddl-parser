@@ -17,7 +17,6 @@
  */
 package org.gerryai.planning.parser.pddl.integration.example.tasks;
 
-import org.gerryai.planning.parser.pddl.integration.DomainSuccessTester;
 import org.gerryai.planning.parser.pddl.integration.ProblemSuccessTester;
 import org.junit.Test;
 

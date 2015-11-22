@@ -102,6 +102,13 @@ public class LogicStackHandler {
     }
 
     /**
+     * Add a number to the stash to be collected
+     * @param number
+     */
+    public void addNumber(String number) {
+        termStash.addNumber(number);
+    }
+    /**
      * Add a variable to the stash to be collected.
      * @param name the name of the variable to add
      */
