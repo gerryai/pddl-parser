@@ -158,7 +158,12 @@ public class Domain {
             return this;
         }
 
-        public Builder function(FunctionDefinition functionDefinition) {
+        /**
+         * Add a function definition.
+         * @param functionDefinition the function definition to add
+         * @return an updated builder
+         */
+        public Builder function(final FunctionDefinition functionDefinition) {
             functionsBuilder = functionsBuilder.addFunction(functionDefinition);
             return this;
         }

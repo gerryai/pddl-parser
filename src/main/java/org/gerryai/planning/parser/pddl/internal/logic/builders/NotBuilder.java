@@ -30,7 +30,8 @@ import static com.google.common.base.Preconditions.checkState;
 public class NotBuilder implements FormulaBuilder<Not> {
 
     @Override
-    public Not build(final SymbolStash symbolStash, final SymbolStash operatorStash, final TermStash termStash, final FormulaStash formulas) {
+    public Not build(final SymbolStash symbolStash, final SymbolStash operatorStash, final TermStash termStash,
+                     final FormulaStash formulas) {
         checkState(symbolStash.isEmpty(), "Not expecting a symbol");
         checkState(termStash.isEmpty(), "Not expecting any uncollected terms");
         checkState(formulas.size() == 1, "Expected a single completed formula to be ready for collection");

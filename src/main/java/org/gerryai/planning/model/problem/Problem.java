@@ -183,17 +183,22 @@ public class Problem {
         }
 
         /**
-         * Set the metric of this problem
+         * Set the metric of this problem.
          *
-         * @param name
-         * @return
+         * @param name the name of the metric
+         * @return the formula
          */
-        public Builder metric(String name) {
+        public Builder metric(final String name) {
             metricBuilder.name(name);
             return this;
         }
 
-        public void metricFormula(Formula formula) {
+        /**
+         * Sets the formula for the metric in this problem.
+         *
+         * @param formula the formula
+         */
+        public void metricFormula(final Formula formula) {
             metricBuilder.formula(formula);
         }
 

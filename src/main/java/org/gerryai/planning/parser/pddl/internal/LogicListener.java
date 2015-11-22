@@ -69,7 +69,7 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     @Override
-    public void exitNumber(@NotNull PDDL31Parser.NumberContext ctx) {
+    public void exitNumber(@NotNull final PDDL31Parser.NumberContext ctx) {
         stackHandler.addNumber(ctx.NUMBER().getSymbol().getText());
     }
 
@@ -84,17 +84,17 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     @Override
-    public void enterFunctionDef(@NotNull PDDL31Parser.FunctionDefContext ctx) {
+    public void enterFunctionDef(@NotNull final PDDL31Parser.FunctionDefContext ctx) {
         stackHandler.beginFunction();
     }
 
     @Override
-    public void exitFunctionDef(@NotNull PDDL31Parser.FunctionDefContext ctx) {
+    public void exitFunctionDef(@NotNull final PDDL31Parser.FunctionDefContext ctx) {
         stackHandler.endFunction();
     }
 
     @Override
-    public void exitFunctionName(@NotNull PDDL31Parser.FunctionNameContext ctx) {
+    public void exitFunctionName(@NotNull final PDDL31Parser.FunctionNameContext ctx) {
         stackHandler.symbol(ctx.NAME().getSymbol().getText().toLowerCase());
     }
 
@@ -141,37 +141,37 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     @Override
-    public void enterOperation(@NotNull PDDL31Parser.OperationContext ctx) {
+    public void enterOperation(@NotNull final PDDL31Parser.OperationContext ctx) {
         stackHandler.beginOperation();
     }
 
     @Override
-    public void exitOperation(@NotNull PDDL31Parser.OperationContext ctx) {
+    public void exitOperation(@NotNull final PDDL31Parser.OperationContext ctx) {
         stackHandler.endOperation();
     }
 
     @Override
-    public void exitOperator(@NotNull PDDL31Parser.OperatorContext ctx) {
+    public void exitOperator(@NotNull final PDDL31Parser.OperatorContext ctx) {
         stackHandler.operator(ctx.getText().toLowerCase());
     }
 
     @Override
-    public void enterAntecedent(@NotNull PDDL31Parser.AntecedentContext ctx) {
+    public void enterAntecedent(@NotNull final PDDL31Parser.AntecedentContext ctx) {
         stackHandler.beginFunctionTerm();
     }
 
     @Override
-    public void exitAntecedent(@NotNull PDDL31Parser.AntecedentContext ctx) {
+    public void exitAntecedent(@NotNull final PDDL31Parser.AntecedentContext ctx) {
         stackHandler.endFunctionTerm();
     }
 
     @Override
-    public void enterConsequent(@NotNull PDDL31Parser.ConsequentContext ctx) {
+    public void enterConsequent(@NotNull final PDDL31Parser.ConsequentContext ctx) {
         stackHandler.beginFunctionTerm();
     }
 
     @Override
-    public void exitConsequent(@NotNull PDDL31Parser.ConsequentContext ctx) {
+    public void exitConsequent(@NotNull final PDDL31Parser.ConsequentContext ctx) {
         stackHandler.endFunctionTerm();
     }
 
@@ -282,7 +282,7 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     /**
-     * Get the function we just built
+     * Get the function we just built.
      * @return the function
      */
     protected FunctionDefinition getFunction() {

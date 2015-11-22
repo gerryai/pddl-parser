@@ -18,8 +18,11 @@
 package org.gerryai.planning.parser.pddl.internal.logic;
 
 import com.google.common.base.Optional;
-import org.gerryai.planning.model.logic.*;
 import org.gerryai.planning.model.domain.FunctionDefinition;
+import org.gerryai.planning.model.logic.Formula;
+import org.gerryai.planning.model.logic.FunctionTerm;
+import org.gerryai.planning.model.logic.Operation;
+import org.gerryai.planning.model.logic.Predicate;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -39,7 +42,8 @@ public class FormulaStash {
 
     /**
      * Add a completed formula to the stash.
-     * @param type the type of formula being added
+     *
+     * @param type    the type of formula being added
      * @param formula the formula
      */
     public void add(final FormulaType type, final Formula formula) {
@@ -49,6 +53,7 @@ public class FormulaStash {
     /**
      * Remove a predicate from the stash.
      * This will be the oldest formula in the stash and if it isn't a predicate then an exception will be thrown.
+     *
      * @return the predicate
      */
     public Predicate removePredicate() {
@@ -58,6 +63,7 @@ public class FormulaStash {
     /**
      * Remove a operation from the stash.
      * This will be the oldest formula in the stash and if it isn't a assignment then an exception will be thrown.
+     *
      * @return the predicate
      */
     public Operation removeOperation() {
@@ -67,6 +73,7 @@ public class FormulaStash {
     /**
      * Remove a head from the stash.
      * This will be the oldest formula in the stash and if it isn't a assignment head then an exception will be thrown.
+     *
      * @return the predicate
      */
     public FunctionTerm removeFunctionTerm() {
@@ -76,6 +83,7 @@ public class FormulaStash {
     /**
      * Remove a function from the stash.
      * This will be the oldest formula in the stash and if it isn't a function then an exception will be thrown.
+     *
      * @return the function
      */
     public FunctionDefinition removeFunction() {
@@ -84,6 +92,7 @@ public class FormulaStash {
 
     /**
      * Remove the oldest formula from the stash.
+     *
      * @return the formula
      */
     public Formula remove() {
@@ -93,6 +102,7 @@ public class FormulaStash {
     /**
      * Remove all formulas from the stash and return them as a list. The order of the formulas in the list will be the
      * same as the order they were added to the stash.
+     *
      * @return the list of formulas
      */
     public List<Formula> removeAll() {
@@ -105,6 +115,7 @@ public class FormulaStash {
 
     /**
      * Check if the stash is empty.
+     *
      * @return true if the stash is empty
      */
     public boolean isEmpty() {
@@ -113,6 +124,7 @@ public class FormulaStash {
 
     /**
      * Get the size of the stash.
+     *
      * @return the number of items in the stash
      */
     public int size() {
@@ -121,6 +133,7 @@ public class FormulaStash {
 
     /**
      * Peek at the type of the oldest formula in the stash.
+     *
      * @return the type of formula
      */
     public Optional<FormulaType> peek() {
@@ -134,12 +147,13 @@ public class FormulaStash {
     /**
      * Remove a formula of the specified type from the stash.
      * The oldest formula in the stash will be taken and if it is of the wrong type then an exception will be thrown.
+     *
      * @param type the type of formula to expect
      * @return the formula
      */
     private Formula remove(final FormulaType type) {
         checkState(type.equals(formulas.peekFirst().getFormulaType()),
-                format("Expected a %s to be available", type));
+            format("Expected a %s to be available", type));
         return remove();
     }
 
@@ -153,7 +167,8 @@ public class FormulaStash {
 
         /**
          * Constructor.
-         * @param type the formula type
+         *
+         * @param type    the formula type
          * @param formula the formula
          */
         StashItem(final FormulaType type, final Formula formula) {
@@ -163,6 +178,7 @@ public class FormulaStash {
 
         /**
          * Get the formula type.
+         *
          * @return the formula type
          */
         public FormulaType getFormulaType() {
@@ -171,6 +187,7 @@ public class FormulaStash {
 
         /**
          * Get the formula.
+         *
          * @return the formula
          */
         public Formula getFormula() {

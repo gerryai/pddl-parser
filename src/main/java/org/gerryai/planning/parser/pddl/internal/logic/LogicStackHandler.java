@@ -19,9 +19,23 @@ package org.gerryai.planning.parser.pddl.internal.logic;
 
 import com.google.common.base.Optional;
 import org.gerryai.planning.model.domain.FunctionDefinition;
-import org.gerryai.planning.model.logic.*;
-import org.gerryai.planning.parser.pddl.internal.logic.builders.*;
+import org.gerryai.planning.model.logic.Constant;
+import org.gerryai.planning.model.logic.Formula;
+import org.gerryai.planning.model.logic.FunctionTerm;
+import org.gerryai.planning.model.logic.Operation;
+import org.gerryai.planning.model.logic.Predicate;
+import org.gerryai.planning.model.logic.Type;
+import org.gerryai.planning.model.logic.Variable;
+import org.gerryai.planning.parser.pddl.internal.logic.builders.AndBuilder;
+import org.gerryai.planning.parser.pddl.internal.logic.builders.EqualsBuilder;
+import org.gerryai.planning.parser.pddl.internal.logic.builders.ForAllBuilder;
 import org.gerryai.planning.parser.pddl.internal.logic.builders.FormulaBuilder;
+import org.gerryai.planning.parser.pddl.internal.logic.builders.FunctionBuilder;
+import org.gerryai.planning.parser.pddl.internal.logic.builders.FunctionTermBuilder;
+import org.gerryai.planning.parser.pddl.internal.logic.builders.IfThenBuilder;
+import org.gerryai.planning.parser.pddl.internal.logic.builders.NotBuilder;
+import org.gerryai.planning.parser.pddl.internal.logic.builders.OperationBuilder;
+import org.gerryai.planning.parser.pddl.internal.logic.builders.PredicateBuilder;
 
 import java.util.List;
 
@@ -65,6 +79,7 @@ public class LogicStackHandler {
 
     /**
      * Add a type name to the stash.
+     *
      * @param name the name of the type
      */
     public void type(final String name) {
@@ -87,6 +102,7 @@ public class LogicStackHandler {
 
     /**
      * Apply the given type to the untyped terms in the term stash.
+     *
      * @param type the type to apply
      */
     public void applyType(final Type type) {
@@ -95,6 +111,7 @@ public class LogicStackHandler {
 
     /**
      * Add a constant to the stash to be collected.
+     *
      * @param name the name of the constant to add
      */
     public void addConstant(final String name) {
@@ -102,14 +119,17 @@ public class LogicStackHandler {
     }
 
     /**
-     * Add a number to the stash to be collected
-     * @param number
+     * Add a number to the stash to be collected.
+     *
+     * @param number the number to be collected
      */
-    public void addNumber(String number) {
+    public void addNumber(final String number) {
         termStash.addNumber(number);
     }
+
     /**
      * Add a variable to the stash to be collected.
+     *
      * @param name the name of the variable to add
      */
     public void addVariable(final String name) {
@@ -117,14 +137,14 @@ public class LogicStackHandler {
     }
 
     /**
-     * Begin a function
+     * Begin a function.
      */
     public void beginFunction() {
         beginFormula(FormulaType.FUNCTION);
     }
 
     /**
-     * End a function
+     * End a function.
      */
     public void endFunction() {
         endFormula(FormulaType.FUNCTION);
@@ -139,6 +159,7 @@ public class LogicStackHandler {
 
     /**
      * Set the symbol of the predicate or function at the top of the stack.
+     *
      * @param name the name
      */
     public void symbol(final String name) {
@@ -146,12 +167,14 @@ public class LogicStackHandler {
     }
 
     /**
-     * Set the operator for an operation
-     * @param operator
+     * Set the operator for an operation.
+     *
+     * @param operator to set
      */
     public void operator(final String operator) {
         operatorStash.push(operator);
     }
+
     /**
      * Finish building the predicate on top of the stack.
      */
@@ -174,32 +197,33 @@ public class LogicStackHandler {
     }
 
     /**
-     * Begin an operation
+     * Begin an operation.
      */
     public void beginOperation() {
         beginFormula(FormulaType.OPERATION);
     }
 
     /**
-     * End an operantion
+     * End an operation.
      */
     public void endOperation() {
         endFormula(FormulaType.OPERATION);
     }
 
     /**
-     * Begin an function term
+     * Begin an function term.
      */
     public void beginFunctionTerm() {
-      beginFormula(FormulaType.FUNCTION_TERM);
+        beginFormula(FormulaType.FUNCTION_TERM);
     }
 
     /**
-     * End an function term
+     * End an function term.
      */
     public void endFunctionTerm() {
-       endFormula(FormulaType.FUNCTION_TERM);
+        endFormula(FormulaType.FUNCTION_TERM);
     }
+
     /**
      * Begin a conjunctive formula.
      */
@@ -258,6 +282,7 @@ public class LogicStackHandler {
 
     /**
      * Pop the latest formula from the stack.
+     *
      * @return the completed formula
      */
     public Formula getFormula() {
@@ -279,12 +304,13 @@ public class LogicStackHandler {
                 return getFunctionTerm();
             default:
                 throw new IllegalStateException(format("Unimplemented formula type found on stack %s",
-                        nextType.get()));
+                    nextType.get()));
         }
     }
 
     /**
      * Gets a formula if one is present.
+     *
      * @return an optional formula
      */
     public Optional<Formula> getOptionalFormula() {
@@ -298,6 +324,7 @@ public class LogicStackHandler {
 
     /**
      * Get a completed types.
+     *
      * @return the list of types
      */
     public Type getType() {
@@ -306,6 +333,7 @@ public class LogicStackHandler {
 
     /**
      * Get a completed constant.
+     *
      * @return the constant
      */
     public Constant getConstant() {
@@ -314,6 +342,7 @@ public class LogicStackHandler {
 
     /**
      * Get a completed predicate.
+     *
      * @return the predicate
      */
     public Predicate getPredicate() {
@@ -322,6 +351,7 @@ public class LogicStackHandler {
 
     /**
      * Get a completed assignment.
+     *
      * @return the predicate
      */
     public Operation getOperation() {
@@ -329,8 +359,9 @@ public class LogicStackHandler {
     }
 
     /**
-     * Get a completed antecedent
-     * @return the predicate
+     * Get a completed function term.
+     *
+     * @return the function term
      */
     public FunctionTerm getFunctionTerm() {
         return formulaStash.removeFunctionTerm();
@@ -338,6 +369,7 @@ public class LogicStackHandler {
 
     /**
      * Get a completed function.
+     *
      * @return the function
      */
     public FunctionDefinition getFunction() {
@@ -346,6 +378,7 @@ public class LogicStackHandler {
 
     /**
      * Get the variables we have built.
+     *
      * @return the variables
      */
     public List<Variable> variables() {
@@ -354,6 +387,7 @@ public class LogicStackHandler {
 
     /**
      * Check that the stack is clean.
+     *
      * @return true if there are no unclaimed terms or formulas
      */
     public boolean isEmpty() {
@@ -362,6 +396,7 @@ public class LogicStackHandler {
 
     /**
      * Push a new formula onto the stack.
+     *
      * @param type the type of formula to start building
      */
     private void beginFormula(final FormulaType type) {
@@ -385,6 +420,7 @@ public class LogicStackHandler {
 
     /**
      * Build a formula using the stashes, pop it from the stack and add it to the stash awaiting collection.
+     *
      * @param type the type of formula to expect
      */
     private void endFormula(final FormulaType type) {
@@ -402,6 +438,7 @@ public class LogicStackHandler {
 
     /**
      * Get the correct formula builder based on the type.
+     *
      * @param type the type of formula to be built
      * @return the formula builder to use
      */

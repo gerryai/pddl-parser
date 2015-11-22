@@ -31,7 +31,8 @@ import static com.google.common.base.Preconditions.checkState;
 public class FunctionBuilder implements FormulaBuilder<FunctionDefinition> {
 
     @Override
-    public FunctionDefinition build(final SymbolStash symbolStash, final SymbolStash operatorStash, final TermStash termStash, final FormulaStash formulaStash) {
+    public FunctionDefinition build(final SymbolStash symbolStash, final SymbolStash operatorStash,
+                                    final TermStash termStash, final FormulaStash formulaStash) {
         checkState(!symbolStash.isEmpty(), "Cannot build a function without a symbol");
         checkState(formulaStash.isEmpty(), "Not expecting any uncollected formulas");
 

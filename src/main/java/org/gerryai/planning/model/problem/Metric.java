@@ -2,30 +2,59 @@ package org.gerryai.planning.model.problem;
 
 import org.gerryai.planning.model.logic.Formula;
 
+/**
+ * Represents a metric to evaluate a plan.
+ */
 public class Metric {
     private final String name;
     private final Formula formula;
 
-    private Metric(String name, Formula formula) {
+    /**
+     * Builds a metric.
+     *
+     * @param name    name of the metric
+     * @param formula name of the formula
+     */
+    private Metric(final String name, final Formula formula) {
         this.name = name;
         this.formula = formula;
     }
 
+    /**
+     * Builder of metrics.
+     */
     public static class Builder {
         private String name;
         private Formula formula;
 
-        public Builder name(String name) {
+        /**
+         * Sets the name.
+         *
+         * @param name of the metric
+         * @return an updated builder
+         */
+        public Builder name(final String name) {
             this.name = name;
             return this;
         }
 
-        public Builder formula(Formula formula) {
+        /**
+         * Sets the formula.
+         *
+         * @param formula of the metric
+         * @return an updated builder
+         */
+        public Builder formula(final Formula formula) {
             this.formula = formula;
             return this;
         }
 
-        public Metric build(){
+        /**
+         * Build a metric.
+         *
+         * @return a new immutable metric
+         */
+        public Metric build() {
             return new Metric(name, formula);
         }
     }

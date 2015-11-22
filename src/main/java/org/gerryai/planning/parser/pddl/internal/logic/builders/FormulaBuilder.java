@@ -36,5 +36,6 @@ public interface FormulaBuilder<T extends Formula> {
      * @param formulaStash the formulas collected
      * @return the completed formula
      */
-    T build(final SymbolStash symbolStash, final SymbolStash operationStash, final TermStash termStash, final FormulaStash formulaStash);
+    T build(final SymbolStash symbolStash, final SymbolStash operationStash, final TermStash termStash,
+            final FormulaStash formulaStash);
 }

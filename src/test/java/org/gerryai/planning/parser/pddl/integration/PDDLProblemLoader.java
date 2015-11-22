@@ -19,7 +19,6 @@ package org.gerryai.planning.parser.pddl.integration;
 
 import org.gerryai.planning.model.Requirement;
 import org.gerryai.planning.model.problem.Problem;
-import org.gerryai.planning.parser.error.MissingRequirementsException;
 import org.gerryai.planning.parser.error.ParseException;
 import org.gerryai.planning.parser.pddl.PDDLParserService;
 

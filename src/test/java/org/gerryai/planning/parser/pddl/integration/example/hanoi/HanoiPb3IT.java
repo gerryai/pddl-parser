@@ -23,9 +23,7 @@ import org.gerryai.planning.model.problem.Goal;
 import org.gerryai.planning.parser.pddl.integration.ProblemSuccessTester;
 import org.junit.Test;
 
-import static org.gerryai.planning.model.logic.FormulaBuilder.and;
-import static org.gerryai.planning.model.logic.FormulaBuilder.constant;
-import static org.gerryai.planning.model.logic.FormulaBuilder.predicate;
+import static org.gerryai.planning.model.logic.FormulaBuilder.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

@@ -29,7 +29,8 @@ import org.gerryai.planning.parser.pddl.internal.logic.TermStash;
 public class FunctionTermBuilder implements FormulaBuilder<FunctionTerm> {
 
     @Override
-    public FunctionTerm build(final SymbolStash symbolStash, final SymbolStash operatorStash, final TermStash termStash, final FormulaStash formulaStash) {
+    public FunctionTerm build(final SymbolStash symbolStash, final SymbolStash operatorStash,
+                              final TermStash termStash, final FormulaStash formulaStash) {
         FunctionTerm.Builder functionTermBuilder = new FunctionTerm.Builder();
         if (!symbolStash.isEmpty()) {
             functionTermBuilder.name(symbolStash.pop());

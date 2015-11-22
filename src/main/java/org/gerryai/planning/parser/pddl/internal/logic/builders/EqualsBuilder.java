@@ -30,7 +30,8 @@ import static com.google.common.base.Preconditions.checkState;
 public class EqualsBuilder implements FormulaBuilder<Equals> {
 
     @Override
-    public Equals build(final SymbolStash symbolStash, final SymbolStash operatorStash, final TermStash termStash, final FormulaStash formulaStash) {
+    public Equals build(final SymbolStash symbolStash, final SymbolStash operatorStash, final TermStash termStash,
+                        final FormulaStash formulaStash) {
         checkState(symbolStash.isEmpty(), "Not expecting a symbol");
         checkState(termStash.size() == 2, "Expected two terms for collection");
         checkState(formulaStash.isEmpty(), "Expected no uncollected formulas");
