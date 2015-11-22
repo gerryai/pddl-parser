@@ -79,12 +79,13 @@ atomicFormulaConstant
     | {isAllowed(Requirement.EQUALITY)}? equalityConstant {needed(Requirement.EQUALITY);}
     ;
 
-assignmentFormulaTerm
+operation
     : '(' operator consequent antecedent ')'
     ;
 
 operator
-    : constant
+    : NAME
+    | BASICOPERATOR
     ;
 
 antecedent

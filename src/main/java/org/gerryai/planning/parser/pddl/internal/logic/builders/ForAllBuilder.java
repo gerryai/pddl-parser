@@ -31,7 +31,7 @@ import static com.google.common.base.Preconditions.checkState;
 public class ForAllBuilder implements FormulaBuilder<ForAll> {
 
     @Override
-    public ForAll build(final SymbolStash symbolStash, final TermStash termStash, final FormulaStash formulaStash) {
+    public ForAll build(final SymbolStash symbolStash, final SymbolStash operatorStash, final TermStash termStash, final FormulaStash formulaStash) {
         checkState(symbolStash.isEmpty(), "Not expecting a symbol");
         checkState(formulaStash.size() == 1, "Expected one formula for collection");
         checkState(termStash.size() > 0, "Expected at least one uncollected term");

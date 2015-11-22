@@ -31,12 +31,12 @@ import static com.google.common.base.Preconditions.checkState;
 public class FunctionBuilder implements FormulaBuilder<FunctionDefinition> {
 
     @Override
-    public FunctionDefinition build(final SymbolStash symbolStash, final TermStash termStash, final FormulaStash formulaStash) {
+    public FunctionDefinition build(final SymbolStash symbolStash, final SymbolStash operatorStash, final TermStash termStash, final FormulaStash formulaStash) {
         checkState(!symbolStash.isEmpty(), "Cannot build a function without a symbol");
         checkState(formulaStash.isEmpty(), "Not expecting any uncollected formulas");
 
         FunctionDefinition.Builder functionBuilder = new FunctionDefinition.Builder().name(symbolStash.pop());
-        for (Term term: termStash.terms()) {
+        for (Term term : termStash.terms()) {
             functionBuilder = functionBuilder.term(term);
         }
         return functionBuilder.build();

@@ -136,13 +136,18 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     @Override
-    public void enterAssignmentFormulaTerm(@NotNull PDDL31Parser.AssignmentFormulaTermContext ctx) {
+    public void enterOperation(@NotNull PDDL31Parser.OperationContext ctx) {
         stackHandler.beginOperation();
     }
 
     @Override
-    public void exitAssignmentFormulaTerm(@NotNull PDDL31Parser.AssignmentFormulaTermContext ctx) {
+    public void exitOperation(@NotNull PDDL31Parser.OperationContext ctx) {
         stackHandler.endOperation();
+    }
+
+    @Override
+    public void exitOperator(@NotNull PDDL31Parser.OperatorContext ctx) {
+        stackHandler.operator(ctx.getText().toLowerCase());
     }
 
     @Override

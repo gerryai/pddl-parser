@@ -31,7 +31,7 @@ import static com.google.common.base.Preconditions.checkState;
 public class FunctionTermBuilder implements FormulaBuilder<FunctionTerm> {
 
     @Override
-    public FunctionTerm build(final SymbolStash symbolStash, final TermStash termStash, final FormulaStash formulaStash) {
+    public FunctionTerm build(final SymbolStash symbolStash, final SymbolStash operatorStash, final TermStash termStash, final FormulaStash formulaStash) {
         checkState(!symbolStash.isEmpty(), "Expecting function name");
 
         FunctionTerm.Builder functionTermBuilder = new FunctionTerm.Builder().name(symbolStash.pop());

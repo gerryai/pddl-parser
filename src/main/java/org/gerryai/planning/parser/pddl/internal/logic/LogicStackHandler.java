@@ -39,6 +39,11 @@ public class LogicStackHandler {
     private SymbolStash symbolStash = new SymbolStash();
 
     /**
+     * The stash for symbols awaiting collection.
+     */
+
+    private SymbolStash operatorStash = new SymbolStash();
+    /**
      * The queue of terms awaiting collection.
      */
     private TermStash termStash = new TermStash();
@@ -133,6 +138,13 @@ public class LogicStackHandler {
         symbolStash.push(name);
     }
 
+    /**
+     * Set the operator for an operation
+     * @param operator
+     */
+    public void operator(final String operator) {
+        operatorStash.push(operator);
+    }
     /**
      * Finish building the predicate on top of the stack.
      */
@@ -371,7 +383,7 @@ public class LogicStackHandler {
     private void endFormula(final FormulaType type) {
         formulaStack.checkType(type);
         FormulaBuilder builder = builder(type);
-        Formula formula = builder.build(symbolStash, termStash, formulaStash);
+        Formula formula = builder.build(symbolStash, operatorStash, termStash, formulaStash);
         checkState(symbolStash.isEmpty(), "Expected symbol stash to be empty after building current formula");
         checkState(termStash.isEmpty(), "Expected term stash to be empty after building current formula");
         checkState(formulaStash.isEmpty(), "Expected formula stash to be empty after building current formula");
@@ -410,5 +422,4 @@ public class LogicStackHandler {
                 throw new IllegalStateException(format("Unimplemented formula type %s", type));
         }
     }
-
 }

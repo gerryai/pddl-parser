@@ -31,7 +31,7 @@ import static com.google.common.base.Preconditions.checkState;
 public class PredicateBuilder implements FormulaBuilder<Predicate> {
 
     @Override
-    public Predicate build(final SymbolStash symbolStash, final TermStash termStash, final FormulaStash formulaStash) {
+    public Predicate build(final SymbolStash symbolStash, final SymbolStash operatorStash, final TermStash termStash, final FormulaStash formulaStash) {
         checkState(!symbolStash.isEmpty(), "Cannot build a predicate without a symbol");
         checkState(formulaStash.isEmpty(), "Not expecting any uncollected formulas");
 

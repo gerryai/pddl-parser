@@ -179,7 +179,7 @@ whenEffect
 pEffect
     : negatedAtomicFormulaTerm
     | atomicFormulaTerm
-    | {isAllowed(Requirement.NUMERIC_FLUENTS)}? assignmentFormulaTerm {needed(Requirement.NUMERIC_FLUENTS);} //<p-effect> ::=:numeric-fluents (<assign-op> <f-head> <f-exp>)
+    | {isAllowed(Requirement.NUMERIC_FLUENTS)}? operation {needed(Requirement.NUMERIC_FLUENTS);} //<p-effect> ::=:numeric-fluents (<assign-op> <f-head> <f-exp>)
     //<p-effect> ::=:object-fluents (assign <function-term> <term>)
     //<p-effect> ::=:object-fluents (assign <function-term> undefined)
     ;
@@ -227,8 +227,8 @@ init
 
 initEl
     : literalConstant
+    | operation //<init-el> ::=:numeric-fluents (= <basic-function-term> <number>)
 //<init-el> ::=:timed−initial−literals (at <number> <literal(name)>)
-//<init-el> ::=:numeric-fluents (= <basic-function-term> <number>)
 //<init-el> ::=:object-fluents (= <basic-function-term> <name>)
 //<basic-function-term> ::= <function-symbol>
 //<basic-function-term> ::= (<function-symbol> <name>*)

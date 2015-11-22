@@ -30,11 +30,11 @@ import static com.google.common.base.Preconditions.checkState;
 public class OperationBuilder implements FormulaBuilder<Operation> {
 
     @Override
-    public Operation build(final SymbolStash symbolStash, final TermStash termStash, final FormulaStash formulaStash) {
+    public Operation build(final SymbolStash symbolStash, final SymbolStash operatorStash, final TermStash termStash, final FormulaStash formulaStash) {
         checkState(formulaStash.size() == 2, "Expecting predicate formula with value to assign");
-        checkState(!termStash.isEmpty(), "Expecting constant with operator");
+        checkState(!operatorStash.isEmpty(), "Expecting constant with operator");
 
-        Operation.Builder operationBuilder = new Operation.Builder().operator(termStash.constant());
+        Operation.Builder operationBuilder = new Operation.Builder().operator(operatorStash.pop());
         operationBuilder.consequent(formulaStash.removeFunctionTerm());
         operationBuilder.antecedent(formulaStash.removeFunctionTerm());
         return operationBuilder.build();

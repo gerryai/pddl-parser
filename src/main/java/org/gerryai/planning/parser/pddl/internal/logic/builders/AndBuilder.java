@@ -31,7 +31,7 @@ import static com.google.common.base.Preconditions.checkState;
 public class AndBuilder implements FormulaBuilder<And> {
 
     @Override
-    public And build(final SymbolStash symbolStash, final TermStash termStash, final FormulaStash formulas) {
+    public And build(final SymbolStash symbolStash, final SymbolStash operatorStash, final TermStash termStash, final FormulaStash formulas) {
         checkState(symbolStash.isEmpty(), "Not expecting a symbol");
         checkState(termStash.isEmpty(), "Not expecting any uncollected terms");
         checkState(formulas.size() > 0, "Expected at least one completed formula to be ready for collection");
