@@ -21,6 +21,22 @@ public class Metric {
     }
 
     /**
+     * Get the name of the metric.
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Get the formula of the metric.
+     * @return the formula
+     */
+    public Formula getFormula() {
+        return formula;
+    }
+
+    /**
      * Builder of metrics.
      */
     public static class Builder {

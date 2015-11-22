@@ -203,7 +203,7 @@ problem
     objectDeclaration?
     init
     goal
-    | {isAllowed(Requirement.ACTION_COSTS)}? metricsDef {needed(Requirement.ACTION_COSTS);}
+    metricsDef?
     //[<constraints>]:constraints
     //[<metric-spec>]:numeric-fluents
     //[<length-spec>]
@@ -227,7 +227,7 @@ init
     ;
 
 metricsDef
-    : '(' ':metric' NAME functionTerm ')'
+    : {isAllowed(Requirement.ACTION_COSTS)}? '(' ':metric' NAME functionTerm ')'  {needed(Requirement.ACTION_COSTS);}
     ;
 
 initEl

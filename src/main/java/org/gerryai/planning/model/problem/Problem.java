@@ -28,12 +28,13 @@ import org.gerryai.planning.model.logic.Formula;
  */
 public class Problem {
 
-    private String name;
-    private String domainName;
-    private Requirements requirements;
-    private ConstantDefinitions objects;
-    private InitialState initialState;
-    private Goal goal;
+    private final Metric metric;
+    private final String name;
+    private final String domainName;
+    private final Requirements requirements;
+    private final ConstantDefinitions objects;
+    private final InitialState initialState;
+    private final Goal goal;
 
     /**
      * Constructor.
@@ -47,6 +48,7 @@ public class Problem {
         objects = builder.objects.build();
         initialState = builder.initialState.build();
         goal = new Goal(builder.goal);
+        metric = builder.metricBuilder.build();
     }
 
     /**
@@ -101,6 +103,15 @@ public class Problem {
      */
     public Goal getGoal() {
         return goal;
+    }
+
+    /**
+     * Get the metric of this problem.
+     *
+     * @return the metric
+     */
+    public Metric getMetric() {
+        return metric;
     }
 
     /**

@@ -1,5 +1,7 @@
 package org.gerryai.planning.model.logic;
 
+import java.util.Objects;
+
 /**
  * Represents an operation formula.
  */
@@ -11,7 +13,8 @@ public class Operation implements Formula {
 
     /**
      * Build an Operation.
-     * @param operator the name of the operator
+     *
+     * @param operator   the name of the operator
      * @param consequent the consequent
      * @param antecedent the antecedent
      */
@@ -21,8 +24,28 @@ public class Operation implements Formula {
         this.antecedent = antecedent;
     }
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Operation)) {
+            return false;
+        }
+        Operation that = (Operation) obj;
+        return Objects.equals(this.operator, that.operator)
+            && Objects.equals(this.consequent, that.consequent)
+            && Objects.equals(this.antecedent, that.antecedent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(operator, consequent, antecedent);
+    }
+
     /**
      * Return the operator for this operation.
+     *
      * @return the operator
      */
     public String getOperator() {
@@ -31,6 +54,7 @@ public class Operation implements Formula {
 
     /**
      * Returns the consequent for this operation.
+     *
      * @return the consequent
      */
     public FunctionTerm getConsequent() {
@@ -39,6 +63,7 @@ public class Operation implements Formula {
 
     /**
      * Return the antecedent for this operation.
+     *
      * @return the antecedent
      */
     public FunctionTerm getAntecedent() {

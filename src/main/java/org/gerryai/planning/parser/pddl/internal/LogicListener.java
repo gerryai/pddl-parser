@@ -156,22 +156,12 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     @Override
-    public void enterAntecedent(@NotNull final PDDL31Parser.AntecedentContext ctx) {
+    public void enterFunctionTerm(@NotNull final PDDL31Parser.FunctionTermContext ctx) {
         stackHandler.beginFunctionTerm();
     }
 
     @Override
-    public void exitAntecedent(@NotNull final PDDL31Parser.AntecedentContext ctx) {
-        stackHandler.endFunctionTerm();
-    }
-
-    @Override
-    public void enterConsequent(@NotNull final PDDL31Parser.ConsequentContext ctx) {
-        stackHandler.beginFunctionTerm();
-    }
-
-    @Override
-    public void exitConsequent(@NotNull final PDDL31Parser.ConsequentContext ctx) {
+    public void exitFunctionTerm(@NotNull final PDDL31Parser.FunctionTermContext ctx) {
         stackHandler.endFunctionTerm();
     }
 
