@@ -22,6 +22,30 @@ public class Operation implements Formula {
     }
 
     /**
+     * Return the operator for this operation.
+     * @return the operator
+     */
+    public String getOperator() {
+        return operator;
+    }
+
+    /**
+     * Returns the consequent for this operation.
+     * @return the consequent
+     */
+    public FunctionTerm getConsequent() {
+        return consequent;
+    }
+
+    /**
+     * Return the antecedent for this operation.
+     * @return the antecedent
+     */
+    public FunctionTerm getAntecedent() {
+        return antecedent;
+    }
+
+    /**
      * A builder for immutable operations.
      */
     public static class Builder {
