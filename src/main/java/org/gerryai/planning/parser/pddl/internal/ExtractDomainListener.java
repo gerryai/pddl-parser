@@ -135,6 +135,12 @@ public class ExtractDomainListener extends LogicListener implements ExtractingLi
     }
 
     @Override
+    public void exitFunctionDef(@NotNull PDDL31Parser.FunctionDefContext ctx) {
+        super.exitFunctionDef(ctx);
+        domainBuilder = domainBuilder.function(getFunction());
+    }
+
+    @Override
     public void enterActionDef(@NotNull final PDDL31Parser.ActionDefContext ctx) {
         actionBuilder = new Action.Builder();
     }
@@ -201,4 +207,5 @@ public class ExtractDomainListener extends LogicListener implements ExtractingLi
         }
         return domain;
     }
+
 }

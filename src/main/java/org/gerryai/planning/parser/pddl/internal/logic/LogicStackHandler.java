@@ -18,18 +18,9 @@
 package org.gerryai.planning.parser.pddl.internal.logic;
 
 import com.google.common.base.Optional;
-import org.gerryai.planning.model.logic.Constant;
-import org.gerryai.planning.model.logic.Formula;
-import org.gerryai.planning.model.logic.Predicate;
-import org.gerryai.planning.model.logic.Type;
-import org.gerryai.planning.model.logic.Variable;
-import org.gerryai.planning.parser.pddl.internal.logic.builders.AndBuilder;
-import org.gerryai.planning.parser.pddl.internal.logic.builders.EqualsBuilder;
-import org.gerryai.planning.parser.pddl.internal.logic.builders.ForAllBuilder;
+import org.gerryai.planning.model.logic.*;
+import org.gerryai.planning.parser.pddl.internal.logic.builders.*;
 import org.gerryai.planning.parser.pddl.internal.logic.builders.FormulaBuilder;
-import org.gerryai.planning.parser.pddl.internal.logic.builders.IfThenBuilder;
-import org.gerryai.planning.parser.pddl.internal.logic.builders.NotBuilder;
-import org.gerryai.planning.parser.pddl.internal.logic.builders.PredicateBuilder;
 
 import java.util.List;
 
@@ -113,6 +104,20 @@ public class LogicStackHandler {
     }
 
     /**
+     * Begin a function
+     */
+    public void beginFunction() {
+        beginFormula(FormulaType.FUNCTION);
+    }
+
+    /**
+     * End a function
+     */
+    public void endFunction() {
+        endFormula(FormulaType.FUNCTION);
+    }
+
+    /**
      * Begin a predicate.
      */
     public void beginPredicate() {
@@ -148,6 +153,33 @@ public class LogicStackHandler {
         endFormula(FormulaType.NOT);
     }
 
+    /**
+     * Begin an assignment
+     */
+    public void beginAssignment() {
+        beginFormula(FormulaType.ASSIGNMENT);
+    }
+
+    /**
+     * End an assignment
+     */
+    public void endAssignment() {
+        endFormula(FormulaType.ASSIGNMENT);
+    }
+
+    /**
+     * Begin an assignment head
+     */
+    public void beginAssignmentHead() {
+      beginFormula(FormulaType.ASSIGNMENT_HEAD);
+    }
+
+    /**
+     * End an assignment head
+     */
+    public void endAssignmentHead() {
+       endFormula(FormulaType.ASSIGNMENT_HEAD);
+    }
     /**
      * Begin a conjunctive formula.
      */
@@ -219,6 +251,12 @@ public class LogicStackHandler {
             case IF_THEN:
             case FOR_ALL:
                 return formulaStash.remove();
+            case FUNCTION:
+                return getFunction();
+            case ASSIGNMENT:
+                return getAssignment();
+            case ASSIGNMENT_HEAD:
+                return getAssignmentHead();
             default:
                 throw new IllegalStateException(format("Unimplemented formula type found on stack %s",
                         nextType.get()));
@@ -260,6 +298,30 @@ public class LogicStackHandler {
      */
     public Predicate getPredicate() {
         return formulaStash.removePredicate();
+    }
+
+    /**
+     * Get a completed assignment.
+     * @return the predicate
+     */
+    public Assignment getAssignment() {
+        return formulaStash.removeAssignment();
+    }
+
+    /**
+     * Get a completed assignment head
+     * @return the predicate
+     */
+    public AssignmentHead getAssignmentHead() {
+        return formulaStash.removeAssignmentHead();
+    }
+
+    /**
+     * Get a completed function.
+     * @return the function
+     */
+    public Function getFunction() {
+        return formulaStash.removeFunction();
     }
 
     /**
@@ -337,6 +399,12 @@ public class LogicStackHandler {
                 return new IfThenBuilder();
             case FOR_ALL:
                 return new ForAllBuilder();
+            case FUNCTION:
+                return new FunctionBuilder();
+            case ASSIGNMENT:
+                return new AssignmentBuilder();
+            case ASSIGNMENT_HEAD:
+                return new AssignmentHeadBuilder();
             default:
                 throw new IllegalStateException(format("Unimplemented formula type %s", type));
         }

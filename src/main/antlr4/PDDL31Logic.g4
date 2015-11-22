@@ -76,23 +76,15 @@ atomicFormulaConstant
     ;
 
 assignmentFormulaTerm
-    : '(' operator assignmentDestination assignmentValue')'
+    : '(' operator assignmentHeadTerm predicateTerm ')'
     ;
 
 operator
-    : NAME
+    : constant
     ;
 
-assignmentDestination
+assignmentHeadTerm
     : '(' functionName ')'
-    ;
-
-assignmentValue
-    : '(' functionReference ')'
-    ;
-
-functionReference
-    : functionName variable
     ;
 
 equalityTerm

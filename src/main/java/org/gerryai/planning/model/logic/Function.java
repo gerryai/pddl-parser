@@ -17,8 +17,134 @@
  */
 package org.gerryai.planning.model.logic;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+
 /**
- * Created by david on 14/03/14.
+ *Represents a logical function.
  */
-public class Function implements Term {
+public class Function implements AtomicFormula {
+
+    private String name;
+
+    private List<Term> terms;
+
+    /**
+     * Constructor.
+     * @param name the name of the function
+     * @param terms the terms for this function
+     */
+    private Function(final String name, final List<Term> terms) {
+        this.name = name;
+        this.terms = terms;
+    }
+
+    /**
+     * Get the name of the function.
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Get a list of terms used by this function.
+     * @return the terms
+     */
+    public List<Term> getTerms() {
+        return Collections.unmodifiableList(terms);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, terms);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final Function other = (Function) obj;
+        return Objects.equals(this.name, other.name) && Objects.equals(this.terms, other.terms);
+    }
+
+    /**
+     * Builder class for {@link Function}.
+     */
+    public static class Builder {
+        private String name;
+        private List<Term> terms;
+
+        /**
+         * Constructor.
+         */
+        public Builder() {
+            terms = new ArrayList<>(0);
+        }
+
+        /**
+         * Set the name of the function to be built.
+         * @param name the name
+         * @return an updated builder
+         */
+        public Builder name(final String name) {
+            this.name = name;
+            return this;
+        }
+
+        /**
+         * Add a new variable to the list of terms to be used by this function.
+         * @param name the name of the variable
+         * @return an updated builder
+         */
+        public Builder variable(final String name) {
+            terms.add(new Variable(name));
+            return this;
+        }
+
+        /**
+         * Add a new variable to the list of terms to be used by this function.
+         * @param name the name of the variable
+         * @param type the type of the variable
+         * @return an updated builder
+         */
+        public Builder variable(final String name, final Type type) {
+            terms.add(new Variable(name, type));
+            return this;
+        }
+
+        /**
+         * Add a new variable to the list of terms to be used by this function.
+         * @param variable the variable to add
+         * @return an updated builder
+         */
+        public Builder variable(final Variable variable) {
+            terms.add(variable);
+            return this;
+        }
+
+        /**
+         * Add a term to the list to be used by the function.
+         * @param term the term to add
+         * @return an updated builder
+         */
+        public Builder term(final Term term) {
+            terms.add(term);
+            return this;
+        }
+
+        /**
+         * Build the finished function.
+         * @return the function
+         */
+        public Function build() {
+            return new Function(name, terms);
+        }
+    }
 }

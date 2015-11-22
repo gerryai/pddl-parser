@@ -15,18 +15,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.gerryai.planning.parser.pddl.internal.logic;
+package org.gerryai.planning.parser.pddl.integration.example.tasks;
+
+import org.gerryai.planning.parser.pddl.integration.DomainSuccessTester;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * Enumeration of the different types of formula the stack supports. Only used internally for stack management.
+ * Integration test to check that the Blocksworld example files are parsed correctly.
  */
-enum FormulaType {
-    PREDICATE,
-    FUNCTION,
-    NOT,
-    AND,
-    EQUALS,
-    IF_THEN,
-    ASSIGNMENT,
-    ASSIGNMENT_HEAD, FOR_ALL
+public class TasksIT extends DomainSuccessTester {
+
+    protected String getFilePath() {
+        return "pddl/example/tasks/tasks.pddl";
+    }
+
+    @Test
+    public void tasksDomainHasCorrectName() {
+        assertEquals("tasks", domain.getName());
+    }
+
 }

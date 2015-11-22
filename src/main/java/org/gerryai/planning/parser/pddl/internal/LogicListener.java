@@ -19,6 +19,7 @@ package org.gerryai.planning.parser.pddl.internal;
 
 import com.google.common.base.Optional;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.gerryai.planning.model.logic.Function;
 import org.gerryai.planning.model.logic.Constant;
 import org.gerryai.planning.model.logic.Formula;
 import org.gerryai.planning.model.logic.Predicate;
@@ -77,6 +78,21 @@ public class LogicListener extends PDDL31BaseListener {
         stackHandler.applyType(getType());
     }
 
+    @Override
+    public void enterFunctionDef(@NotNull PDDL31Parser.FunctionDefContext ctx) {
+        stackHandler.beginFunction();
+    }
+
+    @Override
+    public void exitFunctionDef(@NotNull PDDL31Parser.FunctionDefContext ctx) {
+        stackHandler.endFunction();
+    }
+
+    @Override
+    public void exitFunctionName(@NotNull PDDL31Parser.FunctionNameContext ctx) {
+        stackHandler.symbol(ctx.NAME().getSymbol().getText().toLowerCase());
+    }
+
     @Override public void enterUngroundPredicate(@NotNull final PDDL31Parser.UngroundPredicateContext ctx) {
         stackHandler.beginPredicate();
     }
@@ -117,6 +133,26 @@ public class LogicListener extends PDDL31BaseListener {
     @Override
     public void exitNegatedAtomicFormulaTerm(@NotNull final PDDL31Parser.NegatedAtomicFormulaTermContext ctx) {
         stackHandler.endNot();
+    }
+
+    @Override
+    public void enterAssignmentFormulaTerm(@NotNull PDDL31Parser.AssignmentFormulaTermContext ctx) {
+        stackHandler.beginAssignment();
+    }
+
+    @Override
+    public void exitAssignmentFormulaTerm(@NotNull PDDL31Parser.AssignmentFormulaTermContext ctx) {
+        stackHandler.endAssignment();
+    }
+
+    @Override
+    public void enterAssignmentHeadTerm(@NotNull PDDL31Parser.AssignmentHeadTermContext ctx) {
+        stackHandler.beginAssignmentHead();
+    }
+
+    @Override
+    public void exitAssignmentHeadTerm(@NotNull PDDL31Parser.AssignmentHeadTermContext ctx) {
+        stackHandler.endAssignmentHead();
     }
 
     @Override
@@ -210,8 +246,8 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     /**
-     * Get the predicate we just built.
-     * @return the predicate
+     * Get the constant we just built.
+     * @return the constant
      */
     protected Constant getConstant() {
         return stackHandler.getConstant();
@@ -226,8 +262,16 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     /**
+     * Get the function we just built
+     * @return the function
+     */
+    protected Function getFunction() {
+        return stackHandler.getFunction();
+    }
+
+    /**
      * Get the formula we just built.
-     * @return the predicate
+     * @return the function
      */
     protected Optional<Formula> getFormula() {
         return stackHandler.getOptionalFormula();

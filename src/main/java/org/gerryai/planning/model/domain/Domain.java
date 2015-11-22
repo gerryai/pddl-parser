@@ -21,6 +21,7 @@ import org.gerryai.planning.model.ConstantDefinition;
 import org.gerryai.planning.model.ConstantDefinitions;
 import org.gerryai.planning.model.Requirement;
 import org.gerryai.planning.model.Requirements;
+import org.gerryai.planning.model.logic.Function;
 import org.gerryai.planning.model.logic.Predicate;
 
 /**
@@ -105,6 +106,7 @@ public class Domain {
         private TypeDefinitions.Builder typesBuilder = new TypeDefinitions.Builder();
         private ConstantDefinitions.Builder constantsBuilder  = new ConstantDefinitions.Builder();
         private Predicates.Builder predicatesBuilder = new Predicates.Builder();
+        private Functions.Builder functionsBuilder = new Functions.Builder();
         private Actions.Builder actionsBuilder = new Actions.Builder();
 
         /**
@@ -154,6 +156,11 @@ public class Domain {
          */
         public Builder predicate(final Predicate predicate) {
             predicatesBuilder = predicatesBuilder.addPredicate(predicate);
+            return this;
+        }
+
+        public Builder function(Function function) {
+            functionsBuilder = functionsBuilder.addFunction(function);
             return this;
         }
 

@@ -22,7 +22,7 @@ import java.util.Objects;
 /**
  * Class representing a logical constant.
  */
-public class Constant extends Function {
+public class Constant implements Term {
 
     private String name;
 
