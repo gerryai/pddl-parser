@@ -1,5 +1,5 @@
 (define (domain tasks)
-  (:requirements :strips :typing :numeric-fluents)
+  (:requirements :strips :typing :numeric-fluents :action-costs)
   (:types person task skill)
   (:constants
     expert experient practitioner - skill)

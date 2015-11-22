@@ -1,6 +1,7 @@
 (define (problem pb1)
 	(:domain tasks)
-	(:objects 
+  (:requirements :strips :typing :numeric-fluents :action-costs :universal-preconditions  )
+	(:objects
         Mark Toby Luke Phil - person
         TaskA TaskB TaskC - task) 
 	(:init 

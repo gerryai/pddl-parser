@@ -18,10 +18,7 @@
 package org.gerryai.planning.parser.pddl.internal.logic;
 
 import com.google.common.base.Optional;
-import org.gerryai.planning.model.logic.Constant;
-import org.gerryai.planning.model.logic.Term;
-import org.gerryai.planning.model.logic.Type;
-import org.gerryai.planning.model.logic.Variable;
+import org.gerryai.planning.model.logic.*;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -124,6 +121,8 @@ public class TermStash {
                 return dequeueConstant();
             case VARIABLE:
                 return dequeueVariable();
+            case NUMBER:
+                return dequeueNumber();
             default:
                 throw new IllegalStateException("Unexpected term type");
         }
@@ -179,6 +178,23 @@ public class TermStash {
                 }
             } else {
                 throw new IllegalStateException("First element of the queue was not a variable");
+            }
+        }
+    }
+
+    /**
+     * Remove the first element of the queue and return it as a number.
+     * @return the number
+     */
+    private NumberTerm dequeueNumber() {
+        if (termDeque.isEmpty()) {
+            throw new NoSuchElementException();
+        } else {
+            if (TermType.NUMBER.equals(termDeque.peekFirst().getTermType())) {
+                TermStashItem item = termDeque.removeFirst();
+                return new NumberTerm(item.getName());
+            } else {
+                throw new IllegalStateException("First element of the queue was not a number");
             }
         }
     }

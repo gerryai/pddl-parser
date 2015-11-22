@@ -86,7 +86,7 @@ atomicFormulaConstant
     ;
 
 operation
-    : '(' operator consequent antecedent ')'
+    : '(' operator consequent antecedent? ')'
     ;
 
 operator

@@ -203,6 +203,7 @@ problem
     objectDeclaration?
     init
     goal
+    | {isAllowed(Requirement.ACTION_COSTS)}? metricsDef {needed(Requirement.ACTION_COSTS);}
     //[<constraints>]:constraints
     //[<metric-spec>]:numeric-fluents
     //[<length-spec>]
@@ -223,6 +224,10 @@ objectDeclaration
 
 init
     : '(' ':init' initEl* ')'
+    ;
+
+metricsDef
+    : '(' ':metric' NAME functionTerm ')'
     ;
 
 initEl

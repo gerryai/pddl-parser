@@ -30,7 +30,10 @@ public class FunctionTermBuilder implements FormulaBuilder<FunctionTerm> {
 
     @Override
     public FunctionTerm build(final SymbolStash symbolStash, final SymbolStash operatorStash, final TermStash termStash, final FormulaStash formulaStash) {
-        FunctionTerm.Builder functionTermBuilder = new FunctionTerm.Builder().name(symbolStash.pop());
+        FunctionTerm.Builder functionTermBuilder = new FunctionTerm.Builder();
+        if (!symbolStash.isEmpty()) {
+            functionTermBuilder.name(symbolStash.pop());
+        }
         for (Term term: termStash.terms()) {
             functionTermBuilder = functionTermBuilder.term(term);
         }

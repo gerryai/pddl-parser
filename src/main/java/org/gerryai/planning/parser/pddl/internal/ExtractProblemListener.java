@@ -17,10 +17,13 @@
  */
 package org.gerryai.planning.parser.pddl.internal;
 
+import com.google.common.base.Optional;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.gerryai.planning.model.ConstantDefinition;
 import org.gerryai.planning.model.Requirement;
+import org.gerryai.planning.model.logic.Formula;
 import org.gerryai.planning.model.logic.Type;
+import org.gerryai.planning.model.problem.Metric;
 import org.gerryai.planning.model.problem.Problem;
 import org.gerryai.planning.parser.error.MissingRequirementsException;
 import org.gerryai.planning.parser.error.ParseException;
@@ -107,6 +110,17 @@ public class ExtractProblemListener extends LogicListener implements ExtractingL
     @Override
     public void exitGoal(@NotNull final PDDL31Parser.GoalContext ctx) {
         problemBuilder = problemBuilder.goal(getFormula().get());
+    }
+
+    @Override
+    public void enterMetricsDef(@NotNull PDDL31Parser.MetricsDefContext ctx) {
+        problemBuilder = problemBuilder.metric(ctx.NAME().getText().toLowerCase());
+    }
+
+    @Override
+    public void exitMetricsDef(@NotNull PDDL31Parser.MetricsDefContext ctx) {
+        Optional<Formula> formula = getFormula();
+        problemBuilder.metricFormula(formula.get());
     }
 
     @Override
