@@ -33,6 +33,10 @@ variable: '?' NAME;
 
 functionName: NAME;
 
+functionTerm
+  : '(' functionName term* ')'
+  ;
+
 // Rules for predicates
 
 predicateName: NAME;
@@ -76,15 +80,19 @@ atomicFormulaConstant
     ;
 
 assignmentFormulaTerm
-    : '(' operator assignmentHeadTerm predicateTerm ')'
+    : '(' operator consequent antecedent ')'
     ;
 
 operator
     : constant
     ;
 
-assignmentHeadTerm
-    : '(' functionName ')'
+antecedent
+    : functionTerm
+    ;
+
+consequent
+    : functionTerm
     ;
 
 equalityTerm

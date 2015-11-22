@@ -1,7 +1,5 @@
 package org.gerryai.planning.model.domain;
 
-import org.gerryai.planning.model.logic.Function;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,17 +7,17 @@ import java.util.Set;
 /**
  * Class encapsulating the functions defined by the domain.
  */
-public class Functions {
+public class FunctionDefinitions {
 
-    private Set<Function> functions;
+    private Set<FunctionDefinition> functionDefinitions;
 
     /**
      * Constructor.
      *
      * @param builder the builder to build from
      */
-    private Functions(final Builder builder) {
-        this.functions = builder.functions;
+    private FunctionDefinitions(final Builder builder) {
+        this.functionDefinitions = builder.functionDefinitions;
     }
 
     /**
@@ -27,32 +25,32 @@ public class Functions {
      *
      * @return the functions
      */
-    public Set<Function> asSet() {
-        return Collections.unmodifiableSet(functions);
+    public Set<FunctionDefinition> asSet() {
+        return Collections.unmodifiableSet(functionDefinitions);
     }
 
     /**
-     * Builder class for {@link Functions}.
+     * Builder class for {@link FunctionDefinitions}.
      */
     public static class Builder {
 
-        private Set<Function> functions;
+        private Set<FunctionDefinition> functionDefinitions;
 
         /**
          * Constructor.
          */
         public Builder() {
-            functions = new HashSet<>(0);
+            functionDefinitions = new HashSet<>(0);
         }
 
         /**
          * Add a functions to the set of functions being built.
          *
-         * @param function the function
+         * @param functionDefinition the function
          * @return an updated builder
          */
-        public Builder addFunction(final Function function) {
-            functions.add(function);
+        public Builder addFunction(final FunctionDefinition functionDefinition) {
+            functionDefinitions.add(functionDefinition);
             return this;
         }
 
@@ -61,8 +59,8 @@ public class Functions {
          *
          * @return the functions
          */
-        public Functions build() {
-            return new Functions(this);
+        public FunctionDefinitions build() {
+            return new FunctionDefinitions(this);
         }
     }
 

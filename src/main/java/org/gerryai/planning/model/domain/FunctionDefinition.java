@@ -15,7 +15,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.gerryai.planning.model.logic;
+package org.gerryai.planning.model.domain;
+
+import org.gerryai.planning.model.logic.AtomicFormula;
+import org.gerryai.planning.model.logic.Term;
+import org.gerryai.planning.model.logic.Type;
+import org.gerryai.planning.model.logic.Variable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +30,7 @@ import java.util.Objects;
 /**
  *Represents a logical function.
  */
-public class Function implements AtomicFormula {
+public class FunctionDefinition implements AtomicFormula {
 
     private String name;
 
@@ -36,7 +41,7 @@ public class Function implements AtomicFormula {
      * @param name the name of the function
      * @param terms the terms for this function
      */
-    private Function(final String name, final List<Term> terms) {
+    private FunctionDefinition(final String name, final List<Term> terms) {
         this.name = name;
         this.terms = terms;
     }
@@ -70,12 +75,12 @@ public class Function implements AtomicFormula {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        final Function other = (Function) obj;
+        final FunctionDefinition other = (FunctionDefinition) obj;
         return Objects.equals(this.name, other.name) && Objects.equals(this.terms, other.terms);
     }
 
     /**
-     * Builder class for {@link Function}.
+     * Builder class for {@link FunctionDefinition}.
      */
     public static class Builder {
         private String name;
@@ -143,8 +148,8 @@ public class Function implements AtomicFormula {
          * Build the finished function.
          * @return the function
          */
-        public Function build() {
-            return new Function(name, terms);
+        public FunctionDefinition build() {
+            return new FunctionDefinition(name, terms);
         }
     }
 }

@@ -17,7 +17,8 @@
  */
 package org.gerryai.planning.parser.pddl.internal.logic.builders;
 
-import org.gerryai.planning.model.logic.AssignmentHead;
+import org.gerryai.planning.model.logic.FunctionTerm;
+import org.gerryai.planning.model.logic.Term;
 import org.gerryai.planning.parser.pddl.internal.logic.FormulaStash;
 import org.gerryai.planning.parser.pddl.internal.logic.SymbolStash;
 import org.gerryai.planning.parser.pddl.internal.logic.TermStash;
@@ -27,13 +28,16 @@ import static com.google.common.base.Preconditions.checkState;
 /**
  * Formula builder for functions.
  */
-public class AssignmentHeadBuilder implements FormulaBuilder<AssignmentHead> {
+public class FunctionTermBuilder implements FormulaBuilder<FunctionTerm> {
 
     @Override
-    public AssignmentHead build(final SymbolStash symbolStash, final TermStash termStash, final FormulaStash formulaStash) {
+    public FunctionTerm build(final SymbolStash symbolStash, final TermStash termStash, final FormulaStash formulaStash) {
         checkState(!symbolStash.isEmpty(), "Expecting function name");
 
-        AssignmentHead.Builder assignmentHeadBuilder = new AssignmentHead.Builder().functionName(symbolStash.pop());
-        return assignmentHeadBuilder.build();
+        FunctionTerm.Builder functionTermBuilder = new FunctionTerm.Builder().name(symbolStash.pop());
+        for (Term term: termStash.terms()) {
+            functionTermBuilder = functionTermBuilder.term(term);
+        }
+        return functionTermBuilder.build();
     }
 }

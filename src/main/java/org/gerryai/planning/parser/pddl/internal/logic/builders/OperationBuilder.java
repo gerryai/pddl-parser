@@ -17,7 +17,7 @@
  */
 package org.gerryai.planning.parser.pddl.internal.logic.builders;
 
-import org.gerryai.planning.model.logic.Assignment;
+import org.gerryai.planning.model.logic.Operation;
 import org.gerryai.planning.parser.pddl.internal.logic.FormulaStash;
 import org.gerryai.planning.parser.pddl.internal.logic.SymbolStash;
 import org.gerryai.planning.parser.pddl.internal.logic.TermStash;
@@ -27,16 +27,16 @@ import static com.google.common.base.Preconditions.checkState;
 /**
  * Formula builder for functions.
  */
-public class AssignmentBuilder implements FormulaBuilder<Assignment> {
+public class OperationBuilder implements FormulaBuilder<Operation> {
 
     @Override
-    public Assignment build(final SymbolStash symbolStash, final TermStash termStash, final FormulaStash formulaStash) {
+    public Operation build(final SymbolStash symbolStash, final TermStash termStash, final FormulaStash formulaStash) {
         checkState(formulaStash.size() == 2, "Expecting predicate formula with value to assign");
         checkState(!termStash.isEmpty(), "Expecting constant with operator");
 
-        Assignment.Builder assignmentBuilder = new Assignment.Builder().operator(termStash.constant());
-        assignmentBuilder.assignmentHead(formulaStash.removeAssignmentHead());
-        assignmentBuilder.predicate(formulaStash.removePredicate());
-        return assignmentBuilder.build();
+        Operation.Builder operationBuilder = new Operation.Builder().operator(termStash.constant());
+        operationBuilder.consequent(formulaStash.removeFunctionTerm());
+        operationBuilder.antecedent(formulaStash.removeFunctionTerm());
+        return operationBuilder.build();
     }
 }

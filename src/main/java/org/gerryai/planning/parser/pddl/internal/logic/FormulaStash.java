@@ -18,11 +18,8 @@
 package org.gerryai.planning.parser.pddl.internal.logic;
 
 import com.google.common.base.Optional;
-import org.gerryai.planning.model.logic.AssignmentHead;
-import org.gerryai.planning.model.logic.Assignment;
-import org.gerryai.planning.model.logic.Formula;
-import org.gerryai.planning.model.logic.Function;
-import org.gerryai.planning.model.logic.Predicate;
+import org.gerryai.planning.model.logic.*;
+import org.gerryai.planning.model.domain.FunctionDefinition;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -59,21 +56,21 @@ public class FormulaStash {
     }
 
     /**
-     * Remove a assignment from the stash.
+     * Remove a operation from the stash.
      * This will be the oldest formula in the stash and if it isn't a assignment then an exception will be thrown.
      * @return the predicate
      */
-    public Assignment removeAssignment() {
-        return (Assignment) remove(FormulaType.ASSIGNMENT);
+    public Operation removeOperation() {
+        return (Operation) remove(FormulaType.OPERATION);
     }
 
     /**
-     * Remove a assignment head from the stash.
+     * Remove a head from the stash.
      * This will be the oldest formula in the stash and if it isn't a assignment head then an exception will be thrown.
      * @return the predicate
      */
-    public AssignmentHead removeAssignmentHead() {
-        return (AssignmentHead) remove(FormulaType.ASSIGNMENT_HEAD);
+    public FunctionTerm removeFunctionTerm() {
+        return (FunctionTerm) remove(FormulaType.FUNCTION_TERM);
     }
 
     /**
@@ -81,8 +78,8 @@ public class FormulaStash {
      * This will be the oldest formula in the stash and if it isn't a function then an exception will be thrown.
      * @return the function
      */
-    public Function removeFunction() {
-        return (Function) remove(FormulaType.FUNCTION);
+    public FunctionDefinition removeFunction() {
+        return (FunctionDefinition) remove(FormulaType.FUNCTION);
     }
 
     /**

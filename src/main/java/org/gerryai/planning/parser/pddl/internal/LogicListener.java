@@ -19,7 +19,7 @@ package org.gerryai.planning.parser.pddl.internal;
 
 import com.google.common.base.Optional;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.gerryai.planning.model.logic.Function;
+import org.gerryai.planning.model.domain.FunctionDefinition;
 import org.gerryai.planning.model.logic.Constant;
 import org.gerryai.planning.model.logic.Formula;
 import org.gerryai.planning.model.logic.Predicate;
@@ -137,22 +137,32 @@ public class LogicListener extends PDDL31BaseListener {
 
     @Override
     public void enterAssignmentFormulaTerm(@NotNull PDDL31Parser.AssignmentFormulaTermContext ctx) {
-        stackHandler.beginAssignment();
+        stackHandler.beginOperation();
     }
 
     @Override
     public void exitAssignmentFormulaTerm(@NotNull PDDL31Parser.AssignmentFormulaTermContext ctx) {
-        stackHandler.endAssignment();
+        stackHandler.endOperation();
     }
 
     @Override
-    public void enterAssignmentHeadTerm(@NotNull PDDL31Parser.AssignmentHeadTermContext ctx) {
-        stackHandler.beginAssignmentHead();
+    public void enterAntecedent(@NotNull PDDL31Parser.AntecedentContext ctx) {
+        stackHandler.beginFunctionTerm();
     }
 
     @Override
-    public void exitAssignmentHeadTerm(@NotNull PDDL31Parser.AssignmentHeadTermContext ctx) {
-        stackHandler.endAssignmentHead();
+    public void exitAntecedent(@NotNull PDDL31Parser.AntecedentContext ctx) {
+        stackHandler.endFunctionTerm();
+    }
+
+    @Override
+    public void enterConsequent(@NotNull PDDL31Parser.ConsequentContext ctx) {
+        stackHandler.beginFunctionTerm();
+    }
+
+    @Override
+    public void exitConsequent(@NotNull PDDL31Parser.ConsequentContext ctx) {
+        stackHandler.endFunctionTerm();
     }
 
     @Override
@@ -265,7 +275,7 @@ public class LogicListener extends PDDL31BaseListener {
      * Get the function we just built
      * @return the function
      */
-    protected Function getFunction() {
+    protected FunctionDefinition getFunction() {
         return stackHandler.getFunction();
     }
 

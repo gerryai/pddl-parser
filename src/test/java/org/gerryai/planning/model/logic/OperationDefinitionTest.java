@@ -18,6 +18,7 @@
 package org.gerryai.planning.model.logic;
 
 import com.google.common.testing.EqualsTester;
+import org.gerryai.planning.model.domain.FunctionDefinition;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -26,14 +27,14 @@ import java.util.List;
 import static org.gerryai.planning.model.logic.FormulaBuilder.variable;
 import static org.junit.Assert.assertEquals;
 
-public class FunctionTest {
+public class OperationDefinitionTest {
 
     @Test
     public void getFunctionNameReturnsSameName() {
-        Function function = new Function.Builder()
+        FunctionDefinition functionDefinition = new FunctionDefinition.Builder()
                 .name("test")
                 .build();
-        assertEquals("test", function.getName());
+        assertEquals("test", functionDefinition.getName());
     }
 
     @Test
@@ -41,62 +42,62 @@ public class FunctionTest {
         List<Term> terms = new ArrayList<>(2);
         terms.add(variable("a"));
         terms.add(variable("b"));
-        Function function = new Function.Builder()
+        FunctionDefinition functionDefinition = new FunctionDefinition.Builder()
                 .name("test")
                 .variable("a")
                 .variable("b")
                 .build();
-        assertEquals(terms, function.getTerms());
+        assertEquals(terms, functionDefinition.getTerms());
     }
 
     @Test
     public void testEquals() {
         new EqualsTester()
                 .addEqualityGroup(
-                        new Function.Builder()
+                        new FunctionDefinition.Builder()
                                 .name("test")
                                 .build(),
-                        new Function.Builder()
+                        new FunctionDefinition.Builder()
                                 .name("test")
                                 .build())
-                .addEqualityGroup(new Function.Builder()
+                .addEqualityGroup(new FunctionDefinition.Builder()
                                 .name("different")
                                 .build(),
-                        new Function.Builder()
+                        new FunctionDefinition.Builder()
                                 .name("different")
                                 .build())
-                .addEqualityGroup(new Function.Builder()
+                .addEqualityGroup(new FunctionDefinition.Builder()
                                 .name("test")
                                 .variable("a")
                                 .build(),
-                        new Function.Builder()
+                        new FunctionDefinition.Builder()
                                 .name("test")
                                 .variable("a")
                                 .build())
-                .addEqualityGroup(new Function.Builder()
+                .addEqualityGroup(new FunctionDefinition.Builder()
                                 .name("different")
                                 .variable("a")
                                 .build(),
-                        new Function.Builder()
+                        new FunctionDefinition.Builder()
                                 .name("different")
                                 .variable("a")
                                 .build())
-                .addEqualityGroup(new Function.Builder()
+                .addEqualityGroup(new FunctionDefinition.Builder()
                                 .name("test")
                                 .variable("a")
                                 .variable("b")
                                 .build(),
-                        new Function.Builder()
+                        new FunctionDefinition.Builder()
                                 .name("test")
                                 .variable("a")
                                 .variable("b")
                                 .build())
-                .addEqualityGroup(new Function.Builder()
+                .addEqualityGroup(new FunctionDefinition.Builder()
                                 .name("test")
                                 .variable("b")
                                 .variable("a")
                                 .build(),
-                        new Function.Builder()
+                        new FunctionDefinition.Builder()
                                 .name("test")
                                 .variable("b")
                                 .variable("a")

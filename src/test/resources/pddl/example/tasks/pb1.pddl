@@ -1,5 +1,4 @@
-
-(define (problem tasksProblemA)
+(define (problem pb1)
 	(:domain tasks)
 	(:objects 
         Mark Toby Luke Phil - person

@@ -18,6 +18,7 @@
 package org.gerryai.planning.parser.pddl.internal.logic;
 
 import com.google.common.base.Optional;
+import org.gerryai.planning.model.domain.FunctionDefinition;
 import org.gerryai.planning.model.logic.*;
 import org.gerryai.planning.parser.pddl.internal.logic.builders.*;
 import org.gerryai.planning.parser.pddl.internal.logic.builders.FormulaBuilder;
@@ -154,31 +155,31 @@ public class LogicStackHandler {
     }
 
     /**
-     * Begin an assignment
+     * Begin an operation
      */
-    public void beginAssignment() {
-        beginFormula(FormulaType.ASSIGNMENT);
+    public void beginOperation() {
+        beginFormula(FormulaType.OPERATION);
     }
 
     /**
-     * End an assignment
+     * End an operantion
      */
-    public void endAssignment() {
-        endFormula(FormulaType.ASSIGNMENT);
+    public void endOperation() {
+        endFormula(FormulaType.OPERATION);
     }
 
     /**
-     * Begin an assignment head
+     * Begin an function term
      */
-    public void beginAssignmentHead() {
-      beginFormula(FormulaType.ASSIGNMENT_HEAD);
+    public void beginFunctionTerm() {
+      beginFormula(FormulaType.FUNCTION_TERM);
     }
 
     /**
-     * End an assignment head
+     * End an function term
      */
-    public void endAssignmentHead() {
-       endFormula(FormulaType.ASSIGNMENT_HEAD);
+    public void endFunctionTerm() {
+       endFormula(FormulaType.FUNCTION_TERM);
     }
     /**
      * Begin a conjunctive formula.
@@ -253,10 +254,10 @@ public class LogicStackHandler {
                 return formulaStash.remove();
             case FUNCTION:
                 return getFunction();
-            case ASSIGNMENT:
-                return getAssignment();
-            case ASSIGNMENT_HEAD:
-                return getAssignmentHead();
+            case OPERATION:
+                return getOperation();
+            case FUNCTION_TERM:
+                return getFunctionTerm();
             default:
                 throw new IllegalStateException(format("Unimplemented formula type found on stack %s",
                         nextType.get()));
@@ -304,23 +305,23 @@ public class LogicStackHandler {
      * Get a completed assignment.
      * @return the predicate
      */
-    public Assignment getAssignment() {
-        return formulaStash.removeAssignment();
+    public Operation getOperation() {
+        return formulaStash.removeOperation();
     }
 
     /**
-     * Get a completed assignment head
+     * Get a completed antecedent
      * @return the predicate
      */
-    public AssignmentHead getAssignmentHead() {
-        return formulaStash.removeAssignmentHead();
+    public FunctionTerm getFunctionTerm() {
+        return formulaStash.removeFunctionTerm();
     }
 
     /**
      * Get a completed function.
      * @return the function
      */
-    public Function getFunction() {
+    public FunctionDefinition getFunction() {
         return formulaStash.removeFunction();
     }
 
@@ -401,10 +402,10 @@ public class LogicStackHandler {
                 return new ForAllBuilder();
             case FUNCTION:
                 return new FunctionBuilder();
-            case ASSIGNMENT:
-                return new AssignmentBuilder();
-            case ASSIGNMENT_HEAD:
-                return new AssignmentHeadBuilder();
+            case OPERATION:
+                return new OperationBuilder();
+            case FUNCTION_TERM:
+                return new FunctionTermBuilder();
             default:
                 throw new IllegalStateException(format("Unimplemented formula type %s", type));
         }
