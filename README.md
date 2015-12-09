@@ -74,6 +74,8 @@ The parser uses an Antlr 4 grammar to parse input.
 
 ## Contribute
 
+Email <david@more.fool.me.uk> to join us on [Slack](https://gerryai.slack.com/).
+
 Contributions are gratefully received. There are a number of ways you can help:
 
 ### Examples
