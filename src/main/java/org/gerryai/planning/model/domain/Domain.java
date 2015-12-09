@@ -29,12 +29,13 @@ import org.gerryai.planning.model.logic.Predicate;
  */
 public class Domain {
 
-    private String name;
-    private Requirements requirements;
-    private TypeDefinitions types;
-    private ConstantDefinitions constants;
-    private Predicates predicates;
-    private Actions actions;
+    private final String name;
+    private final Requirements requirements;
+    private final TypeDefinitions types;
+    private final ConstantDefinitions constants;
+    private final Predicates predicates;
+    private final Actions actions;
+    private final FunctionDefinitions functions;
 
     /**
      * Constructor.
@@ -47,6 +48,7 @@ public class Domain {
         constants = builder.constantsBuilder.build();
         predicates = builder.predicatesBuilder.build();
         actions = builder.actionsBuilder.build();
+        functions = builder.functionsBuilder.build();
     }
 
     /**
@@ -80,6 +82,7 @@ public class Domain {
     public ConstantDefinitions getConstants() {
         return constants;
     }
+
     /**
      * Get the domain's predicates.
      * @return the predicates
@@ -95,16 +98,25 @@ public class Domain {
     public Actions getActions() {
         return actions;
     }
+
+    /**
+     * Get the function definitions.
+     * @return the function definitions
+     */
+    public FunctionDefinitions getFunctions() {
+        return functions;
+    }
+
     /**
      * Builder class for {@link Domain} objects.
      */
     public static class Builder {
-
         private String name;
         private Requirements.Builder requirementsBuilder  = new Requirements.Builder();
         private TypeDefinitions.Builder typesBuilder = new TypeDefinitions.Builder();
         private ConstantDefinitions.Builder constantsBuilder  = new ConstantDefinitions.Builder();
         private Predicates.Builder predicatesBuilder = new Predicates.Builder();
+        private FunctionDefinitions.Builder functionsBuilder = new FunctionDefinitions.Builder();
         private Actions.Builder actionsBuilder = new Actions.Builder();
 
         /**
@@ -154,6 +166,16 @@ public class Domain {
          */
         public Builder predicate(final Predicate predicate) {
             predicatesBuilder = predicatesBuilder.addPredicate(predicate);
+            return this;
+        }
+
+        /**
+         * Add a function definition.
+         * @param functionDefinition the function definition to add
+         * @return an updated builder
+         */
+        public Builder function(final FunctionDefinition functionDefinition) {
+            functionsBuilder = functionsBuilder.addFunction(functionDefinition);
             return this;
         }
 

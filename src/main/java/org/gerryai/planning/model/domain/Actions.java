@@ -17,6 +17,8 @@
  */
 package org.gerryai.planning.model.domain;
 
+import com.google.common.base.Optional;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -43,6 +45,20 @@ public class Actions {
      */
     public Set<Action> asSet() {
         return Collections.unmodifiableSet(actions);
+    }
+
+    /**
+     * Returns an Optional action.
+     * @param actionName the name of the action being searched
+     * @return an option of an action
+     */
+    public Optional<Action> byName(final String actionName) {
+        for (Action action : actions) {
+            if (actionName.equals(action.getName())) {
+                return Optional.of(action);
+            }
+        }
+        return Optional.absent();
     }
 
     /**

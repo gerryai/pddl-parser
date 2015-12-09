@@ -19,6 +19,7 @@ package org.gerryai.planning.parser.pddl.internal.logic;
 
 import com.google.common.base.Optional;
 import org.gerryai.planning.model.logic.Constant;
+import org.gerryai.planning.model.logic.NumberTerm;
 import org.gerryai.planning.model.logic.Term;
 import org.gerryai.planning.model.logic.Type;
 import org.gerryai.planning.model.logic.Variable;
@@ -55,6 +56,14 @@ public class TermStash {
      */
     public void addVariable(final String name) {
         termDeque.add(new TermStashItem(name, TermType.VARIABLE));
+    }
+
+    /**
+     * Add a number to the queue to be collected.
+     * @param number to be added
+     */
+    public void addNumber(final String number) {
+        termDeque.add(new TermStashItem(number, TermType.NUMBER));
     }
 
     /**
@@ -116,6 +125,8 @@ public class TermStash {
                 return dequeueConstant();
             case VARIABLE:
                 return dequeueVariable();
+            case NUMBER:
+                return dequeueNumber();
             default:
                 throw new IllegalStateException("Unexpected term type");
         }
@@ -176,11 +187,28 @@ public class TermStash {
     }
 
     /**
+     * Remove the first element of the queue and return it as a number.
+     * @return the number
+     */
+    private NumberTerm dequeueNumber() {
+        if (termDeque.isEmpty()) {
+            throw new NoSuchElementException();
+        } else {
+            if (TermType.NUMBER.equals(termDeque.peekFirst().getTermType())) {
+                TermStashItem item = termDeque.removeFirst();
+                return new NumberTerm(item.getName());
+            } else {
+                throw new IllegalStateException("First element of the queue was not a number");
+            }
+        }
+    }
+
+    /**
      * Used to record whether a term in the stash will be a constant or a variable when it is built.
      */
     private enum TermType {
         CONSTANT,
-        VARIABLE
+        NUMBER, VARIABLE
     }
 
     /**

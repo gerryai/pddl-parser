@@ -27,7 +27,6 @@ import org.gerryai.planning.parser.pddl.PDDLParserService;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;

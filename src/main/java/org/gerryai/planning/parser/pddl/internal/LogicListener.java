@@ -19,6 +19,7 @@ package org.gerryai.planning.parser.pddl.internal;
 
 import com.google.common.base.Optional;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.gerryai.planning.model.domain.FunctionDefinition;
 import org.gerryai.planning.model.logic.Constant;
 import org.gerryai.planning.model.logic.Formula;
 import org.gerryai.planning.model.logic.Predicate;
@@ -68,6 +69,11 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     @Override
+    public void exitNumber(@NotNull final PDDL31Parser.NumberContext ctx) {
+        stackHandler.addNumber(ctx.NUMBER().getSymbol().getText());
+    }
+
+    @Override
     public void exitVariable(@NotNull final PDDL31Parser.VariableContext ctx) {
         stackHandler.addVariable(ctx.NAME().getSymbol().getText().toLowerCase());
     }
@@ -75,6 +81,21 @@ public class LogicListener extends PDDL31BaseListener {
     @Override
     public void exitTypedVariableListOfType(@NotNull final PDDL31Parser.TypedVariableListOfTypeContext ctx) {
         stackHandler.applyType(getType());
+    }
+
+    @Override
+    public void enterFunctionDef(@NotNull final PDDL31Parser.FunctionDefContext ctx) {
+        stackHandler.beginFunction();
+    }
+
+    @Override
+    public void exitFunctionDef(@NotNull final PDDL31Parser.FunctionDefContext ctx) {
+        stackHandler.endFunction();
+    }
+
+    @Override
+    public void exitFunctionName(@NotNull final PDDL31Parser.FunctionNameContext ctx) {
+        stackHandler.symbol(ctx.NAME().getSymbol().getText().toLowerCase());
     }
 
     @Override public void enterUngroundPredicate(@NotNull final PDDL31Parser.UngroundPredicateContext ctx) {
@@ -117,6 +138,31 @@ public class LogicListener extends PDDL31BaseListener {
     @Override
     public void exitNegatedAtomicFormulaTerm(@NotNull final PDDL31Parser.NegatedAtomicFormulaTermContext ctx) {
         stackHandler.endNot();
+    }
+
+    @Override
+    public void enterOperation(@NotNull final PDDL31Parser.OperationContext ctx) {
+        stackHandler.beginOperation();
+    }
+
+    @Override
+    public void exitOperation(@NotNull final PDDL31Parser.OperationContext ctx) {
+        stackHandler.endOperation();
+    }
+
+    @Override
+    public void exitOperator(@NotNull final PDDL31Parser.OperatorContext ctx) {
+        stackHandler.operator(ctx.getText().toLowerCase());
+    }
+
+    @Override
+    public void enterFunctionTerm(@NotNull final PDDL31Parser.FunctionTermContext ctx) {
+        stackHandler.beginFunctionTerm();
+    }
+
+    @Override
+    public void exitFunctionTerm(@NotNull final PDDL31Parser.FunctionTermContext ctx) {
+        stackHandler.endFunctionTerm();
     }
 
     @Override
@@ -210,8 +256,8 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     /**
-     * Get the predicate we just built.
-     * @return the predicate
+     * Get the constant we just built.
+     * @return the constant
      */
     protected Constant getConstant() {
         return stackHandler.getConstant();
@@ -226,8 +272,16 @@ public class LogicListener extends PDDL31BaseListener {
     }
 
     /**
+     * Get the function we just built.
+     * @return the function
+     */
+    protected FunctionDefinition getFunction() {
+        return stackHandler.getFunction();
+    }
+
+    /**
      * Get the formula we just built.
-     * @return the predicate
+     * @return the function
      */
     protected Optional<Formula> getFormula() {
         return stackHandler.getOptionalFormula();

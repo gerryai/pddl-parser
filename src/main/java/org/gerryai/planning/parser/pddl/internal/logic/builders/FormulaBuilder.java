@@ -31,9 +31,11 @@ public interface FormulaBuilder<T extends Formula> {
     /**
      * Build a formula of the specified type using the symbol, terms and formulas collected.
      * @param symbolStash the symbol stashed
+     * @param operationStash the operator stashed
      * @param termStash the terms collected
      * @param formulaStash the formulas collected
      * @return the completed formula
      */
-    T build(final SymbolStash symbolStash, final TermStash termStash, final FormulaStash formulaStash);
+    T build(final SymbolStash symbolStash, final SymbolStash operationStash, final TermStash termStash,
+            final FormulaStash formulaStash);
 }

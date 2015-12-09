@@ -18,13 +18,12 @@
 package org.gerryai.planning.parser.pddl.internal;
 
 import org.antlr.v4.runtime.misc.NotNull;
+import org.gerryai.planning.model.ConstantDefinition;
+import org.gerryai.planning.model.Requirement;
 import org.gerryai.planning.model.domain.Action;
 import org.gerryai.planning.model.domain.Domain;
-import org.gerryai.planning.model.Requirement;
-
-import org.gerryai.planning.model.ConstantDefinition;
-import org.gerryai.planning.model.logic.Type;
 import org.gerryai.planning.model.domain.TypeDefinition;
+import org.gerryai.planning.model.logic.Type;
 import org.gerryai.planning.model.logic.Variable;
 import org.gerryai.planning.parser.error.MissingRequirementsException;
 import org.gerryai.planning.parser.error.ParseException;
@@ -135,6 +134,12 @@ public class ExtractDomainListener extends LogicListener implements ExtractingLi
     }
 
     @Override
+    public void exitFunctionDef(@NotNull final PDDL31Parser.FunctionDefContext ctx) {
+        super.exitFunctionDef(ctx);
+        domainBuilder = domainBuilder.function(getFunction());
+    }
+
+    @Override
     public void enterActionDef(@NotNull final PDDL31Parser.ActionDefContext ctx) {
         actionBuilder = new Action.Builder();
     }
@@ -201,4 +206,5 @@ public class ExtractDomainListener extends LogicListener implements ExtractingLi
         }
         return domain;
     }
+
 }

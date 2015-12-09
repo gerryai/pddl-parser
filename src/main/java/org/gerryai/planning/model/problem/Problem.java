@@ -28,15 +28,17 @@ import org.gerryai.planning.model.logic.Formula;
  */
 public class Problem {
 
-    private String name;
-    private String domainName;
-    private Requirements requirements;
-    private ConstantDefinitions objects;
-    private InitialState initialState;
-    private Goal goal;
+    private final Metric metric;
+    private final String name;
+    private final String domainName;
+    private final Requirements requirements;
+    private final ConstantDefinitions objects;
+    private final InitialState initialState;
+    private final Goal goal;
 
     /**
      * Constructor.
+     *
      * @param builder the builder to build from
      */
     private Problem(final Builder builder) {
@@ -46,10 +48,12 @@ public class Problem {
         objects = builder.objects.build();
         initialState = builder.initialState.build();
         goal = new Goal(builder.goal);
+        metric = builder.metricBuilder.build();
     }
 
     /**
      * Get the name of the problem.
+     *
      * @return the problem name
      */
     public String getName() {
@@ -58,6 +62,7 @@ public class Problem {
 
     /**
      * Get the name of the domain.
+     *
      * @return the problem name
      */
     public String getDomainName() {
@@ -66,6 +71,7 @@ public class Problem {
 
     /**
      * Get the planner feature requirements.
+     *
      * @return the requirements
      */
     public Requirements getRequirements() {
@@ -74,6 +80,7 @@ public class Problem {
 
     /**
      * Get the objects defined by this problem.
+     *
      * @return the objects
      */
     public ConstantDefinitions getObjects() {
@@ -82,6 +89,7 @@ public class Problem {
 
     /**
      * Get the initial state for this problem.
+     *
      * @return the state
      */
     public InitialState getInitialState() {
@@ -90,10 +98,20 @@ public class Problem {
 
     /**
      * Get the goal of this problem.
+     *
      * @return the goal
      */
     public Goal getGoal() {
         return goal;
+    }
+
+    /**
+     * Get the metric of this problem.
+     *
+     * @return the metric
+     */
+    public Metric getMetric() {
+        return metric;
     }
 
     /**
@@ -103,13 +121,15 @@ public class Problem {
 
         private String name;
         private String domainName;
-        private Requirements.Builder requirementsBuilder  = new Requirements.Builder();
-        private ConstantDefinitions.Builder objects  = new ConstantDefinitions.Builder();
+        private Requirements.Builder requirementsBuilder = new Requirements.Builder();
+        private ConstantDefinitions.Builder objects = new ConstantDefinitions.Builder();
         private InitialState.Builder initialState = new InitialState.Builder();
         private Formula goal;
+        private Metric.Builder metricBuilder = new Metric.Builder();
 
         /**
          * Set the name of the problem.
+         *
          * @param name the name
          * @return an updated builder
          */
@@ -120,6 +140,7 @@ public class Problem {
 
         /**
          * Set the name of the domain.
+         *
          * @param name the name
          * @return an updated builder
          */
@@ -130,6 +151,7 @@ public class Problem {
 
         /**
          * Add a planner feature requirement.
+         *
          * @param requirement the requirement to add
          * @return an updated builder
          */
@@ -140,6 +162,7 @@ public class Problem {
 
         /**
          * Add an object to the set used by this problem.
+         *
          * @param object the object to add
          * @return an updated builder
          */
@@ -150,6 +173,7 @@ public class Problem {
 
         /**
          * Add a formula to the initial state.
+         *
          * @param formula the formula to add
          * @return an updated builder
          */
@@ -160,6 +184,7 @@ public class Problem {
 
         /**
          * Set the goal of this problem.
+         *
          * @param formula the formula defining the goal
          * @return the goal
          */
@@ -169,7 +194,28 @@ public class Problem {
         }
 
         /**
+         * Set the metric of this problem.
+         *
+         * @param name the name of the metric
+         * @return the formula
+         */
+        public Builder metric(final String name) {
+            metricBuilder.name(name);
+            return this;
+        }
+
+        /**
+         * Sets the formula for the metric in this problem.
+         *
+         * @param formula the formula
+         */
+        public void metricFormula(final Formula formula) {
+            metricBuilder.formula(formula);
+        }
+
+        /**
          * Build the completed {@link Problem}.
+         *
          * @return the domain
          */
         public Problem build() {

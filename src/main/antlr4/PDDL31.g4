@@ -6,6 +6,7 @@ domain
     requireDef?
     typesDef?
     constantsDef?
+    functionsDef?
     predicatesDef?
     structureDef*
     ')'
@@ -42,6 +43,14 @@ typeDef
 
 constantsDef
     : '(' ':constants' constantDefList ')'
+    ;
+
+functionsDef
+    : {isAllowed(Requirement.NUMERIC_FLUENTS)}? '(' ':functions' functionDef+ ')' {needed(Requirement.NUMERIC_FLUENTS);}
+    ;
+
+functionDef
+    : '(' functionName typedVariableList ')' '-' 'number'
     ;
 
 predicatesDef
@@ -170,7 +179,7 @@ whenEffect
 pEffect
     : negatedAtomicFormulaTerm
     | atomicFormulaTerm
-    //<p-effect> ::=:numeric-fluents (<assign-op> <f-head> <f-exp>)
+    | {isAllowed(Requirement.NUMERIC_FLUENTS)}? operation {needed(Requirement.NUMERIC_FLUENTS);} //<p-effect> ::=:numeric-fluents (<assign-op> <f-head> <f-exp>)
     //<p-effect> ::=:object-fluents (assign <function-term> <term>)
     //<p-effect> ::=:object-fluents (assign <function-term> undefined)
     ;
@@ -194,6 +203,7 @@ problem
     objectDeclaration?
     init
     goal
+    metricsDef?
     //[<constraints>]:constraints
     //[<metric-spec>]:numeric-fluents
     //[<length-spec>]
@@ -216,10 +226,14 @@ init
     : '(' ':init' initEl* ')'
     ;
 
+metricsDef
+    : {isAllowed(Requirement.ACTION_COSTS)}? '(' ':metric' NAME functionTerm ')'  {needed(Requirement.ACTION_COSTS);}
+    ;
+
 initEl
     : literalConstant
+    | {isAllowed(Requirement.NUMERIC_FLUENTS)}? operation {needed(Requirement.NUMERIC_FLUENTS);} //<init-el> ::=:numeric-fluents (= <basic-function-term> <number>)
 //<init-el> ::=:timed−initial−literals (at <number> <literal(name)>)
-//<init-el> ::=:numeric-fluents (= <basic-function-term> <number>)
 //<init-el> ::=:object-fluents (= <basic-function-term> <name>)
 //<basic-function-term> ::= <function-symbol>
 //<basic-function-term> ::= (<function-symbol> <name>*)

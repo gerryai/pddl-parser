@@ -22,10 +22,12 @@ package org.gerryai.planning.parser.pddl.internal.logic;
  */
 enum FormulaType {
     PREDICATE,
+    FUNCTION,
     NOT,
     AND,
-    OR,
     EQUALS,
     IF_THEN,
+    OPERATION,
+    FUNCTION_TERM,
     FOR_ALL
 }

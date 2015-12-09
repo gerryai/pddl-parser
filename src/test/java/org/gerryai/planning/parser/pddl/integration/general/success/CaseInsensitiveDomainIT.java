@@ -21,11 +21,7 @@ import org.gerryai.planning.model.domain.Action;
 import org.gerryai.planning.parser.pddl.integration.DomainSuccessTester;
 import org.junit.Test;
 
-import static org.gerryai.planning.model.logic.FormulaBuilder.constantDefinition;
-import static org.gerryai.planning.model.logic.FormulaBuilder.predicate;
-import static org.gerryai.planning.model.logic.FormulaBuilder.type;
-import static org.gerryai.planning.model.logic.FormulaBuilder.typeDefinition;
-import static org.gerryai.planning.model.logic.FormulaBuilder.variable;
+import static org.gerryai.planning.model.logic.FormulaBuilder.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

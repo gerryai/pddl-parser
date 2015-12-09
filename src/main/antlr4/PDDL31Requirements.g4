@@ -40,7 +40,7 @@ requireKey
     | ':conditional-effects' {requirementsDeclared.add(Requirement.CONDITIONAL_EFFECTS);} // Allow when in action effects
 //    | ':fluents' = :numeric-fluents
 //+ :object-fluents
-//    | ':numeric-fluents' // Allow numeric function definitions and use of effects using assignment operators and arithmetic preconditions.
+    | ':numeric-fluents' {requirementsDeclared.add(Requirement.NUMERIC_FLUENTS);} // Allow numeric function definitions and use of effects using assignment operators and arithmetic preconditions.
 //:adl = :strips + :typing
 //+ :negative-preconditions
 //+ :disjunctive-preconditions
@@ -54,5 +54,5 @@ requireKey
 //    | ':timed-initial-literals' // Allows the initial state to specify literals that will become true at a specified time point. Implies :durative-actions
 //    | ':preferences' // Allows use of preferences in action preconditions and goals.
 //    | ':constraints' // Allows use of constraints fields in domain and problem files. These may contain modal operators supporting trajectory constraints.
-//    | ':action-costs'
+    | ':action-costs' {requirementsDeclared.add(Requirement.ACTION_COSTS);}
     ;

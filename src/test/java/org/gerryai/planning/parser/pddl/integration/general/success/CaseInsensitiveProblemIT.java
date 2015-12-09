@@ -18,16 +18,11 @@
 package org.gerryai.planning.parser.pddl.integration.general.success;
 
 import org.gerryai.planning.model.ConstantDefinition;
-import org.gerryai.planning.model.domain.Action;
 import org.gerryai.planning.model.problem.Goal;
-import org.gerryai.planning.parser.pddl.integration.DomainSuccessTester;
 import org.gerryai.planning.parser.pddl.integration.ProblemSuccessTester;
 import org.junit.Test;
 
-import static org.gerryai.planning.model.logic.FormulaBuilder.constant;
-import static org.gerryai.planning.model.logic.FormulaBuilder.predicate;
-import static org.gerryai.planning.model.logic.FormulaBuilder.type;
-import static org.gerryai.planning.model.logic.FormulaBuilder.variable;
+import static org.gerryai.planning.model.logic.FormulaBuilder.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

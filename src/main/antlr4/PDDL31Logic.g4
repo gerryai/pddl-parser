@@ -21,13 +21,27 @@ type
 term
     : constant
     | variable
+    | number
     ;
 
 constant
     : NAME
     ;
 
+number
+    : NUMBER
+    ;
+
 variable: '?' NAME;
+
+// Rules for functions
+
+functionName: NAME;
+
+functionTerm
+  : '(' functionName term* ')'
+  | number
+  ;
 
 // Rules for predicates
 
@@ -69,6 +83,23 @@ atomicFormulaTerm
 atomicFormulaConstant
     : predicateConstant
     | {isAllowed(Requirement.EQUALITY)}? equalityConstant {needed(Requirement.EQUALITY);}
+    ;
+
+operation
+    : '(' operator consequent antecedent? ')'
+    ;
+
+operator
+    : NAME
+    | BASICOPERATOR
+    ;
+
+antecedent
+    : functionTerm
+    ;
+
+consequent
+    : functionTerm
     ;
 
 equalityTerm

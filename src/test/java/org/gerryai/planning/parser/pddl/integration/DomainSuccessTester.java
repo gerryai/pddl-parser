@@ -19,7 +19,6 @@ package org.gerryai.planning.parser.pddl.integration;
 
 import org.junit.Test;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static org.junit.Assert.assertEquals;
 
 /**

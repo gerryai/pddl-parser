@@ -17,9 +17,11 @@
  */
 package org.gerryai.planning.parser.pddl.internal;
 
+import com.google.common.base.Optional;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.gerryai.planning.model.ConstantDefinition;
 import org.gerryai.planning.model.Requirement;
+import org.gerryai.planning.model.logic.Formula;
 import org.gerryai.planning.model.logic.Type;
 import org.gerryai.planning.model.problem.Problem;
 import org.gerryai.planning.parser.error.MissingRequirementsException;
@@ -47,6 +49,7 @@ public class ExtractProblemListener extends LogicListener implements ExtractingL
 
     /**
      * Constructor.
+     *
      * @param stackHandler the logical stack handler to use
      */
     public ExtractProblemListener(final LogicStackHandler stackHandler) {
@@ -84,7 +87,7 @@ public class ExtractProblemListener extends LogicListener implements ExtractingL
     @Override
     public void exitObjectDecListOfNoType(@NotNull final PDDL31Parser.ObjectDecListOfNoTypeContext ctx) {
         List<ConstantDefinition> constants = constantDefinitionStash.removeAll();
-        for (ConstantDefinition constant: constants) {
+        for (ConstantDefinition constant : constants) {
             problemBuilder = problemBuilder.object(constant);
         }
     }
@@ -93,7 +96,7 @@ public class ExtractProblemListener extends LogicListener implements ExtractingL
     public void exitObjectDecListOfType(@NotNull final PDDL31Parser.ObjectDecListOfTypeContext ctx) {
         Type type = getType();
         List<ConstantDefinition> constants = constantDefinitionStash.removeAll();
-        for (ConstantDefinition constant: constants) {
+        for (ConstantDefinition constant : constants) {
             problemBuilder = problemBuilder.object(new ConstantDefinition(constant.getName(), type));
         }
     }
@@ -110,6 +113,17 @@ public class ExtractProblemListener extends LogicListener implements ExtractingL
     }
 
     @Override
+    public void enterMetricsDef(@NotNull final PDDL31Parser.MetricsDefContext ctx) {
+        problemBuilder = problemBuilder.metric(ctx.NAME().getText().toLowerCase());
+    }
+
+    @Override
+    public void exitMetricsDef(@NotNull final PDDL31Parser.MetricsDefContext ctx) {
+        Optional<Formula> formula = getFormula();
+        problemBuilder.metricFormula(formula.get());
+    }
+
+    @Override
     public Problem extract() {
         return problemBuilder.build();
     }
@@ -119,7 +133,7 @@ public class ExtractProblemListener extends LogicListener implements ExtractingL
         Problem problem = extract();
         Set<Requirement> requirementsDeclared = problem.getRequirements().asSet();
         Set<Requirement> requirementsMissing = new HashSet<>();
-        for (Requirement requirement: requirementsNeeded) {
+        for (Requirement requirement : requirementsNeeded) {
             if (!requirementsDeclared.contains(requirement)) {
                 requirementsMissing.add(requirement);
             }
