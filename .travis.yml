@@ -1,3 +1,6 @@
 language: java
 script: mvn --show-version --errors clean verify jacoco:report coveralls:report
 sudo: false
+notifications:
+  slack:
+    secure: a2AKXns9PxJVF8WpxU/wTuHhUiXH29AFW3qK0nWoIwQExuaSLUmzsYS3AMbyhM4wekixT7Czu/tLA8mu+jLiO2MUAsUnoys/oeO5YkzQrDrfDvtw80uNlw8830aSaXW7kiICCPKba3lVtjxlVkFuIvp0/F/mQvB52OTM8jqPLwc=
