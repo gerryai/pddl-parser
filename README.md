@@ -3,7 +3,7 @@
 A Java library for parsing Planning Domain Definition Language (PDDL) and turning it into simple Java objects that can
 be used by planning algorithms. It provides a fresh, clean and reusable approach to parsing PDDL.
 
-[![Build Status](https://travis-ci.org/gerryai/pddl-parser.svg?branch=master)](https://travis-ci.org/gerryai/pddl-parser) [![Coverage Status](https://coveralls.io/repos/gerryai/pddl-parser/badge.png?branch=master)](https://coveralls.io/r/gerryai/pddl-parser?branch=master)
+[![Build Status](https://travis-ci.org/gerryai/pddl-parser.svg?branch=master)](https://travis-ci.org/gerryai/pddl-parser) [![Coverage Status](https://coveralls.io/repos/gerryai/pddl-parser/badge.svg?branch=master)](https://coveralls.io/r/gerryai/pddl-parser?branch=master)
 
 ## Why?
 
